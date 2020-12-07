@@ -12,8 +12,8 @@ exports.routesConfig = function (app) {
         unitsController.insert
     ]);
     app.get(baseUrl, [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         unitsController.list
     ]);
     app.get(baseUrl+'/:unitId', [

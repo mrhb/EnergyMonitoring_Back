@@ -5,15 +5,16 @@ exports.insert = (req, res) => {
     let salt = crypto.randomBytes(16).toString('base64');
     let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
     req.body.password = salt + "$" + hash;
-    const user = {
-        firstName: req.body.firstname,
-        lastName: req.body.lastname,
-        email: req.body.email,
-        password:req.body.password,
-        permissionLevel: 2
-        };
+    req.body.permissionLevel = 2;
+    // const user = {
+    //     firstName: req.body.firstname,
+    //     lastName: req.body.lastname,
+    //     email: req.body.email,
+    //     password:req.body.password,
+    //     permissionLevel: 2
+    //     };
 
-    UserModel.createUser(user)
+    UserModel.createUser( req.body)
         .then((result) => {
             res.status(201).send({id: result._id});
         });

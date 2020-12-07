@@ -8,7 +8,26 @@ const Schema = mongoose.Schema;
 
 const unitSchema = new Schema({
   Name: String,
-  Ip:String
+  Ip:String,
+  address:String,
+   type:['Residential','Official'],
+  // provience,
+  // city,
+  totalArea:Number,
+  constructionyear:Number,
+  wallMaterials:['Gypsum','Concrete','Brick'],
+  // floorMaterials,
+  // roofMaterials
+  // grlass,
+  // NumberOfFloors,
+  // coolingSystem
+  // HeatingSystem,
+  // ventilatedArea,
+  // unventilatedArea,
+  // ventilatedWallArea,
+  // unventilatedWallArea,
+  // WindowArea,
+  // capacitiveBank,
 });
 
 const Unit = mongoose.model('units', unitSchema);
@@ -50,20 +69,20 @@ exports.createColor = (unitData) => {
 //     return unit.save();
 // };
 
-// exports.list = (perPage, page) => {
-//     return new Promise((resolve, reject) => {
-//         unit.find()
-//             .limit(perPage)
-//             .skip(perPage * page)
-//             .exec(function (err, units) {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     resolve(units);
-//                 }
-//             })
-//     });
-// };
+exports.list = (perPage, page) => {
+    return new Promise((resolve, reject) => {
+        unit.find()
+            .limit(perPage)
+            .skip(perPage * page)
+            .exec(function (err, units) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(units);
+                }
+            })
+    });
+};
 
 // exports.patchunit = (id, unitData) => {
 //     return unit.findOneAndUpdate({
