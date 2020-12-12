@@ -16,21 +16,21 @@ exports.routesConfig = function (app) {
         // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         unitsController.list
     ]);
-    app.get(baseUrl+'/:unitId', [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
-        PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
+    app.get(baseUrl+'/:id', [
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
         unitsController.getById
     ]);
-    app.patch(baseUrl+'/:unitId', [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
-        PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
+    app.patch(baseUrl+'/:id', [
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
         unitsController.patchById
     ]);
-    app.delete(baseUrl+'/:unitId', [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+    app.delete(baseUrl+'/:id', [
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         unitsController.removeById
     ]);
 };

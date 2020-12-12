@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 
 const unitSchema = new Schema({
-  Name: String,
+  name: String,
   Ip:String,
   address:String,
    type:['Residential','Official'],
@@ -30,20 +30,20 @@ const unitSchema = new Schema({
   // capacitiveBank,
 });
 
+unitSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+unitSchema.set('toJSON', {
+    virtuals: true
+});
 const Unit = mongoose.model('units', unitSchema);
-exports.createColor = (unitData) => {
+exports.create = (unitData) => {
     const unit = new Unit(unitData);
     return unit.save();
 };
 
-// unitSchema.virtual('id').get(function () {
-//     return this._id.toHexString();
-// });
-
-// // Ensure virtual fields are serialised.
-// unitSchema.set('toJSON', {
-//     virtuals: true
-// });
 
 // unitSchema.findById = function (cb) {
 //     return this.model('units').find({id: this.id}, cb);
@@ -54,15 +54,15 @@ exports.createColor = (unitData) => {
 // exports.findByEmail = (email) => {
 //     return unit.find({email: email});
 // };
-// exports.findById = (id) => {
-//     return unit.findById(id)
-//         .then((result) => {
-//             result = result.toJSON();
-//             delete result._id;
-//             delete result.__v;
-//             return result;
-//         });
-// };
+exports.findById = (id) => {
+    return Unit.findById(id)
+        .then((result) => {
+            result = result.toJSON();
+            delete result._id;
+            delete result.__v;
+            return result;
+        });
+};
 
 // exports.createunit = (unitData) => {
 //     const unit = new unit(unitData);
@@ -71,7 +71,7 @@ exports.createColor = (unitData) => {
 
 exports.list = (perPage, page) => {
     return new Promise((resolve, reject) => {
-        unit.find()
+        Unit.find()
             .limit(perPage)
             .skip(perPage * page)
             .exec(function (err, units) {
@@ -84,21 +84,21 @@ exports.list = (perPage, page) => {
     });
 };
 
-// exports.patchunit = (id, unitData) => {
-//     return unit.findOneAndUpdate({
-//         _id: id
-//     }, unitData);
-// };
+exports.patchUnit = (id, unitData) => {
+    return Unit.findOneAndUpdate({
+        _id: id
+    }, unitData);
+};
 
-// exports.removeById = (unitId) => {
-//     return new Promise((resolve, reject) => {
-//         unit.deleteMany({_id: unitId}, (err) => {
-//             if (err) {
-//                 reject(err);
-//             } else {
-//                 resolve(err);
-//             }
-//         });
-//     });
-// };
+exports.removeById = (unitId) => {
+    return new Promise((resolve, reject) => {
+        Unit.deleteMany({_id: unitId}, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(err);
+            }
+        });
+    });
+};
 

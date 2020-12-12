@@ -2,11 +2,7 @@ const unitModel = require('../models/Units.model');
 // const crypto = require('crypto');
 
 exports.insert = (req, res) => {
-    // let salt = crypto.randomBytes(16).toString('base64');
-    // let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-    // req.body.password = salt + "$" + hash;
-    // req.body.permissionLevel = 1;
-    unitModel.createColor(req.body)  .then((result) => {
+    unitModel.create(req.body)  .then((result) => {
         res.status(201).send({id: result._id});
     });
 };
@@ -27,27 +23,21 @@ exports.list = (req, res) => {
 };
 
 exports.getById = (req, res) => {
-    unitModel.findById(req.params.userId)
+    unitModel.findById(req.params.id)
         .then((result) => {
             res.status(200).send(result);
         });
 };
 exports.patchById = (req, res) => {
-    // if (req.body.password) {
-    //     let salt = crypto.randomBytes(16).toString('base64');
-    //     let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-    //     req.body.password = salt + "$" + hash;
-    // }
-
-    // unitModel.patchUser(req.params.userId, req.body)
-    //     .then((result) => {
-    //         res.status(204).send({});
-    //     });
+    unitModel.patchUnit(req.params.id, req.body)
+        .then((result) => {
+            res.status(204).send({});
+        });
 
 };
 
 exports.removeById = (req, res) => {
-    unitModel.removeById(req.params.userId)
+    unitModel.removeById(req.params.id)
         .then((result)=>{
             res.status(204).send({});
         });
