@@ -9,25 +9,26 @@ const Schema = mongoose.Schema;
 const unitSchema = new Schema({
   name: String,
   Ip:String,
-  address:String,
-   type:['Residential','Official'],
+  addrres:String,
   // provience,
   // city,
+  type:['Residential','Official'],
+  
   totalArea:Number,
-  constructionyear:Number,
-  wallMaterials:['Gypsum','Concrete','Brick'],
-  // floorMaterials,
-  // roofMaterials
-  // grlass,
-  // NumberOfFloors,
-  // coolingSystem
-  // HeatingSystem,
-  // ventilatedArea,
-  // unventilatedArea,
-  // ventilatedWallArea,
-  // unventilatedWallArea,
-  // WindowArea,
-  // capacitiveBank,
+  yearConst:Number,
+  walMater:String,
+  flurMater:String,
+  rufmater:String,
+  glasMater:String,
+  numFlur:Number,
+  cullSys:String,
+  heatSys:String,
+  areaVntl:Number,
+  areaUnVntl:Number,
+  walAreaVntl:Number,
+  walAreaUnVntl:Number,  
+  winArea:Number,
+  capBank:Number,
 });
 
 unitSchema.virtual('id').get(function () {
