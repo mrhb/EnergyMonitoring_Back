@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const UnitsRouter = require('./units/routes.config');
+const InstrumentRouter = require('./units/instrumentsRoutes.config');
 //const Root="F:/mr.Hajjar/OnlineMonitoring/UI_SPA/uiSPA/dist/uiSPA"
 const Root=__dirname+'\\uiSPA_Prod';
 app.use(function (req, res, next) {
@@ -28,6 +29,7 @@ app.use('/ui',express.static(Root));
 AuthorizationRouter.routesConfig(app);
 UsersRouter.routesConfig(app);
 UnitsRouter.routesConfig(app);
+InstrumentRouter.routesConfig(app);
 
 app.get('/ui/*', (req,res) => {
     res.sendFile(Root+"/index.html")
