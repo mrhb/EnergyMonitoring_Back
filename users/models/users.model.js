@@ -5,8 +5,16 @@ const userSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
+    userName:String,
     password: String,
-    permissionLevel: Number
+    permissionLevel: Number,
+    title:String,
+    position:String,//پست سازمانی
+    phoneNumber:String,
+    mobile:String,
+    address:String,
+    picture:String
+
 });
 
 userSchema.virtual('id').get(function () {
