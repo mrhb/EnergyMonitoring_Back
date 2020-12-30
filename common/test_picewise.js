@@ -16,7 +16,29 @@ const getJsonData=function(basePathToData,filename){
 };
 var taarif=getJsonData(__dirname,'Tarif.json');
 console.log("this is x:   "+taarif.x);
-console.log("this is y:   "+taarif.y);
-relu = Piecewise(taarif.x, taarif.y)
+
+let xx=[0]
+taarif.x.map(function(num) {
+    xx.push(num);
+    xx.push(num+Number.MIN_VALUE);
+})
+
+// xx[xx.length - 1]=Number.MAX_VALUE;
+xx[xx.length ]=Number.MAX_VALUE;
+
+console.log("this is xx:   "+xx);
+
+
+
+let yy=[]
+taarif.y.map(function(num) {
+    yy.push(num);
+    yy.push(num);
+})
+// console.log("this is y:   "+taarif.y);
+console.log("this is yy:   "+yy);
+
+
+relu = Piecewise(xx, yy)
 // relu = Piecewise([-1, 0, 6], [0, 0, 1])
-console.log("this is result:   "+relu(101))
+console.log("this is result:   "+relu(3000))
