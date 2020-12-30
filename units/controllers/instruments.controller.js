@@ -1,4 +1,4 @@
-const instrumentsModel = require('../models/Instruments.model');
+const instrumentsModel = require('../models/instruments.model');
 // const crypto = require('crypto');
 
 exports.insert = (req, res) => {

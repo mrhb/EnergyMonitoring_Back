@@ -372,7 +372,7 @@ AuthGuard.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjecta
 
 /***/ "./src/app/_helpers/error.interceptor.ts":
 /*!***********************************************!*\
-  !*** ./src/app/_helpers/error.interceptor.ts ***!
+  !*** ./src/app/_helpers/response.interceptor.ts ***!
   \***********************************************/
 /*! exports provided: ErrorInterceptor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -497,7 +497,7 @@ class FakeBackendInterceptor {
         }
         function unauthorized() {
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])({ status: 401, error: { message: 'unauthorized' } })
-                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["materialize"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["dematerialize"])()); // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["materialize"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["dematerialize"])()); // call materialize and dematerialize to ensure delay even if an response is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
         }
         function error(message) {
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])({ status: 400, error: { message } })
@@ -549,7 +549,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth.guard */ "./src/app/_helpers/auth.guard.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthGuard", function() { return _auth_guard__WEBPACK_IMPORTED_MODULE_0__["AuthGuard"]; });
 
-/* harmony import */ var _error_interceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./error.interceptor */ "./src/app/_helpers/error.interceptor.ts");
+/* harmony import */ var _error_interceptor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./response.interceptor */ "./src/app/_helpers/error.interceptor.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ErrorInterceptor", function() { return _error_interceptor__WEBPACK_IMPORTED_MODULE_1__["ErrorInterceptor"]; });
 
 /* harmony import */ var _fake_backend__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fake-backend */ "./src/app/_helpers/fake-backend.ts");
@@ -10708,8 +10708,8 @@ class TrendsService {
     getSelected() { return this.selectedSeries; }
     handleError(error) {
         if (error.error instanceof ErrorEvent) {
-            // A client-side or network error occurred. Handle it accordingly.
-            console.error('An error occurred:', error.error.message);
+            // A client-side or network response occurred. Handle it accordingly.
+            console.error('An response occurred:', error.error.message);
         }
         else {
             // The backend returned an unsuccessful response code.
@@ -10717,7 +10717,7 @@ class TrendsService {
             console.error(`Backend returned code ${error.status}, ` +
                 `body was: ${error.error}`);
         }
-        // Return an observable with a user-facing error message.
+        // Return an observable with a user-facing response message.
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["throwError"])('Something bad happened; please try again later.');
     }
 }
@@ -10756,12 +10756,12 @@ const environment = {
 };
 /*
  * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ * to ignore zone related response stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *
  * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
+ * on performance if an response is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/dist/zone-response';  // Included with Angular CLI.
 
 
 /***/ }),

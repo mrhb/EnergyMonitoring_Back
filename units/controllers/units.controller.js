@@ -1,4 +1,4 @@
-const unitModel = require('../models/Units.model');
+const unitModel = require('../models/units.model');
 // const crypto = require('crypto');
 
 exports.insert = (req, res) => {

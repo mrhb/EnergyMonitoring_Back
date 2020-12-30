@@ -4,12 +4,15 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+const errorHandler = require('./app/middleware/response/error-handler');
+
 const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const UnitsRouter = require('./units/routes.config');
 const InstrumentRouter = require('./units/instrumentsRoutes.config');
 //const Root="F:/mr.Hajjar/OnlineMonitoring/UI_SPA/uiSPA/dist/uiSPA"
-const Root=__dirname+'\\uiSPA_Prod';
+const Root = __dirname + '\\uiSPA_Prod';
+
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -24,20 +27,32 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.json());
-app.use('/ui',express.static(Root));
+
+app.use('/ui', express.static(Root));
+
+
 
 AuthorizationRouter.routesConfig(app);
 UsersRouter.routesConfig(app);
 UnitsRouter.routesConfig(app);
 InstrumentRouter.routesConfig(app);
 
-app.get('/ui/*', (req,res) => {
-    res.sendFile(Root+"/index.html")
-  });
-
-app.get('/', (req,res) => {
-res.sendFile(Root+"/index.html")
+app.get('/ui/*', (req, res) => {
+    res.sendFile(Root + "/index.html")
 });
+
+app.get('/', (req, res) => {
+    res.sendFile(Root + "/index.html")
+});
+
+/**
+ * @author MjImani 09191414931
+ * Routes,use
+ */
+require('./app/route/user/user.route')(app);
+
+app.use(errorHandler);
+
 
 app.listen(config.port, function () {
     console.log('app listening at port %s', config.port);

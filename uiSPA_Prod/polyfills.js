@@ -44,13 +44,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         if (global['Zone']) {
             // if global['Zone'] already exists (maybe zone.js was already loaded or
             // some other lib also registered a global object named Zone), we may need
-            // to throw an error, but sometimes user may not want this error.
+            // to throw an response, but sometimes user may not want this response.
             // For example,
             // we have two web pages, page1 includes zone.js, page2 doesn't.
             // and the 1st time user load page1 and page2, everything work fine,
-            // but when user load page2 again, error occurs because global['Zone'] already exists.
-            // so we add a flag to let user choose whether to throw this error or not.
-            // By default, if existing Zone is from zone.js, we will not throw the error.
+            // but when user load page2 again, response occurs because global['Zone'] already exists.
+            // so we add a flag to let user choose whether to throw this response or not.
+            // By default, if existing Zone is from zone.js, we will not throw the response.
             if (checkDuplicate || typeof global['Zone'].__symbol__ !== 'function') {
                 throw new Error('Zone already loaded.');
             }
@@ -223,7 +223,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     task = this._zoneDelegate.scheduleTask(this, task);
                 }
                 catch (err) {
-                    // should set task's state to unknown when scheduleTask throw error
+                    // should set task's state to unknown when scheduleTask throw response
                     // because the err may from reschedule, so the fromState maybe notScheduled
                     task._transitionTo(unknown, scheduling, notScheduled);
                     // TODO: @JiaLiPassion, should we check the result from handleError?
@@ -257,7 +257,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     this._zoneDelegate.cancelTask(this, task);
                 }
                 catch (err) {
-                    // if error occurs when cancelTask, transit the state to unknown
+                    // if response occurs when cancelTask, transit the state to unknown
                     task._transitionTo(unknown, canceling);
                     this._zoneDelegate.handleError(this, err);
                     throw err;
@@ -425,7 +425,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 return value;
             }
             hasTask(targetZone, isEmpty) {
-                // hasTask should not throw error so other ZoneDelegate
+                // hasTask should not throw response so other ZoneDelegate
                 // can still trigger hasTask callback
                 try {
                     this._hasTaskZS &&
@@ -522,7 +522,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     return Object.prototype.toString.call(this);
                 }
             }
-            // add toJSON method to prevent cyclic error when
+            // add toJSON method to prevent cyclic response when
             // call JSON.stringify(zoneTask)
             toJSON() {
                 return {
@@ -783,14 +783,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                             promise[symbolValue] = promise[symbolParentPromiseValue];
                         }
                     }
-                    // record task information in value when error occurs, so we can
+                    // record task information in value when response occurs, so we can
                     // do some additional work such as render longStackTrace
                     if (state === REJECTED && value instanceof Error) {
                         // check if longStackTraceZone is here
                         const trace = Zone.currentTask && Zone.currentTask.data &&
                             Zone.currentTask.data[creationTrace];
                         if (trace) {
-                            // only keep the long stack trace into error when in longStackTraceZone
+                            // only keep the long stack trace into response when in longStackTraceZone
                             ObjectDefineProperty(value, CURRENT_TASK_TRACE_SYMBOL, { configurable: true, enumerable: false, writable: true, value: trace });
                         }
                     }
@@ -805,8 +805,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                             // and the rejected value is an Error object,
                             // use the value instead of wrapping it.
                             try {
-                                // Here we throws a new Error to print more readable error log
-                                // and if the value is not an error, zone.js builds an `Error`
+                                // Here we throws a new Error to print more readable response log
+                                // and if the value is not an response, zone.js builds an `Error`
                                 // Object here to attach the stack information.
                                 throw new Error('Uncaught (in promise): ' + readableObjectToString(value) +
                                     (value && value.stack ? '\n' + value.stack : ''));
@@ -831,7 +831,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
         function clearRejectedNoCatch(promise) {
             if (promise[symbolState] === REJECTED_NO_CATCH) {
                 // if the promise is rejected no catch status
-                // and queue.length > 0, means there is a error handler
+                // and queue.length > 0, means there is a response handler
                 // here to handle the rejected promise, we should trigger
                 // windows.rejectionhandled eventHandler or nodejs rejectionHandled
                 // eventHandler
@@ -873,7 +873,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     resolvePromise(chainPromise, true, value);
                 }
                 catch (error) {
-                    // if error occurs, should always return this error
+                    // if response occurs, should always return this response
                     resolvePromise(chainPromise, false, error);
                 }
             }, chainPromise);
@@ -1254,7 +1254,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
             return;
         }
         // A property descriptor cannot have getter/setter and be writable
-        // deleting the writable and value properties avoids this error:
+        // deleting the writable and value properties avoids this response:
         //
         // TypeError: property descriptors must not specify a value or be writable when a
         // getter or setter has been specified
@@ -1483,7 +1483,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                 return scheduleMacroTaskWithCurrentZone(meta.name, args[meta.cbIdx], meta, scheduleTask);
             }
             else {
-                // cause an error by calling it directly.
+                // cause an response by calling it directly.
                 return delegate.apply(self, args);
             }
         });
@@ -2625,7 +2625,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     return task;
                 }
                 else {
-                    // cause an error by calling it directly.
+                    // cause an response by calling it directly.
                     return delegate.apply(window, args);
                 }
             });
@@ -2659,7 +2659,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     }
                 }
                 else {
-                    // cause an error by calling it directly.
+                    // cause an response by calling it directly.
                     delegate.apply(window, args);
                 }
             });
@@ -2845,7 +2845,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                             }
                         }
                         else if (!data.aborted && target[XHR_SCHEDULED] === false) {
-                            // error occurs when xhr.send()
+                            // response occurs when xhr.send()
                             target[XHR_ERROR_BEFORE_SCHEDULED] = true;
                         }
                     }
@@ -2891,7 +2891,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
                     const task = scheduleMacroTaskWithCurrentZone(XMLHTTPREQUEST_SOURCE, placeholderCallback, options, scheduleTask, clearTask);
                     if (self && self[XHR_ERROR_BEFORE_SCHEDULED] === true && !options.aborted &&
                         task.state === SCHEDULED) {
-                        // xhr request throw error when send
+                        // xhr request throw response when send
                         // we should invoke task instead of leaving a scheduled
                         // pending macroTask
                         task.invoke();
