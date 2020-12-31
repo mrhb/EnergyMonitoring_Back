@@ -1,6 +1,13 @@
+/*
+* @author MjImani
+* +989035074205
+*/
 const User = require('../../model/user/user.model');
+const ForgetPassword = require('../../model/user/forgetPassword.model');
 const crypto = require('crypto');
 const userService = require('../../service/user/user.service');
+const forgetPasswordService = require('../../service/user/forgetPassword.service');
+const fs = require('fs');
 
 
 exports.signup = (req, res, next) => {
@@ -278,6 +285,31 @@ exports.updatePassword = (req, res, next) => {
         }).catch(err => next(err));
 };
 
+exports.uploadProfilePhoto = (req, res, next) => {
+    console.log('re id ' + req.user.id);
+    let imgPath = 'imani.png';
+    let user = new User;
+    user.photo.data = fs.readFileSync(imgPath);
+    user.photo.contentType = 'image/png';
+
+    userService
+        .uploadProfilePhoto(req.user.id, user.photo)
+        .then(result => {
+            if (result) {
+                if (result.nModified === 1 && result.ok === 1) {
+                    res.send({
+                        flag: true,
+                        data: true
+                    })
+                } else {
+                    next("در آپلود عکس پروفایل خطایی رخ داده است.")
+                }
+            } else {
+                next("خطایی رخ داده است.");
+            }
+        }).catch(err => next(err));
+};
+
 exports.reqForgetPassword = (req, res, next) => {
 
     // Validate request
@@ -300,23 +332,40 @@ exports.reqForgetPassword = (req, res, next) => {
         userService
             .getOneByMobile(req.body.mobile)
             .then(result => {
-                console.log('result ' + result);
                 if (!result) {
                     throw next("برای شماره وارد شده اکانتی وجود ندارد.");
                 }
+                console.log('result._id ' + result._id);
                 // Generate random token
+                let token = getRndInteger(100000, 999999);
+                console.log('token ' + token);
+
+                // let myJSON = JSON.stringify(result);
+                // console.log('myJSON ' + myJSON);hhhh
+                let expireDate = new Date();
+                expireDate.setMinutes(expireDate.getMinutes() + 5);
 
                 // Save ForgetPassword
+                let forgetPassword = new ForgetPassword({
+                    userId: result._id,
+                    tokenType: 'SMS',
+                    mobile: result.mobile,
+                    token: token,
+                    expireDate: expireDate
+                });
+                console.log('forgetPassword ' + forgetPassword.token);
+                // Save in Db
+                forgetPasswordService.saveForgetPassword(forgetPassword)
+                    .then(r => console.log('r ' + r));
 
                 // Send token by sms
-
 
                 res.send({
                     flag: true,
                     data: true
                 });
             }).catch(err => next(err));
-    }else if (req.body.tokenType === 'EMAIL') {
+    } else if (req.body.tokenType === 'EMAIL') {
         if (!req.body.email) {
             throw next("ایمیل نمیتواند خالی باشد.");
         }
@@ -344,4 +393,109 @@ exports.reqForgetPassword = (req, res, next) => {
     }
 };
 
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+};
+
+exports.resetPassword = (req, res, next) => {
+
+    // Validate request
+    if (!req.body.tokenType) {
+        throw next("نوع درخواست نمیتواند خالی باشد.");
+    }
+    if (req.body.tokenType !== 'SMS' && req.body.tokenType !== 'EMAIL') {
+        throw next("نوع درخواست درست نمیباشد.");
+    }
+    if (!req.body.token) {
+        throw next("توکن نمیتواند خالی باشد.");
+    }
+    if (!req.body.password) {
+        throw next("رمز عبور نمیتواند خالی باشد.");
+    }
+    if (!req.body.passwordConfirm) {
+        throw next("تکرار رمز عبور نمیتواند خالی باشد.");
+    }
+    if (req.body.password !== req.body.passwordConfirm) {
+        throw next("رمز عبور و تکرار آن یکسان نمیباشد.");
+    }
+
+    if (req.body.tokenType === 'SMS') {
+        if (!req.body.mobile) {
+            throw next("شماره موبایل نمیتواند خالی باشد.");
+        }
+        if (req.body.mobile.length !== 11) {
+            throw next("شماره موبایل درست وارد نشده است.");
+        }
+        // Check valid number
+
+        forgetPasswordService.getByMobileAndToken(req.body)
+            .then(result => {
+                console.log('result ' + result);
+                if (!result) {
+                    throw next("توکن وارد شده منقضی شده است.");
+                }
+
+                userService
+                    .updatePassword(result.userId, req.body.password)
+                    .then(result => {
+                        if (result) {
+                            if (result.nModified === 1 && result.ok === 1) {
+
+                                forgetPasswordService.deleteById(result._id).then(r => console.log('r in delete ' + r));
+
+                                res.send({
+                                    flag: true,
+                                    data: true
+                                })
+
+                            } else {
+                                next("در دوباره بازنشانی رمز عبور خطایی رخ داده است.");
+                            }
+                        } else {
+                            next("خطایی رخ داده است.");
+                        }
+                    }).catch(err => next(err));
+
+            })
+            .catch(err => next(err));
+
+    } else if (req.body.tokenType === 'EMAIL') {
+        if (!req.body.email) {
+            throw next("ایمیل نمیتواند خالی باشد.");
+        }
+        // Check valid email
+
+
+        forgetPasswordService.getByEmailAndToken(req.body)
+            .then(result => {
+                console.log('result ' + result);
+                if (!result) {
+                    throw next("توکن وارد شده منقضی شده است.");
+                }
+
+                userService
+                    .updatePassword(result.userId, req.body.password)
+                    .then(result => {
+                        if (result) {
+                            if (result.nModified === 1 && result.ok === 1) {
+
+                                forgetPasswordService.deleteById(result._id).then(r => console.log('r in delete ' + r));
+
+                                res.send({
+                                    flag: true,
+                                    data: true
+                                })
+
+                            } else {
+                                next("در دوباره بازنشانی رمز عبور خطایی رخ داده است.");
+                            }
+                        } else {
+                            next("خطایی رخ داده است.");
+                        }
+                    }).catch(err => next(err));
+
+            })
+            .catch(err => next(err));
+    }
+};
 

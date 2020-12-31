@@ -1,3 +1,7 @@
+/*
+* @author MjImani
+* +989035074205
+*/
 module.exports = (app) => {
 
     const jwt = require('../../middleware/auth/jwt');
@@ -25,6 +29,10 @@ module.exports = (app) => {
 
     app.put(USER + 'update-password',jwt(), userController.updatePassword);
 
+    app.put(USER + 'upload-profile-photo',jwt(), userController.uploadProfilePhoto);
+
     app.post(USER + 'req-forget-password', userController.reqForgetPassword);
+
+    app.post(USER + 'reset-password', userController.resetPassword);
 
 };

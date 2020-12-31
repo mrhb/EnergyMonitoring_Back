@@ -1,12 +1,16 @@
 const User = require('../../model/user/user.model');
 const crypto = require('crypto');
-
+/*
+* @author MjImani
+* +989035074205
+*/
 module.exports = {
     getProfile,
     updateProfile,
     updatePassword,
     getOneByMobile,
-    getOneByEmail
+    getOneByEmail,
+    uploadProfilePhoto
 };
 
 async function getProfile(id) {
@@ -54,7 +58,7 @@ async function updatePassword(id, reqChangePasswordDto) {
 }
 
 async function getOneByMobile(mobile) {
-    return await User.find(
+    return await User.findOne(
         {
             mobile: mobile,
             isMobileVerify: true
@@ -66,13 +70,27 @@ async function getOneByMobile(mobile) {
 }
 
 async function getOneByEmail(email) {
-    return await User.find(
+    return await User.findOne(
         {
             email: email,
             isEmailVerify: true
         },
         {
             password: 0
+        }
+    );
+}
+
+
+async function uploadProfilePhoto(id,photo) {
+    return await User.updateOne(
+        {
+            _id: id
+        },
+        {
+            $set: {
+                photo: photo,
+            }
         }
     );
 }

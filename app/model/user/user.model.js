@@ -1,3 +1,7 @@
+/*
+* @author MjImani
+* +989035074205
+*/
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
@@ -11,7 +15,7 @@ const UserSchema = mongoose.Schema({
     isEmailVerify: {type: Boolean, default: false},
     password: {type: String, required: true},
     role: {type: String, required: true, enum: ['ADMIN', 'USER']},
-    photo: String,
+    photo: { data: Buffer, contentType: String },
     organizationalUnit: {type: String, required: true},
     organizationalLevel: {type: String, required: true},
     address: {type: String, required: true},
