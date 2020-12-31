@@ -38,7 +38,6 @@ taarif.y.map(function(num) {
 // console.log("this is y:   "+taarif.y);
 console.log("this is yy:   "+yy);
 
-
 relu = Piecewise(xx, yy)
 // relu = Piecewise([-1, 0, 6], [0, 0, 1])
-console.log("this is result:   "+relu(3000))
+console.log("this is result:   "+relu(15))
