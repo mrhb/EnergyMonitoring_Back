@@ -37,9 +37,6 @@ exports.signup = (req, res, next) => {
     if (!req.body.province) {
         throw next("استان نمیتواند خالی باشد.");
     }
-    if (!req.body.username) {
-        throw next("نام کاربری نمیتواند خالی باشد.");
-    }
     if (!req.body.email) {
         throw next("ایمیل نمیتواند خالی باشد.");
     }
@@ -56,10 +53,11 @@ exports.signup = (req, res, next) => {
         throw next("رمز عبور و تکرار آن یکسان نمیباشد.");
     }
 
+    // Check unique mobile and email
+
     const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        username: req.body.username,
         phone: req.body.phone,
         mobile: req.body.mobile,
         email: req.body.email,
@@ -116,30 +114,6 @@ exports.isMobileExists = (req, res) => {
 
 exports.isEmailExists = (req, res) => {
     let query = getEmailIsExistsQuery(req.params.email);
-    query.exec(function (err, user) {
-        if (err) {
-            console.log(err);
-            res.status(500).send({
-                flag: false,
-                message: "خطایی رخ داده است."
-            });
-        }
-        if (user) {
-            res.send({
-                flag: true,
-                data: true
-            })
-        } else {
-            res.send({
-                flag: true,
-                data: false
-            })
-        }
-    });
-};
-
-exports.isUsernameExists = (req, res) => {
-    let query = getUsernameIsExistsQuery(req.params.username);
     query.exec(function (err, user) {
         if (err) {
             console.log(err);

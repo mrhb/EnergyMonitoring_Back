@@ -21,8 +21,6 @@ module.exports = (app) => {
 
     app.get(USER + 'is-email-exists/:email', userController.isEmailExists);
 
-    app.get(USER + 'is-username-exists/:username', userController.isUsernameExists);
-
     app.get(USER + 'get-profile',jwt(), userController.getProfile);
 
     app.put(USER + 'update-profile',jwt(), userController.updateProfile);
