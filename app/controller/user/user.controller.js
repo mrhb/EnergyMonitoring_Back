@@ -259,11 +259,43 @@ exports.updatePassword = (req, res, next) => {
         }).catch(err => next(err));
 };
 
-exports.uploadProfilePhoto = (req, res, next) => {
+exports.updateEmail = (req, res, next) => {
     console.log('re id ' + req.user.id);
-    let imgPath = 'imani.png';
+
+    // Validate request
+    if (!req.params.email) {
+        throw next("ایمیل نمیتواند خالی باشد.");
+    }
+
+    userService
+        .updateEmail(req.user.id, req.params.email)
+        .then(result => {
+            if (result) {
+                if (result.nModified === 1 && result.ok === 1) {
+                    res.send({
+                        flag: true,
+                        data: true
+                    })
+                } else {
+                    res.send({
+                        flag: false,
+                        message: "در بروزرسانی اطلاعات ایمیل خطایی رخ داده است."
+                    })
+                }
+            } else {
+                next("خطایی رخ داده است.");
+            }
+        }).catch(err => next(err));
+}
+
+exports.uploadProfilePhoto = (req, res, next) => {
+
+    console.log('re id ' + req.user.id);
+
+    // let imgPath = 'imani.png';
     let user = new User;
-    user.photo.data = fs.readFileSync(imgPath);
+
+    // user.photo.data = fs.readFileSync(imgPath);
     user.photo.contentType = 'image/png';
 
     userService
@@ -290,11 +322,11 @@ exports.reqForgetPassword = (req, res, next) => {
     if (!req.body.tokenType) {
         throw next("نوع درخواست نمیتواند خالی باشد.");
     }
-    if (req.body.tokenType !== 'SMS' && req.body.tokenType !== 'EMAIL') {
+    if (req.body.tokenType !== 'MOBILE' && req.body.tokenType !== 'EMAIL') {
         throw next("نوع درخواست درست نمیباشد.");
     }
 
-    if (req.body.tokenType === 'SMS') {
+    if (req.body.tokenType === 'MOBILE') {
         if (!req.body.mobile) {
             throw next("شماره موبایل نمیتواند خالی باشد.");
         }
@@ -377,7 +409,7 @@ exports.resetPassword = (req, res, next) => {
     if (!req.body.tokenType) {
         throw next("نوع درخواست نمیتواند خالی باشد.");
     }
-    if (req.body.tokenType !== 'SMS' && req.body.tokenType !== 'EMAIL') {
+    if (req.body.tokenType !== 'MOBILE' && req.body.tokenType !== 'EMAIL') {
         throw next("نوع درخواست درست نمیباشد.");
     }
     if (!req.body.token) {
@@ -393,7 +425,7 @@ exports.resetPassword = (req, res, next) => {
         throw next("رمز عبور و تکرار آن یکسان نمیباشد.");
     }
 
-    if (req.body.tokenType === 'SMS') {
+    if (req.body.tokenType === 'MOBILE') {
         if (!req.body.mobile) {
             throw next("شماره موبایل نمیتواند خالی باشد.");
         }

@@ -30,8 +30,6 @@ app.use(bodyParser.json());
 
 app.use('/ui', express.static(Root));
 
-
-
 AuthorizationRouter.routesConfig(app);
 UsersRouter.routesConfig(app);
 UnitsRouter.routesConfig(app);
@@ -52,7 +50,6 @@ app.get('/', (req, res) => {
 require('./app/route/user/user.route')(app);
 
 app.use(errorHandler);
-
 
 app.listen(config.port, function () {
     console.log('app listening at port %s', config.port);

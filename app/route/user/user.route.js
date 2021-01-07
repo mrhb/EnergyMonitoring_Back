@@ -6,6 +6,7 @@ module.exports = (app) => {
 
     const jwt = require('../../middleware/auth/jwt');
     const hasRole = require('../../middleware/auth/preAuthorize');
+    const multer = require("multer");
 
     const userController = require('../../controller/user/user.controller');
     const authController = require('../../controller/auth/auth.controller');
@@ -26,6 +27,8 @@ module.exports = (app) => {
     app.put(USER + 'update-profile',jwt(), userController.updateProfile);
 
     app.put(USER + 'update-password',jwt(), userController.updatePassword);
+
+    app.put(USER + 'update-email/:email',jwt(), userController.updateEmail);
 
     app.put(USER + 'upload-profile-photo',jwt(), userController.uploadProfilePhoto);
 

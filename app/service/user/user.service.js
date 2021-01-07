@@ -57,6 +57,19 @@ async function updatePassword(id, reqChangePasswordDto) {
     );
 }
 
+async function updateEmail(id, email) {
+    return await User.updateOne(
+        {
+            _id: id
+        },
+        {
+            $set: {
+                email: email,
+            }
+        }
+    );
+}
+
 async function getOneByMobile(mobile) {
     return await User.findOne(
         {
