@@ -5,7 +5,11 @@
 
 const User = require('../../model/user/user.model');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const accessTokenSecret = 'MySecretKey';
+
 module.exports = {
+    authenticate,
     getProfile,
     updateProfile,
     updatePassword,
@@ -13,6 +17,34 @@ module.exports = {
     getOneByEmail,
     uploadProfilePhoto
 };
+
+async function authenticate(username, password, type) {
+    console.log('type ' + type);
+    let user;
+    if (type === 'MOBILE'){
+        user = await User.findOne(
+            {
+                mobile: username,
+                password: crypto.createHash('sha512').update(password).digest("hex")
+            }
+        );
+    }else {
+        user = await User.findOne(
+            {
+                email: username,
+                password: crypto.createHash('sha512').update(password).digest("hex")
+            }
+        );
+    }
+
+    if (user) {
+        const token = jwt.sign({
+            id: user.id,
+            authorities: 'ROLE_' + user.role
+        }, accessTokenSecret, {expiresIn: '1d'});
+        return token;
+    }
+}
 
 async function getProfile(id) {
     try {

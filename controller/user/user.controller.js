@@ -6,7 +6,7 @@
 const User = require('../../model/user/user.model');
 const ForgetPassword = require('../../model/user/forgetPassword.model');
 const crypto = require('crypto');
-const userService = require('../../dao/user/user.dao');
+const userDao = require('../../dao/user/user.dao');
 const forgetPasswordService = require('../../dao/user/forgetPassword.dao');
 const fs = require('fs');
 
@@ -161,7 +161,7 @@ function getUsernameIsExistsQuery(username) {
 
 exports.getProfile = (req, res, next) => {
     console.log('re id ' + req.user.id);
-    userService
+    userDao
         .getProfile(req.user.id)
         .then(user => {
             if (user) {
@@ -204,7 +204,7 @@ exports.updateProfile = (req, res, next) => {
         throw next("استان نمیتواند خالی باشد.");
     }
 
-    userService
+    userDao
         .updateProfile(req.user.id, req.body)
         .then(result => {
             if (result) {
@@ -239,7 +239,7 @@ exports.updatePassword = (req, res, next) => {
         throw next("رمز عبور و تکرار آن یکسان نمیباشد.");
     }
 
-    userService
+    userDao
         .updatePassword(req.user.id, req.body.password)
         .then(result => {
             if (result) {
@@ -268,7 +268,7 @@ exports.updateEmail = (req, res, next) => {
         throw next("ایمیل نمیتواند خالی باشد.");
     }
 
-    userService
+    userDao
         .updateEmail(req.user.id, req.params.email)
         .then(result => {
             if (result) {
@@ -299,7 +299,7 @@ exports.uploadProfilePhoto = (req, res, next) => {
     // user.photo.data = fs.readFileSync(imgPath);
     user.photo.contentType = 'image/png';
 
-    userService
+    userDao
         .uploadProfilePhoto(req.user.id, user.photo)
         .then(result => {
             if (result) {
@@ -336,7 +336,7 @@ exports.reqForgetPassword = (req, res, next) => {
         }
         // Check valid number
 
-        userService
+        userDao
             .getOneByMobile(req.body.mobile)
             .then(result => {
                 if (!result) {
@@ -378,7 +378,7 @@ exports.reqForgetPassword = (req, res, next) => {
         }
         // Check valid email
 
-        userService
+        userDao
             .getOneByEmail(req.body.email)
             .then(result => {
                 console.log('result ' + result);
@@ -445,7 +445,7 @@ exports.resetPassword = (req, res, next) => {
                     throw next("توکن وارد شده منقضی شده است.");
                 }
 
-                userService
+                userDao
                     .updatePassword(result.userId, req.body.password)
                     .then(result => {
                         if (result) {
@@ -483,7 +483,7 @@ exports.resetPassword = (req, res, next) => {
                     throw next("توکن وارد شده منقضی شده است.");
                 }
 
-                userService
+                userDao
                     .updatePassword(result.userId, req.body.password)
                     .then(result => {
                         if (result) {

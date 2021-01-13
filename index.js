@@ -9,11 +9,15 @@ let debug = require('debug')('energy-node:index');
 let http = require('http');
 let config = require('./config/config');
 
+
+const exceptionHandler = require('./middleware/response/exception-handler');
+
 /**
  * Get port from environment and store in Express.
  */
 let port = normalizePort(process.env.PORT || config.port);
 app.set('port', port);
+app.use(exceptionHandler);
 
 /**
  * Create HTTP server.
@@ -23,6 +27,7 @@ let server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+
 
 server.listen(port);
 server.on('error', onError);

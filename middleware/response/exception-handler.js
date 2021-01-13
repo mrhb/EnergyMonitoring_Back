@@ -1,8 +1,11 @@
 /**
-* @author MjImani
-* +989035074205
-*/
-module.exports = exceptionHandler;
+ * @author MjImani
+ * +989035074205
+ */
+module.exports = [
+    exceptionHandler,
+    notFound
+];
 
 function exceptionHandler(err, req, res, next) {
     if (typeof (err) === 'string') {
@@ -12,6 +15,7 @@ function exceptionHandler(err, req, res, next) {
             message: err
         });
     }
+
 
     if (err.name === 'ValidationError') {
         // mongoose validation response
@@ -35,3 +39,14 @@ function exceptionHandler(err, req, res, next) {
         message: err.message
     });
 }
+
+
+// default to 404 response
+function notFound(req, res, next) {
+    return res.status(404).send({
+        "status": 404,
+        "error": "Not Found",
+        "message": "No message available",
+        "path": req.path
+    });
+};
