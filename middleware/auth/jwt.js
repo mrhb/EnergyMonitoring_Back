@@ -4,7 +4,6 @@
 */
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
-const userService = require('../../dao/user/user.dao');
 
 
 module.exports = function () {
