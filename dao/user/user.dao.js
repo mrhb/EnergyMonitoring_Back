@@ -15,96 +15,130 @@ module.exports = {
 };
 
 async function getProfile(id) {
-    return await User.findById(
-        {
-            _id: id
-        },
-        {
-            password: 0
-        }
-    );
+    try {
+        return await User.findById(
+            {
+                _id: id
+            },
+            {
+                password: 0
+            }
+        );
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 async function updateProfile(id, reqUserDto) {
-    return await User.updateOne(
-        {
-            _id: id
-        },
-        {
-            $set: {
-                firstName: reqUserDto.firstName,
-                lastName: reqUserDto.lastName,
-                phone: reqUserDto.phone,
-                organizationalUnit: reqUserDto.organizationalUnit,
-                organizationalLevel: reqUserDto.organizationalLevel,
-                address: reqUserDto.address,
-                city: reqUserDto.city,
-                province: reqUserDto.province,
+    try {
+        return await User.updateOne(
+            {
+                _id: id
+            },
+            {
+                $set: {
+                    firstName: reqUserDto.firstName,
+                    lastName: reqUserDto.lastName,
+                    phone: reqUserDto.phone,
+                    organizationalUnit: reqUserDto.organizationalUnit,
+                    organizationalLevel: reqUserDto.organizationalLevel,
+                    address: reqUserDto.address,
+                    city: reqUserDto.city,
+                    province: reqUserDto.province,
+                }
             }
-        }
-    );
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 async function updatePassword(id, reqChangePasswordDto) {
-    return await User.updateOne(
-        {
-            _id: id
-        },
-        {
-            $set: {
-                password: crypto.createHash('sha512').update(reqChangePasswordDto).digest("hex"),
+    try {
+        return await User.updateOne(
+            {
+                _id: id
+            },
+            {
+                $set: {
+                    password: crypto.createHash('sha512').update(reqChangePasswordDto).digest("hex"),
+                }
             }
-        }
-    );
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 async function updateEmail(id, email) {
-    return await User.updateOne(
-        {
-            _id: id
-        },
-        {
-            $set: {
-                email: email,
+    try {
+        return await User.updateOne(
+            {
+                _id: id
+            },
+            {
+                $set: {
+                    email: email,
+                }
             }
-        }
-    );
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 async function getOneByMobile(mobile) {
-    return await User.findOne(
-        {
-            mobile: mobile,
-            isMobileVerify: true
-        },
-        {
-            password: 0
-        }
-    );
+    try {
+        return await User.findOne(
+            {
+                mobile: mobile,
+                isMobileVerify: true
+            },
+            {
+                password: 0
+            }
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 async function getOneByEmail(email) {
-    return await User.findOne(
-        {
-            email: email,
-            isEmailVerify: true
-        },
-        {
-            password: 0
-        }
-    );
+    try {
+        return await User.findOne(
+            {
+                email: email,
+                isEmailVerify: true
+            },
+            {
+                password: 0
+            }
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 
-async function uploadProfilePhoto(id,photo) {
-    return await User.updateOne(
-        {
-            _id: id
-        },
-        {
-            $set: {
-                photo: photo,
+async function uploadProfilePhoto(id, photo) {
+    try {
+        return await User.updateOne(
+            {
+                _id: id
+            },
+            {
+                $set: {
+                    photo: photo,
+                }
             }
-        }
-    );
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
 }
