@@ -1,0 +1,6 @@
+{
+  "API": "/api/",
+  "jwtSecret" : "MySecretKey",
+  "DbName" : "energy",
+  "port" : "3000"
+}
