@@ -1,10 +1,10 @@
-/*
+/**
 * @author MjImani
 * +989035074205
 */
-module.exports = errorHandler;
+module.exports = exceptionHandler;
 
-function errorHandler(err, req, res, next) {
+function exceptionHandler(err, req, res, next) {
     if (typeof (err) === 'string') {
         // custom application response
         return res.status(400).send({
