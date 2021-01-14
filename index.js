@@ -15,7 +15,7 @@ const exceptionHandler = require('./middleware/response/exception-handler');
 /**
  * Get port from environment and store in Express.
  */
-let port = normalizePort(process.env.PORT || config.port);
+let port = normalizePort(process.env.PORT || config.ServerPort);
 app.set('port', port);
 app.use(exceptionHandler);
 

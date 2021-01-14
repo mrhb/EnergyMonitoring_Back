@@ -6,35 +6,34 @@ module.exports = (app) => {
 
     let jwt = require('../../middleware/auth/jwt');
     let hasRole = require('../../middleware/auth/preAuthorize');
-
-    let userController = require('../../controller/user/user.controller');
-    let authController = require('../../controller/auth/auth.controller');
     let config = require('../../config/config');
-
     let USER = config.API + 'user/';
 
-    app.post(config.API + 'auth/login', authController.login);
+    let AuthController = require('../../controller/auth/auth.controller');
+    let UserController = require('../../controller/user/user.controller');
 
-    app.post(USER + 'signup', userController.signup);
+    app.post(config.API + 'auth/login', AuthController.login);
 
-    app.get(USER + 'is-mobile-exists/:mobile', userController.isMobileExists);
+    app.post(USER + 'signup', UserController.signup);
 
-    app.get(USER + 'is-email-exists/:email', userController.isEmailExists);
+    app.get(USER + 'is-mobile-exists/:mobile', UserController.isMobileExists);
 
-    app.get(USER + 'get-profile', jwt(), userController.getProfile);
+    app.get(USER + 'is-email-exists/:email', UserController.isEmailExists);
 
-    app.put(USER + 'update-profile', jwt(), userController.updateProfile);
+    app.get(USER + 'get-profile', jwt(), UserController.getProfile);
 
-    app.put(USER + 'update-password', jwt(), userController.updatePassword);
+    app.put(USER + 'update-profile', jwt(), UserController.updateProfile);
 
-    app.put(USER + 'update-email/:email', jwt(), userController.updateEmail);
+    app.put(USER + 'update-password', jwt(), UserController.updatePassword);
 
-    app.put(USER + 'upload-profile-photo', jwt(), userController.uploadProfilePhoto);
+    app.put(USER + 'update-email/:email', jwt(), UserController.updateEmail);
 
-    app.post(USER + 'req-forget-password', userController.reqForgetPassword);
+    app.put(USER + 'upload-profile-photo', jwt(), UserController.uploadProfilePhoto);
 
-    app.post(USER + 'reset-password', userController.resetPassword);
+    app.post(USER + 'req-forget-password', UserController.reqForgetPassword);
 
-    app.get(USER + 'test', userController.test);
+    app.post(USER + 'reset-password', UserController.resetPassword);
+
+    app.get(USER + 'test', UserController.test);
 
 };

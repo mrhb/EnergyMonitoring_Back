@@ -13,7 +13,7 @@ module.exports = function () {
         if (authHeader) {
             const token = authHeader.split(' ')[1];
 
-            jwt.verify(token, config.jwtSecret, (err, data) => {
+            jwt.verify(token, config.JwtSecret, (err, data) => {
                 if (err) {
                     return res.sendStatus(403);
                 }else {

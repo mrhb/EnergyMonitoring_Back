@@ -1,0 +1,21 @@
+/**
+ * @author MjImani
+ * phone : +989035074205
+ */
+module.exports = (app) => {
+
+    const path = require('path');
+    const jwt = require('../../middleware/auth/jwt');
+    const hasRole = require('../../middleware/auth/preAuthorize');
+    const config = require('../../config/config');
+    const FILE = config.API + 'file/';
+    const APP_DIR = path.dirname(require.main.filename);
+    const FileController = require('../../controller/file/file.controller');
+
+    app.get(FILE + 'get', (req, res) => {
+        res.sendFile(APP_DIR + '/' + req.query.link);
+    });
+
+    app.post(FILE + 'upload', jwt(), FileController.upload);
+
+};

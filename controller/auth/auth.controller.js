@@ -1,8 +1,9 @@
-/*
-* @author MjImani
-* +989035074205
-*/
+/**
+ * @author MjImani
+ * phone : +989035074205
+ */
 const userDao = require('../../dao/user/user.dao');
+const Response = require('../../middleware/response/response-handler');
 
 exports.login = async (req, res, next) => {
 
@@ -16,16 +17,12 @@ exports.login = async (req, res, next) => {
     if (!req.body.type) {
         throw next("نوع ورود نمیتواند خالی باشد.");
     }
-
     userDao
         .authenticate(req.body.username, req.body.password, req.body.type)
         .then(accessToken => {
             console.log(accessToken);
             if (accessToken) {
-                res.send({
-                    flag: true,
-                    data: accessToken
-                })
+                res.send(Response(accessToken))
             } else {
                 res.send({
                     flag: false,
