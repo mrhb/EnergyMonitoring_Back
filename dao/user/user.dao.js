@@ -160,8 +160,7 @@ async function getOneByUsernameAndType(username, type) {
         if (type === 'MOBILE'){
             return await User.findOne(
                 {
-                    mobile: username,
-                    isMobileVerify: true
+                    mobile: username
                 },
                 {
                     password: 0
@@ -170,8 +169,7 @@ async function getOneByUsernameAndType(username, type) {
         }else {
             return await User.findOne(
                 {
-                    email: username,
-                    isEmailVerify: true
+                    email: username
                 },
                 {
                     password: 0

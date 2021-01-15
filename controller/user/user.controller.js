@@ -12,6 +12,8 @@ const Response = require('../../middleware/response/response-handler');
 const ReqSignupDto = require('./dto/reqSignup.dto');
 const ReqForgetPassword = require('./dto/reqForgetPassword.dto');
 const ReqResetPasswordDto = require('./dto/reqResetPassword.dto');
+const ReqUpdateProfileDto = require('./dto/reqUpdateProfile.dto');
+const ReqUpdatePassword = require('./dto/reqUpdatePassword.dto');
 
 exports.signup = async (req, res, next) => {
 
@@ -107,54 +109,22 @@ exports.getProfile = (req, res, next) => {
         .getProfile(req.user.id)
         .then(user => {
             if (user) {
-                res.send({
-                    flag: true,
-                    data: user
-                })
+                res.send(Response(user))
             } else {
                 next("خطایی رخ داده است.");
             }
-        }).catch(err => next(err));
+        }).catch(err => console.log(err));
 };
 
 exports.updateProfile = (req, res, next) => {
     console.log('re id ' + req.user.id);
-
-    // Validate request
-    if (!req.body.firstName) {
-        throw next("نام نمیتواند خالی باشد.");
-    }
-    if (!req.body.lastName) {
-        throw next("نام خانوادگی نمیتواند خالی باشد.");
-    }
-    if (!req.body.phone) {
-        throw next("شماره تلفن نمیتواند خالی باشد.");
-    }
-    if (!req.body.organizationalUnit) {
-        throw next("واحد سازمانی نمیتواند خالی باشد.");
-    }
-    if (!req.body.organizationalLevel) {
-        throw next("پست سازمانی نمیتواند خالی باشد.");
-    }
-    if (!req.body.address) {
-        throw next("آدرس نمیتواند خالی باشد.");
-    }
-    if (!req.body.city) {
-        throw next("شهر نمیتواند خالی باشد.");
-    }
-    if (!req.body.province) {
-        throw next("استان نمیتواند خالی باشد.");
-    }
-
+    let reqUpdateProfileDto = new ReqUpdateProfileDto(req.body, next);
     userDao
-        .updateProfile(req.user.id, req.body)
+        .updateProfile(req.user.id, reqUpdateProfileDto)
         .then(result => {
             if (result) {
                 if (result.nModified === 1 && result.ok === 1) {
-                    res.send({
-                        flag: true,
-                        data: true
-                    })
+                    res.send(Response(true))
                 } else {
                     res.send({
                         flag: false,
@@ -169,27 +139,13 @@ exports.updateProfile = (req, res, next) => {
 
 exports.updatePassword = (req, res, next) => {
     console.log('re id ' + req.user.id);
-
-    // Validate request
-    if (!req.body.password) {
-        throw next("رمز عبور نمیتواند خالی باشد.");
-    }
-    if (!req.body.passwordConfirm) {
-        throw next("تکرار رمز عبور نمیتواند خالی باشد.");
-    }
-    if (req.body.password !== req.body.passwordConfirm) {
-        throw next("رمز عبور و تکرار آن یکسان نمیباشد.");
-    }
-
+    let reqUpdatePasswordDto = new ReqUpdatePassword(req.body, next);
     userDao
-        .updatePassword(req.user.id, req.body.password)
+        .updatePassword(req.user.id, reqUpdatePasswordDto.password)
         .then(result => {
             if (result) {
                 if (result.nModified === 1 && result.ok === 1) {
-                    res.send({
-                        flag: true,
-                        data: true
-                    })
+                    res.send(Response(true))
                 } else {
                     res.send({
                         flag: false,
@@ -248,9 +204,7 @@ exports.updateProfilePhoto = (req, res, next) => {
 };
 
 exports.reqForgetPassword = async (req, res, next) => {
-
     let reqForgetPassword = new ReqForgetPassword(req.body, next);
-
     let user = await userDao.getOneByUsernameAndType(reqForgetPassword.username, reqForgetPassword.tokenType)
         .then(result => {
             if (result === null) {
