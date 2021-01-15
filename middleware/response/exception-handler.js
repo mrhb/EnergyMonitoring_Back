@@ -16,7 +16,6 @@ function exceptionHandler(err, req, res, next) {
         });
     }
 
-
     if (err.name === 'ValidationError') {
         // mongoose validation response
         return res.status(400).send({
@@ -43,6 +42,7 @@ function exceptionHandler(err, req, res, next) {
 
 // default to 404 response
 function notFound(req, res, next) {
+    return;
     return res.status(404).send({
         "status": 404,
         "error": "Not Found",

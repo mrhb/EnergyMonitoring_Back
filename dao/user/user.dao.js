@@ -10,11 +10,13 @@ const accessTokenSecret = 'MySecretKey';
 
 module.exports = {
     authenticate,
+    signup,
+    isMobileExists,
+    isEmailExists,
     getProfile,
     updateProfile,
     updatePassword,
-    getOneByMobile,
-    getOneByEmail,
+    getOneByUsernameAndType,
     updateProfilePhoto
 };
 
@@ -43,6 +45,36 @@ async function authenticate(reqLoginDto) {
         }, accessTokenSecret, {expiresIn: '1d'});
         return token;
     } else {
+        return null;
+    }
+}
+
+async function signup(user) {
+    try {
+        return await User.create(user);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function isMobileExists(mobile) {
+    try {
+        return await User.findOne({
+            "mobile": mobile
+        });
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
+async function isEmailExists(email) {
+    try {
+        return await User.findOne({
+            "email": email
+        });
+    } catch (e) {
+        console.log(e);
         return null;
     }
 }
@@ -123,39 +155,51 @@ async function updateEmail(id, email) {
 
 }
 
-async function getOneByMobile(mobile) {
+async function getOneByUsernameAndType(username, type) {
     try {
-        return await User.findOne(
-            {
-                mobile: mobile,
-                isMobileVerify: true
-            },
-            {
-                password: 0
-            }
-        );
+        if (type === 'MOBILE'){
+            return await User.findOne(
+                {
+                    mobile: username,
+                    isMobileVerify: true
+                },
+                {
+                    password: 0
+                }
+            );
+        }else {
+            return await User.findOne(
+                {
+                    email: username,
+                    isEmailVerify: true
+                },
+                {
+                    password: 0
+                }
+            );
+        }
     } catch (e) {
         console.log(e)
     }
-
 }
 
-async function getOneByEmail(email) {
-    try {
-        return await User.findOne(
-            {
-                email: email,
-                isEmailVerify: true
-            },
-            {
-                password: 0
-            }
-        );
-    } catch (e) {
-        console.log(e)
-    }
-
-}
+//
+// async function getOneByEmail(email) {
+//     try {
+//         return await User.findOne(
+//             {
+//                 email: email,
+//                 isEmailVerify: true
+//             },
+//             {
+//                 password: 0
+//             }
+//         );
+//     } catch (e) {
+//         console.log(e)
+//     }
+//
+// }
 
 
 async function updateProfilePhoto(id, link) {

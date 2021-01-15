@@ -7,36 +7,30 @@ const ForgetPassword = require('../../model/user/forgetPassword.model');
 
 module.exports = {
     saveForgetPassword,
-    getByMobileAndToken,
-    getByEmailAndToken,
+    getByUsernameAndTokenAndTokenType,
     deleteById
 };
 
 async function saveForgetPassword(forgetPassword) {
     try {
         return await ForgetPassword.create(forgetPassword);
-    }catch (e) {
+    } catch (e) {
         console.log('e ' + e);
-        return e;
     }
 }
 
-async function getByMobileAndToken(data) {
+async function getByUsernameAndTokenAndTokenType(username, token, tokenType) {
     try {
-        console.log('data tokenType ' + data.tokenType);
-        console.log('data token ' + data.token);
-        console.log('data mobile ' + data.mobile);
         return await ForgetPassword.findOne(
             {
-                tokenType: data.tokenType,
-                token: data.token,
-                mobile: data.mobile,
-                expireDate: { $gte : new Date()}
+                tokenType: tokenType,
+                token: token,
+                username: username,
+                expireDate: {$gte: new Date()}
             }
         );
-    }catch (e) {
+    } catch (e) {
         console.log('e ' + e);
-        return e;
     }
 }
 
@@ -48,12 +42,11 @@ async function getByEmailAndToken(data) {
                 tokenType: data.tokenType,
                 token: data.token,
                 email: data.email,
-                expireDate: { $gte : new Date()}
+                expireDate: {$gte: new Date()}
             }
         );
-    }catch (e) {
+    } catch (e) {
         console.log('e ' + e);
-        return e;
     }
 }
 
@@ -61,11 +54,10 @@ async function deleteById(id) {
     try {
         return await ForgetPassword.deleteOne(
             {
-                _id : id
+                _id: id
             }
         );
-    }catch (e) {
+    } catch (e) {
         console.log('e ' + e);
-        return e;
     }
 }

@@ -1,10 +1,8 @@
-//
-//
-//
-// let reqLogin = {
-//     title: String,
-//
-// };
+/**
+ * @author MjImani
+ * phone : +989035074205
+ */
+
 module.exports = ReqLoginDto;
 
 function ReqLoginDto(data, next) {
@@ -13,7 +11,6 @@ function ReqLoginDto(data, next) {
     this.password = data.password;
     this.type = data.type;
 }
-
 function validate(data, next) {
     console.log('validate ' + data.type);
     if (!data.username) {

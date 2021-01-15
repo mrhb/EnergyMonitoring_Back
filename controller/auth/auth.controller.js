@@ -4,17 +4,17 @@
  */
 const userDao = require('../../dao/user/user.dao');
 const Response = require('../../middleware/response/response-handler');
-const ReqLoginDto = require('../../model/user/dto/reqLogin.dto');
+const ReqLoginDto = require('../user/dto/reqLogin.dto');
 
 exports.login = async (req, res, next) => {
 
-    let myReq = new ReqLoginDto(req.body,next);
+    let reqLoginDto = new ReqLoginDto(req.body,next);
     userDao
-        .authenticate(myReq)
+        .authenticate(reqLoginDto)
         .then(accessToken => {
             console.log(accessToken);
             if (accessToken) {
-                res.send(Response(accessToken))
+                res.send(Response(accessToken));
             } else {
                 res.send({
                     flag: false,

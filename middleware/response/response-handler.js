@@ -5,7 +5,7 @@
 module.exports = response;
 
 function response(data) {
-    if (data) {
+    if (data !== null) {
         return {
             flag: true,
             data: data

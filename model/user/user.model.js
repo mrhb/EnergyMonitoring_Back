@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
-    phone: {type: String, unique: true, required: true},
+    phone: {type: String, required: true},
     mobile: {type: String, unique: true, required: true},
     isMobileVerify: {type: Boolean, default: false},
     email: {type: String, unique: true, required: true},

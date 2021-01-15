@@ -7,9 +7,8 @@ const Schema = mongoose.Schema;
 
 const ForgetPasswordSchema = new Schema({
     userId: {type: String, required: true},
-    tokenType: {type: String, required: true, enum: ['SMS', 'EMAIL']},
-    mobile: {type: String},
-    email: {type: String},
+    tokenType: {type: String, required: true, enum: ['MOBILE', 'EMAIL']},
+    username: {type: String},
     token: {type: String, required: true},
     expireDate: {type: Date, required: true}
 }, {
