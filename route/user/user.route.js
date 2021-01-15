@@ -9,31 +9,31 @@ module.exports = (app) => {
     let config = require('../../config/config');
     let USER = config.API + 'user/';
 
-    let AuthController = require('../../controller/auth/auth.controller');
-    let UserController = require('../../controller/user/user.controller');
+    let authController = require('../../controller/auth/auth.controller');
+    let userController = require('../../controller/user/user.controller');
 
-    app.post(config.API + 'auth/login', AuthController.login);
+    app.post(config.API + 'auth/login', authController.login);
 
-    app.post(USER + 'signup', UserController.signup);
+    app.post(USER + 'signup', userController.signup);
 
-    app.get(USER + 'is-mobile-exists/:mobile', UserController.isMobileExists);
+    app.get(USER + 'is-mobile-exists/:mobile', userController.isMobileExists);
 
-    app.get(USER + 'is-email-exists/:email', UserController.isEmailExists);
+    app.get(USER + 'is-email-exists/:email', userController.isEmailExists);
 
-    app.get(USER + 'get-profile', jwt(), UserController.getProfile);
+    app.get(USER + 'get-profile', jwt(), userController.getProfile);
 
-    app.put(USER + 'update-profile', jwt(), UserController.updateProfile);
+    app.put(USER + 'update-profile', jwt(), userController.updateProfile);
 
-    app.put(USER + 'update-password', jwt(), UserController.updatePassword);
+    app.put(USER + 'update-password', jwt(), userController.updatePassword);
 
-    app.put(USER + 'update-email/:email', jwt(), UserController.updateEmail);
+    app.put(USER + 'update-email/:email', jwt(), userController.updateEmail);
 
-    app.put(USER + 'upload-profile-photo', jwt(), UserController.uploadProfilePhoto);
+    app.put(USER + 'update-profile-photo', jwt(), userController.updateProfilePhoto);
 
-    app.post(USER + 'req-forget-password', UserController.reqForgetPassword);
+    app.post(USER + 'req-forget-password', userController.reqForgetPassword);
 
-    app.post(USER + 'reset-password', UserController.resetPassword);
+    app.post(USER + 'reset-password', userController.resetPassword);
 
-    app.get(USER + 'test', UserController.test);
+    app.get(USER + 'test', userController.test);
 
 };

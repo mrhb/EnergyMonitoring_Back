@@ -4,21 +4,13 @@
  */
 const userDao = require('../../dao/user/user.dao');
 const Response = require('../../middleware/response/response-handler');
+const ReqLoginDto = require('../../model/user/dto/reqLogin.dto');
 
 exports.login = async (req, res, next) => {
 
-    // Validate request
-    if (!req.body.username) {
-        throw next("نام کاربری نمیتواند خالی باشد.");
-    }
-    if (!req.body.password) {
-        throw next("رمز عبور نمیتواند خالی باشد.");
-    }
-    if (!req.body.type) {
-        throw next("نوع ورود نمیتواند خالی باشد.");
-    }
+    let myReq = new ReqLoginDto(req.body,next);
     userDao
-        .authenticate(req.body.username, req.body.password, req.body.type)
+        .authenticate(myReq)
         .then(accessToken => {
             console.log(accessToken);
             if (accessToken) {

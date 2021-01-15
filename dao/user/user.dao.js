@@ -15,24 +15,23 @@ module.exports = {
     updatePassword,
     getOneByMobile,
     getOneByEmail,
-    uploadProfilePhoto
+    updateProfilePhoto
 };
 
-async function authenticate(username, password, type) {
-    console.log('type ' + type);
+async function authenticate(reqLoginDto) {
     let user;
-    if (type === 'MOBILE'){
+    if (reqLoginDto.type === 'MOBILE') {
         user = await User.findOne(
             {
-                mobile: username,
-                password: crypto.createHash('sha512').update(password).digest("hex")
+                mobile: reqLoginDto.username,
+                password: crypto.createHash('sha512').update(reqLoginDto.password).digest("hex")
             }
         );
-    }else {
+    } else {
         user = await User.findOne(
             {
-                email: username,
-                password: crypto.createHash('sha512').update(password).digest("hex")
+                email: reqLoginDto.username,
+                password: crypto.createHash('sha512').update(reqLoginDto.password).digest("hex")
             }
         );
     }
@@ -43,6 +42,8 @@ async function authenticate(username, password, type) {
             authorities: 'ROLE_' + user.role
         }, accessTokenSecret, {expiresIn: '1d'});
         return token;
+    } else {
+        return null;
     }
 }
 
@@ -157,7 +158,7 @@ async function getOneByEmail(email) {
 }
 
 
-async function uploadProfilePhoto(id, photo) {
+async function updateProfilePhoto(id, link) {
     try {
         return await User.updateOne(
             {
@@ -165,7 +166,7 @@ async function uploadProfilePhoto(id, photo) {
             },
             {
                 $set: {
-                    photo: photo,
+                    photo: link,
                 }
             }
         );

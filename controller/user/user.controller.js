@@ -7,9 +7,8 @@ const User = require('../../model/user/user.model');
 const ForgetPassword = require('../../model/user/forgetPassword.model');
 const crypto = require('crypto');
 const userDao = require('../../dao/user/user.dao');
-const forgetPasswordService = require('../../dao/user/forgetPassword.dao');
-const fs = require('fs');
-
+const forgetPasswordDao = require('../../dao/user/forgetPassword.dao');
+const Response = require('../../middleware/response/response-handler');
 
 exports.signup = (req, res, next) => {
 
@@ -289,31 +288,19 @@ exports.updateEmail = (req, res, next) => {
         }).catch(err => next(err));
 }
 
-exports.uploadProfilePhoto = (req, res, next) => {
+exports.updateProfilePhoto = (req, res, next) => {
 
     console.log('re id ' + req.user.id);
 
-    // let imgPath = 'imani.png';
-    let user = new User;
-
-    // user.photo.data = fs.readFileSync(imgPath);
-    user.photo.contentType = 'image/png';
-
     userDao
-        .uploadProfilePhoto(req.user.id, user.photo)
+        .updateProfilePhoto(req.user.id, req.body.link)
         .then(result => {
             if (result) {
                 if (result.nModified === 1 && result.ok === 1) {
-                    res.send({
-                        flag: true,
-                        data: true
-                    })
-                } else {
-                    next("در آپلود عکس پروفایل خطایی رخ داده است.")
+                    res.send(Response(true))
                 }
-            } else {
-                next("خطایی رخ داده است.");
             }
+            next("در بروزرسانی عکس پروفایل خطایی رخ داده است.")
         }).catch(err => next(err));
 };
 
@@ -362,7 +349,7 @@ exports.reqForgetPassword = (req, res, next) => {
                 });
                 console.log('forgetPassword ' + forgetPassword.token);
                 // Save in Db
-                forgetPasswordService.saveForgetPassword(forgetPassword)
+                forgetPasswordDao.saveForgetPassword(forgetPassword)
                     .then(r => console.log('r ' + r));
 
                 // Send token by sms
@@ -438,7 +425,7 @@ exports.resetPassword = (req, res, next) => {
         }
         // Check valid number
 
-        forgetPasswordService.getByMobileAndToken(req.body)
+        forgetPasswordDao.getByMobileAndToken(req.body)
             .then(result => {
                 console.log('result ' + result);
                 if (!result) {
@@ -451,7 +438,7 @@ exports.resetPassword = (req, res, next) => {
                         if (result) {
                             if (result.nModified === 1 && result.ok === 1) {
 
-                                forgetPasswordService.deleteById(result._id).then(r => console.log('r in delete ' + r));
+                                forgetPasswordDao.deleteById(result._id).then(r => console.log('r in delete ' + r));
 
                                 res.send({
                                     flag: true,
@@ -476,7 +463,7 @@ exports.resetPassword = (req, res, next) => {
         // Check valid email
 
 
-        forgetPasswordService.getByEmailAndToken(req.body)
+        forgetPasswordDao.getByEmailAndToken(req.body)
             .then(result => {
                 console.log('result ' + result);
                 if (!result) {
@@ -489,7 +476,7 @@ exports.resetPassword = (req, res, next) => {
                         if (result) {
                             if (result.nModified === 1 && result.ok === 1) {
 
-                                forgetPasswordService.deleteById(result._id).then(r => console.log('r in delete ' + r));
+                                forgetPasswordDao.deleteById(result._id).then(r => console.log('r in delete ' + r));
 
                                 res.send({
                                     flag: true,

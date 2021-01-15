@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const config = require('../../config/config');
-const response = require('../../middleware/response/response-handler');
+const Response = require('../../middleware/response/response-handler');
 
 exports.upload = async (req, res, next) => {
 
@@ -20,7 +20,7 @@ exports.upload = async (req, res, next) => {
         if (err) {
             next(err);
         } else {
-            res.send(response(path + '/' + req.file.originalname));
+            res.send(Response(path + '/' + req.file.originalname));
         }
     })
 };

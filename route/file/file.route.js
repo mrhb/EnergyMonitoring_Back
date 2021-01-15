@@ -10,12 +10,13 @@ module.exports = (app) => {
     const config = require('../../config/config');
     const FILE = config.API + 'file/';
     const APP_DIR = path.dirname(require.main.filename);
-    const FileController = require('../../controller/file/file.controller');
+
+    const fileController = require('../../controller/file/file.controller');
 
     app.get(FILE + 'get', (req, res) => {
         res.sendFile(APP_DIR + '/' + req.query.link);
     });
 
-    app.post(FILE + 'upload', jwt(), FileController.upload);
+    app.post(FILE + 'upload', jwt(), fileController.upload);
 
 };
