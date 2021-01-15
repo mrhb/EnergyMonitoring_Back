@@ -30,7 +30,7 @@ module.exports = (app) => {
 
     app.put(USER + 'update-profile-photo', jwt(), userController.updateProfilePhoto);
 
-    app.put(USER + 'req-forget-password', userController.reqForgetPassword);
+    app.post(USER + 'req-forget-password', userController.reqForgetPassword);
 
     app.post(USER + 'reset-password', userController.resetPassword);
 
