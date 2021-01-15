@@ -188,9 +188,7 @@ exports.updateEmail = (req, res, next) => {
 };
 
 exports.updateProfilePhoto = (req, res, next) => {
-
     console.log('re id ' + req.user.id);
-
     userDao
         .updateProfilePhoto(req.user.id, req.body.link)
         .then(result => {

@@ -157,7 +157,7 @@ async function updateEmail(id, email) {
 
 async function getOneByUsernameAndType(username, type) {
     try {
-        if (type === 'MOBILE'){
+        if (type === 'MOBILE') {
             return await User.findOne(
                 {
                     mobile: username
@@ -166,7 +166,7 @@ async function getOneByUsernameAndType(username, type) {
                     password: 0
                 }
             );
-        }else {
+        } else {
             return await User.findOne(
                 {
                     email: username
