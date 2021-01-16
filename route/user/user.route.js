@@ -26,14 +26,12 @@ module.exports = (app) => {
 
     app.put(USER + 'update-password', jwt(), userController.updatePassword);
 
-    app.put(USER + 'update-email/:email', jwt(), userController.updateEmail);
+    app.put(USER + 'update-mobile/:mobile', jwt(), userController.updateMobile);
 
-    app.put(USER + 'update-profile-photo', jwt(), userController.updateProfilePhoto);
+    app.put(USER + 'update-email/:email', jwt(), userController.updateEmail);
 
     app.post(USER + 'req-forget-password', userController.reqForgetPassword);
 
     app.post(USER + 'reset-password', userController.resetPassword);
-
-    app.get(USER + 'test', userController.test);
 
 };

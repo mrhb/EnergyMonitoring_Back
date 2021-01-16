@@ -9,6 +9,7 @@ function ReqResetPasswordDto(data, next) {
     this.tokenType = data.tokenType;
     this.token = data.token;
     this.password = data.password;
+    this.passwordConfirm = data.passwordConfirm;
     this.username = data.username;
 }
 

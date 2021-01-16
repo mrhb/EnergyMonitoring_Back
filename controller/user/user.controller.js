@@ -158,23 +158,32 @@ exports.updatePassword = (req, res, next) => {
         }).catch(err => next(err));
 };
 
-exports.updateEmail = (req, res, next) => {
+exports.updateMobile = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
     // Validate request
-    if (!req.params.email) {
+    if (!req.params.mobile) {
         throw next("ایمیل نمیتواند خالی باشد.");
     }
 
+    let isMobileExists = await userDao.isMobileExistsByIgnoreId(req.params.mobile,req.user.id)
+        .then(result => {
+            if (result) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    if (isMobileExists) {
+        throw next('شماره وارد شده تکراری میباشد.');
+    }
+
     userDao
-        .updateEmail(req.user.id, req.params.email)
+        .updateMobile(req.user.id, req.params.mobile)
         .then(result => {
             if (result) {
                 if (result.nModified === 1 && result.ok === 1) {
-                    res.send({
-                        flag: true,
-                        data: true
-                    })
+                    res.send(Response(true))
                 } else {
                     res.send({
                         flag: false,
@@ -187,17 +196,41 @@ exports.updateEmail = (req, res, next) => {
         }).catch(err => next(err));
 };
 
-exports.updateProfilePhoto = (req, res, next) => {
+exports.updateEmail = async (req, res, next) => {
     console.log('re id ' + req.user.id);
+
+    // Validate request
+    if (!req.params.email) {
+        throw next("ایمیل نمیتواند خالی باشد.");
+    }
+
+    let isEmailExists = await userDao.isEmailExistsByIgnoreId(req.params.email,req.user.id)
+        .then(result => {
+            if (result) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    if (isEmailExists) {
+        throw next('ایمیل وارد شده تکراری میباشد.');
+    }
+
     userDao
-        .updateProfilePhoto(req.user.id, req.body.link)
+        .updateEmail(req.user.id, req.params.email)
         .then(result => {
             if (result) {
                 if (result.nModified === 1 && result.ok === 1) {
                     res.send(Response(true))
+                } else {
+                    res.send({
+                        flag: false,
+                        message: "در بروزرسانی اطلاعات ایمیل خطایی رخ داده است."
+                    })
                 }
+            } else {
+                next("خطایی رخ داده است.");
             }
-            next("در بروزرسانی عکس پروفایل خطایی رخ داده است.")
         }).catch(err => next(err));
 };
 

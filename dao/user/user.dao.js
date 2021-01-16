@@ -12,12 +12,15 @@ module.exports = {
     authenticate,
     signup,
     isMobileExists,
+    isMobileExistsByIgnoreId,
     isEmailExists,
+    isEmailExistsByIgnoreId,
     getProfile,
     updateProfile,
     updatePassword,
-    getOneByUsernameAndType,
-    updateProfilePhoto
+    updateMobile,
+    updateEmail,
+    getOneByUsernameAndType
 };
 
 async function authenticate(reqLoginDto) {
@@ -68,9 +71,34 @@ async function isMobileExists(mobile) {
     }
 }
 
+async function isMobileExistsByIgnoreId(mobile, ignoreId) {
+    try {
+        return await User.findOne({
+            "_id": {$ne: ignoreId},
+            "mobile": mobile
+        });
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
 async function isEmailExists(email) {
     try {
         return await User.findOne({
+            "email": email
+        });
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
+
+async function isEmailExistsByIgnoreId(email, ignoreId) {
+    try {
+        return await User.findOne({
+            "_id": {$ne: ignoreId},
             "email": email
         });
     } catch (e) {
@@ -110,6 +138,7 @@ async function updateProfile(id, reqUserDto) {
                     address: reqUserDto.address,
                     city: reqUserDto.city,
                     province: reqUserDto.province,
+                    photo: reqUserDto.photo,
                 }
             }
         );
@@ -128,6 +157,24 @@ async function updatePassword(id, reqChangePasswordDto) {
             {
                 $set: {
                     password: crypto.createHash('sha512').update(reqChangePasswordDto).digest("hex"),
+                }
+            }
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+async function updateMobile(id, mobile) {
+    try {
+        return await User.updateOne(
+            {
+                _id: id
+            },
+            {
+                $set: {
+                    mobile: mobile,
                 }
             }
         );
@@ -179,41 +226,4 @@ async function getOneByUsernameAndType(username, type) {
     } catch (e) {
         console.log(e)
     }
-}
-
-//
-// async function getOneByEmail(email) {
-//     try {
-//         return await User.findOne(
-//             {
-//                 email: email,
-//                 isEmailVerify: true
-//             },
-//             {
-//                 password: 0
-//             }
-//         );
-//     } catch (e) {
-//         console.log(e)
-//     }
-//
-// }
-
-
-async function updateProfilePhoto(id, link) {
-    try {
-        return await User.updateOne(
-            {
-                _id: id
-            },
-            {
-                $set: {
-                    photo: link,
-                }
-            }
-        );
-    } catch (e) {
-        console.log(e)
-    }
-
 }
