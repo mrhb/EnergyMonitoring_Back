@@ -1,7 +1,8 @@
-/*
-* @author MjImani
-* +989035074205
-*/
+/**
+ * @author MjImani
+ * phone : +989035074205
+ */
+
 const ForgetPassword = require('../../model/user/forgetPassword.model');
 
 

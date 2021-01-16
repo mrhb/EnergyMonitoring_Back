@@ -1,7 +1,6 @@
 {
   "API": "/api/",
   "JwtSecret": "MySecretKey",
-  "DbName" : "energy",
   "ServerPort": "3000",
   "UploadDir" : "file-resource",
   "UploadMaxSize" : 1000000
