@@ -18,5 +18,6 @@ app.use(bodyParser.json());
 require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
 require('./route/region/region.route')(app);
+require('./route/building/building.route')(app);
 
 module.exports = app;

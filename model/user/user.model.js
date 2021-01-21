@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     isEmailVerify: {type: Boolean, default: false},
     password: {type: String, required: true},
     role: {type: String, required: true, enum: ['ADMIN', 'USER']},
-    photo: {data: Buffer, contentType: String},
+    photo: {type: String},
     organizationalUnit: {type: String, required: true},
     organizationalLevel: {type: String, required: true},
     address: {type: String, required: true},
