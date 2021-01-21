@@ -17,5 +17,6 @@ app.use(bodyParser.json());
 // Routes
 require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
+require('./route/region/region.route')(app);
 
 module.exports = app;
