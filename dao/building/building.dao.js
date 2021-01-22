@@ -8,9 +8,14 @@ const Building = require('../../model/building/building.model');
 module.exports = {
     create,
     update,
+    updateArea,
     createSpace,
     updateSpace,
-    deleteSpace
+    deleteSpace,
+    createMapInformation,
+    updateMapInformation,
+    deleteMapInformation,
+    updateWallInformation
 };
 
 async function create(reqCreateBuildingDto) {
@@ -37,7 +42,7 @@ async function update(id, reqCreateBuildingDto) {
     try {
         return await Building.updateOne({
             _id: id
-        },{
+        }, {
             regionId: reqCreateBuildingDto.regionId,
             name: reqCreateBuildingDto.name,
             useType: reqCreateBuildingDto.useType,
@@ -53,12 +58,28 @@ async function update(id, reqCreateBuildingDto) {
     }
 }
 
+async function updateArea(id, reqCreateBuildingDto) {
+    try {
+        return await Building.updateOne({
+            _id: id
+        }, {
+            arenaArea: reqCreateBuildingDto.arenaArea,
+            ayanArea: reqCreateBuildingDto.ayanArea,
+            useFullArea: reqCreateBuildingDto.useFullArea,
+            externalWallsTotalArea: reqCreateBuildingDto.externalWallsTotalArea,
+            externalGlassTotalArea: reqCreateBuildingDto.externalGlassTotalArea
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 async function createSpace(id, reqBuildingSpace) {
     try {
         return await Building.updateOne({
             _id: id
-        },{
-            $push : {
+        }, {
+            $push: {
                 spaceList: reqBuildingSpace
             }
         });
@@ -72,9 +93,9 @@ async function updateSpace(id, reqBuildingSpace) {
     try {
         return await Building.updateOne({
             _id: id,
-            spaceList: { $elemMatch: { _id: reqBuildingSpace._id}}
-        },{
-            $set : {
+            spaceList: {$elemMatch: {_id: reqBuildingSpace._id}}
+        }, {
+            $set: {
                 "spaceList.$.name": reqBuildingSpace.name,
                 "spaceList.$.number": reqBuildingSpace.number,
                 "spaceList.$.floorNum": reqBuildingSpace.floorNum,
@@ -86,15 +107,80 @@ async function updateSpace(id, reqBuildingSpace) {
         console.log(e);
     }
 }
+
 async function deleteSpace(id, spaceId) {
     try {
         return await Building.updateOne({
             _id: id
-        },{
-            $pull : {
+        }, {
+            $pull: {
                 spaceList: {
-                    _id : spaceId
+                    _id: spaceId
                 }
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function createMapInformation(id, reqMapInformation) {
+    try {
+        return await Building.updateOne({
+            _id: id
+        }, {
+            $push: {
+                mapInformationList: reqMapInformation
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function updateMapInformation(id, reqMapInformation) {
+    try {
+        return await Building.updateOne({
+            _id: id,
+            mapInformationList: {$elemMatch: {_id: reqMapInformation._id}}
+        }, {
+            $set: {
+                "mapInformationList.$.title": reqMapInformation.title,
+                "mapInformationList.$.category": reqMapInformation.category,
+                "mapInformationList.$.number": reqMapInformation.number,
+                "mapInformationList.$.uploadDate": reqMapInformation.uploadDate,
+                "mapInformationList.$.fileLink": reqMapInformation.fileLink
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function deleteMapInformation(id, mapId) {
+    try {
+        return await Building.updateOne({
+            _id: id
+        }, {
+            $pull: {
+                mapInformationList: {
+                    _id: mapId
+                }
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function updateWallInformation(id, reqWallInformation) {
+    try {
+        return await Building.updateOne({
+            _id: id
+        }, {
+            $set: {
+                wallInformation: reqWallInformation.reqWallInformation
             }
         });
     } catch (e) {

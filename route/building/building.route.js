@@ -25,6 +25,13 @@ module.exports = (app) => {
     app.put(BUILDING + 'update', jwt(), buildingController.update);
 
     /**
+     * Update area
+     * Param : id
+     * Body : reqUpdateArea.dto
+     */
+    app.put(BUILDING + 'update-area', jwt(), buildingController.updateArea);
+
+    /**
      * Create space
      * Param : id
      * Body : reqBuildingSpace.dto
@@ -32,8 +39,8 @@ module.exports = (app) => {
     app.post(BUILDING + 'create-space', jwt(), buildingController.createSpace);
 
     /**
-     * Create space
-     * Param : id,spaceId
+     * Update space
+     * Param : id
      * Body : reqBuildingSpace.dto
      */
     app.put(BUILDING + 'update-space', jwt(), buildingController.updateSpace);
@@ -45,17 +52,30 @@ module.exports = (app) => {
     app.delete(BUILDING + 'delete-space', jwt(), buildingController.deleteSpace);
 
     /**
-     * Update step two
+     * Create mapInformation
      * Param : id
-     * Body :
+     * Body : reqMapInformation.dto
      */
-    app.put(BUILDING + 'update-step-two', jwt(), buildingController.createSpace);
+    app.post(BUILDING + 'create-map-information', jwt(), buildingController.createMapInformation);
 
     /**
-     * Update step three
+     * Update mapInformation
      * Param : id
-     * Body :
+     * Body : reqMapInformation.dto
      */
-    app.put(BUILDING + 'update-step-three', jwt(), buildingController.createSpace);
+    app.put(BUILDING + 'update-map-information', jwt(), buildingController.updateMapInformation);
+
+    /**
+     * Delete mapInformation
+     * Param : id,mapId
+     */
+    app.delete(BUILDING + 'delete-map-information', jwt(), buildingController.deleteMapInformation);
+
+    /**
+     * Update wallInformation
+     * Param : id
+     * Body : reqWallInformation.dto
+     */
+    app.put(BUILDING + 'update-wall-information', jwt(), buildingController.updateWallInformation);
 
 };

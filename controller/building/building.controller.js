@@ -7,7 +7,10 @@ const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const Building = require('../../model/building/building.model');
 const ReqCreateBuildingDto = require('./dto/reqCreateBuilding.dto');
+const ReqUpdateAreaDto = require('./dto/reqUpdateArea.dto');
 const ReqBuildingSpaceDto = require('./dto/reqBuildingSpace.dto');
+const ReqMapInformation = require('./dto/reqMapInformation.dto');
+const ReqWallInformation = require('./dto/reqWallInformation.dto');
 
 exports.create = (req, res, next) => {
     console.log('re id ' + req.user.id);
@@ -43,6 +46,26 @@ exports.update = (req, res, next) => {
                 }
             }
             throw next("در آپدیت ساختمان خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.updateArea = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+    let reqUpdateAreaDto = new ReqUpdateAreaDto(req.body, next);
+    buildingDao
+        .updateArea(req.query.id, reqUpdateAreaDto)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در آپدیت مساحت های ساختمان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
@@ -83,6 +106,9 @@ exports.updateSpace = async (req, res, next) => {
                 if (result.nModified > 0) {
                     res.send(Response(true));
                     return;
+                }else {
+                    res.send(Response(false));
+                    return;
                 }
             }
             throw next("در ایجاد فضا خطایی رخ داده است.");
@@ -108,8 +134,104 @@ exports.deleteSpace = (req, res, next) => {
                 if (result.nModified > 0) {
                     res.send(Response(true));
                     return;
+                }else {
+                    res.send(Response(false));
+                    return;
                 }
             }
             throw next("در حذف کردن فضا خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.createMapInformation = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('query id ' + req.query.id);
+
+    let reqMapInformation = new ReqMapInformation(req.body, true, next);
+    buildingDao
+        .createMapInformation(req.query.id, reqMapInformation)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(reqMapInformation._id));
+                    return;
+                }
+            }
+            throw next("در ایجاد نقشه خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.updateMapInformation = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('query id ' + req.query.id);
+
+    let reqMapInformation = new ReqMapInformation(req.body, false, next);
+    buildingDao
+        .updateMapInformation(req.query.id, reqMapInformation)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                }else {
+                    res.send(Response(false));
+                    return;
+                }
+            }
+            throw next("در ایجاد نقشه خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.deleteMapInformation = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('query id ' + req.query.id);
+
+    if (!req.query.mapId) {
+        throw next("شناسه نقشه نمیتواند خالی باشد.");
+    }
+    console.log('query mapId ' + req.query.mapId);
+
+    buildingDao
+        .deleteMapInformation(req.query.id, req.query.mapId)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                }else {
+                    res.send(Response(false));
+                    return;
+                }
+            }
+            throw next("در حذف کردن نقشه خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.updateWallInformation = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+    let reqWallInformation = new ReqWallInformation(req.body, next);
+    buildingDao
+        .updateWallInformation(req.query.id, reqWallInformation)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در آپدیت اطلاعات جداره های ساختمان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };

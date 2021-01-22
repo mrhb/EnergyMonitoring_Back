@@ -9,7 +9,6 @@ const MapInformationSchema = require('./mapInformation.model');
 const WallInformationSchema = require('./wallInformation.model');
 
 const BuildingSchema = new Schema({
-
     regionId: {type: String, required: true},
     name: {type: String, required: true},
     useType: {type: String, required: true, enum: ['RESIDENTIAL', 'COMMERCIAL', 'OFFICIAL']},

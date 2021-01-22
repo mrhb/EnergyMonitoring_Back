@@ -6,14 +6,14 @@ const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
 const WallInformationSchema = new Schema({
-    externalWallAdjacentToOutdoorSpaceArea: {type: String, required: true},
-    externalFloorAdjacentToOutdoorSpaceArea: {type: String, required: true},
-    externalWallAdjacentToNotControlledSpaceArea: {type: String, required: true},
-    externalFloorAdjacentToNotControlledSpaceArea: {type: String, required: true},
-    externalRoofAdjacentToOutdoorSpaceArea: {type: String, required: true},
-    outdoorWindowAdjacentToOutdoorSpaceArea: {type: String, required: true},
-    externalRoofAdjacentToNotControlledSpaceArea: {type: String, required: true},
-    windowAdjacentToNotControlledSpaceArea: {type: String, required: true},
+    exWallAdjOutSpaceArea: {type: Number, required: true},
+    exFloorAdjOutSpaceArea: {type: Number, required: true},
+    exWallAdjNotControlledSpaceArea: {type: Number, required: true},
+    exFloorAdjNotControlledSpaceArea: {type: Number, required: true},
+    exRoofAdjOutSpaceArea: {type: Number, required: true},
+    outWindowAdjOutSpaceArea: {type: Number, required: true},
+    exRoofAdjNotControlledSpaceArea: {type: Number, required: true},
+    windowAdjNotControlledSpaceArea: {type: Number, required: true},
 }, {
     timestamps: true
 });
