@@ -5,7 +5,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const WallInformation = new Schema({
+const WallInformationSchema = new Schema({
     externalWallAdjacentToOutdoorSpaceArea: {type: String, required: true},
     externalFloorAdjacentToOutdoorSpaceArea: {type: String, required: true},
     externalWallAdjacentToNotControlledSpaceArea: {type: String, required: true},
@@ -18,7 +18,7 @@ const WallInformation = new Schema({
     timestamps: true
 });
 
-WallInformation.set('toJSON', {
+WallInformationSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
     transform: function (doc, ret) {
@@ -26,4 +26,4 @@ WallInformation.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('wallInformation', UserSchema);
+module.exports = WallInformationSchema;

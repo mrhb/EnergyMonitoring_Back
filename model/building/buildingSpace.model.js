@@ -5,17 +5,17 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const BuildingSpace = new Schema({
+const BuildingSpaceSchema = new Schema({
     name: {type: String, required: true},
     number: {type: Number, required: true},
-    floor: {type: String, required: true},
+    floorNum: {type: String, required: true},
     useType: {type: String, required: true},
     area: {type: Number, required: true}
 }, {
     timestamps: true
 });
 
-BuildingSpace.set('toJSON', {
+BuildingSpaceSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
     transform: function (doc, ret) {
@@ -23,4 +23,4 @@ BuildingSpace.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('buildingSpace', UserSchema);
+module.exports = BuildingSpaceSchema;

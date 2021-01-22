@@ -5,7 +5,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const MapInformation = new Schema({
+const MapInformationSchema = new Schema({
     title: {type: String, required: true},
     category: {type: String, required: true,enum:['ARCHITECTURAL','FACILITY']},
     number: {type: Number, required: true},
@@ -15,7 +15,7 @@ const MapInformation = new Schema({
     timestamps: true
 });
 
-MapInformation.set('toJSON', {
+MapInformationSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
     transform: function (doc, ret) {
@@ -23,4 +23,4 @@ MapInformation.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('mapInformation', UserSchema);
+module.exports = MapInformationSchema;
