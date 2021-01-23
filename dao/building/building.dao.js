@@ -15,7 +15,8 @@ module.exports = {
     createMapInformation,
     updateMapInformation,
     deleteMapInformation,
-    updateWallInformation
+    updateWallInformation,
+    getOne
 };
 
 async function create(reqCreateBuildingDto) {
@@ -182,6 +183,16 @@ async function updateWallInformation(id, reqWallInformation) {
             $set: {
                 wallInformation: reqWallInformation.reqWallInformation
             }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getOne(id) {
+    try {
+        return await Building.findOne({
+            _id: id
         });
     } catch (e) {
         console.log(e);

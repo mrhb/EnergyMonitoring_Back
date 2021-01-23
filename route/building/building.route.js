@@ -78,4 +78,10 @@ module.exports = (app) => {
      */
     app.put(BUILDING + 'update-wall-information', jwt(), buildingController.updateWallInformation);
 
+    /**
+     * Get one building
+     * Param : id
+     */
+    app.get(BUILDING + 'get-one', jwt(), buildingController.getOne);
+
 };

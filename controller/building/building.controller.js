@@ -106,7 +106,7 @@ exports.updateSpace = async (req, res, next) => {
                 if (result.nModified > 0) {
                     res.send(Response(true));
                     return;
-                }else {
+                } else {
                     res.send(Response(false));
                     return;
                 }
@@ -134,7 +134,7 @@ exports.deleteSpace = (req, res, next) => {
                 if (result.nModified > 0) {
                     res.send(Response(true));
                     return;
-                }else {
+                } else {
                     res.send(Response(false));
                     return;
                 }
@@ -179,7 +179,7 @@ exports.updateMapInformation = (req, res, next) => {
                 if (result.nModified > 0) {
                     res.send(Response(true));
                     return;
-                }else {
+                } else {
                     res.send(Response(false));
                     return;
                 }
@@ -207,7 +207,7 @@ exports.deleteMapInformation = (req, res, next) => {
                 if (result.nModified > 0) {
                     res.send(Response(true));
                     return;
-                }else {
+                } else {
                     res.send(Response(false));
                     return;
                 }
@@ -235,3 +235,21 @@ exports.updateWallInformation = (req, res, next) => {
             throw next("در آپدیت اطلاعات جداره های ساختمان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
+
+exports.getOne = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+    buildingDao
+        .getOne(req.query.id)
+        .then(result => {
+            if (result !== null) {
+                res.send(Response(result));
+                return;
+            }
+            throw next("موردی یافت نشد");
+        }).catch(err => console.log(err));
+};
+
