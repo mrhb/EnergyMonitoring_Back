@@ -253,3 +253,24 @@ exports.getOne = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+exports.getListPageableByFilter = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    console.log('re page ' + req.query.page);
+    if (!req.query.size) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    console.log('re size ' + req.query.size);
+
+    buildingDao
+        .getListPageableByFilter(req.query.page,req.query.size)
+        .then(result => {
+            if (result !== null) {
+                res.send(Response(result));
+                return;
+            }
+            throw next("موردی یافت نشد");
+        }).catch(err => console.log(err));
+};

@@ -84,4 +84,11 @@ module.exports = (app) => {
      */
     app.get(BUILDING + 'get-one', jwt(), buildingController.getOne);
 
+    /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body :
+     */
+    app.post(BUILDING + 'get-list-pageable-by-filter', jwt(),buildingController.getListPageableByFilter)
+
 };

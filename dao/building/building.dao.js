@@ -16,7 +16,8 @@ module.exports = {
     updateMapInformation,
     deleteMapInformation,
     updateWallInformation,
-    getOne
+    getOne,
+    getListPageableByFilter
 };
 
 async function create(reqCreateBuildingDto) {
@@ -198,3 +199,22 @@ async function getOne(id) {
         console.log(e);
     }
 }
+
+async function getListPageableByFilter(page,size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        console.log(skip);
+        console.log(size.value);
+        return await Building
+            .find({})
+            .skip(skip)
+            .limit(size.value);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
