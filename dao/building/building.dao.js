@@ -151,7 +151,6 @@ async function updateMapInformation(id, reqMapInformation) {
                 "mapInformationList.$.title": reqMapInformation.title,
                 "mapInformationList.$.category": reqMapInformation.category,
                 "mapInformationList.$.number": reqMapInformation.number,
-                "mapInformationList.$.uploadDate": reqMapInformation.uploadDate,
                 "mapInformationList.$.fileLink": reqMapInformation.fileLink
             }
         });

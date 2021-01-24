@@ -9,7 +9,6 @@ const MapInformationSchema = new Schema({
     title: {type: String, required: true},
     category: {type: String, required: true,enum:['ARCHITECTURAL','FACILITY']},
     number: {type: Number, required: true},
-    uploadDate: {type: Date, required: true},
     fileLink: {type: String, required: true}
 }, {
     timestamps: true

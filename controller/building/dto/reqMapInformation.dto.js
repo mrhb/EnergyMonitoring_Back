@@ -16,7 +16,6 @@ function ReqMapInformation(data, isCreate, next) {
     this.title = data.title;
     this.category = data.category;
     this.number = data.number;
-    this.uploadDate = data.uploadDate;
     this.fileLink = data.fileLink;
 }
 
@@ -34,9 +33,6 @@ function validate(data, isCreate, next) {
     }
     if (!data.number) {
         throw next("شماره نقشه نمیتواند خالی باشد.");
-    }
-    if (!data.uploadDate) {
-        throw next("تاریخ آپلود نقشه نمیتواند خالی باشد.");
     }
     if (!data.fileLink) {
         throw next("آدرس فایل نمیتواند خالی باشد.");
