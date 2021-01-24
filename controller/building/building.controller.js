@@ -5,12 +5,14 @@
 
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
+const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const Building = require('../../model/building/building.model');
 const ReqCreateBuildingDto = require('./dto/reqCreateBuilding.dto');
 const ReqUpdateAreaDto = require('./dto/reqUpdateArea.dto');
 const ReqBuildingSpaceDto = require('./dto/reqBuildingSpace.dto');
 const ReqMapInformation = require('./dto/reqMapInformation.dto');
 const ReqWallInformation = require('./dto/reqWallInformation.dto');
+const ReqBuildingPageFilterDto = require('./dto/reqBuildingPageFilter.dto');
 
 exports.create = (req, res, next) => {
     console.log('re id ' + req.user.id);
@@ -253,24 +255,40 @@ exports.getOne = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
-exports.getListPageableByFilter = (req, res, next) => {
+exports.getListPageableByFilter = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {
         throw next("شماره صفحه نمیتواند خالی باشد.");
     }
-    console.log('re page ' + req.query.page);
+    let page = Number(req.query.page);
     if (!req.query.size) {
-        throw next("شماره صفحه نمیتواند خالی باشد.");
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
     }
-    console.log('re size ' + req.query.size);
+    let size = Number(req.query.size);
 
-    buildingDao
-        .getListPageableByFilter(req.query.page,req.query.size)
+    let filter = new ReqBuildingPageFilterDto(req.body);
+
+    let buildingList = await buildingDao
+        .getListPageableByFilter(filter, page, size)
         .then(result => {
-            if (result !== null) {
-                res.send(Response(result));
-                return;
-            }
-            throw next("موردی یافت نشد");
+            return result;
         }).catch(err => console.log(err));
+
+    if (buildingList === null || buildingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let buildingListCount = await buildingDao
+        .getListPageableByFilterCount(filter)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (buildingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(buildingList, buildingListCount, page, size));
 };

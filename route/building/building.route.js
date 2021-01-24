@@ -87,7 +87,7 @@ module.exports = (app) => {
     /**
      * Get list pageable by filter
      * Param : page,size
-     * Body :
+     * Body : reqBuildingPageFilter.dto
      */
     app.post(BUILDING + 'get-list-pageable-by-filter', jwt(),buildingController.getListPageableByFilter)
 

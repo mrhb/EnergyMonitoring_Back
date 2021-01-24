@@ -17,7 +17,8 @@ module.exports = {
     deleteMapInformation,
     updateWallInformation,
     getOne,
-    getListPageableByFilter
+    getListPageableByFilter,
+    getListPageableByFilterCount
 };
 
 async function create(reqCreateBuildingDto) {
@@ -200,18 +201,42 @@ async function getOne(id) {
     }
 }
 
-async function getListPageableByFilter(page,size) {
+async function getListPageableByFilter(filter, page, size) {
     try {
         let skip = (page * size);
         if (skip < 0) {
             skip = 0;
         }
-        console.log(skip);
-        console.log(size.value);
+        let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+
         return await Building
-            .find({})
-            .skip(skip)
-            .limit(size.value);
+            .find(myFilter,
+                {
+                    _id: 1,
+                    name: 1,
+                    useType: 1,
+                    postalCode: 1,
+                    regionId: 1,
+                    constructionYear: 1,
+                    createdAt: 1
+                })
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getListPageableByFilterCount(filter) {
+    try {
+        let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+
+        return await Building
+            .find(myFilter)
+            .countDocuments();
     } catch (e) {
         console.log(e);
     }
