@@ -26,7 +26,7 @@ const BuildingSchema = new Schema({
     externalWallsTotalArea: {type: Number},
     externalGlassTotalArea: {type: Number},
 
-    // Update by share
+    // Update by sharing
     powerSharingNum: {type: Number},
     gasSharingNum: {type: Number},
     waterSharingNum: {type: Number},

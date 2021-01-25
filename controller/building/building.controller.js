@@ -51,6 +51,25 @@ exports.update = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+exports.deleteBuilding = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+    buildingDao
+        .deleteBuilding(req.query.id)
+        .then(result => {
+            if (result !== null) {
+                if (result.deletedCount > 0) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در حذف ساختمان خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
 exports.updateArea = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {

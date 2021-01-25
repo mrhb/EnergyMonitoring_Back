@@ -25,6 +25,12 @@ module.exports = (app) => {
     app.put(BUILDING + 'update', jwt(), buildingController.update);
 
     /**
+     * Delete
+     * Param : id
+     */
+    app.delete(BUILDING + 'delete', jwt(), buildingController.deleteBuilding);
+
+    /**
      * Update area
      * Param : id
      * Body : reqUpdateArea.dto

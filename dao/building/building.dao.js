@@ -8,6 +8,7 @@ const Building = require('../../model/building/building.model');
 module.exports = {
     create,
     update,
+    deleteBuilding,
     updateArea,
     createSpace,
     updateSpace,
@@ -55,6 +56,16 @@ async function update(id, reqCreateBuildingDto) {
             postalCode: reqCreateBuildingDto.postalCode,
             address: reqCreateBuildingDto.address,
             ownership: reqCreateBuildingDto.ownership,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function deleteBuilding(id) {
+    try {
+        return await Building.deleteOne({
+            _id: id
         });
     } catch (e) {
         console.log(e);

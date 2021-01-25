@@ -4,7 +4,6 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
-// const cors = require('./middleware/cors');
 const cors = require('cors');
 const app = express();
 
