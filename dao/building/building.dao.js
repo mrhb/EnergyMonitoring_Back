@@ -34,6 +34,7 @@ async function create(reqCreateBuildingDto) {
             postalCode: reqCreateBuildingDto.postalCode,
             address: reqCreateBuildingDto.address,
             ownership: reqCreateBuildingDto.ownership,
+            coolingHeatingSystemType: reqCreateBuildingDto.coolingHeatingSystemType,
             creatorId: reqCreateBuildingDto.creatorId,
             ownerId: reqCreateBuildingDto.ownerId,
         });
@@ -56,6 +57,7 @@ async function update(id, reqCreateBuildingDto) {
             postalCode: reqCreateBuildingDto.postalCode,
             address: reqCreateBuildingDto.address,
             ownership: reqCreateBuildingDto.ownership,
+            coolingHeatingSystemType: reqCreateBuildingDto.coolingHeatingSystemType
         });
     } catch (e) {
         console.log(e);
