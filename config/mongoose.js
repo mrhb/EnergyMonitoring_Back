@@ -4,8 +4,7 @@
  */
 let mongoose = require('mongoose');
 const DbLink = 'mongodb://localhost:27017/';
-// const DbName = 'EnergyMonitoring';
-const DbName = 'rest-tutorial';
+const DbName = 'EnergyMonitoring';
 
 mongoose.connect(DbLink + DbName,
     {
