@@ -9,18 +9,52 @@ const BuildingAllocation = require('./buildingAllocation.model');
 
 const PowerSharingSchema = new Schema({
 
-    name: {type: String, required: true}, // نام مشترک
-    address: {type: String, required: true}, // نشانی محل مصرف
+    name: {type: String}, // نام مشترک
+    address: {type: String}, // نشانی محل مصرف
     billingId: {type: String, required: true}, // شناسه قبض
-    systemPass: {type: String, required: true}, // رمز رایانه
-    city: {type: String, required: true}, // شهر
-    domainCode: {type: String, required: true}, // کد حوزه
+    systemPass: {type: String}, // رمز رایانه
+    city: {type: String}, // شهر
+    domainCode: {type: String}, // کد حوزه
     addressCode: {type: String, required: true}, // کد آدرس
-    numberShare: {type: String, required: true}, // شماره اشتراک
-    fileNumber: {type: String, required: true}, // شماره پرونده
-    serialShare: {type: String, required: true}, // سریال اشتراک
-    // عنوان تعرفه
-    // کد تعرفه
+    numberShare: {type: String}, // شماره اشتراک
+    fileNumber: {type: String}, // شماره پرونده
+    serialShare: {type: String}, // سریال اشتراک
+    useType: {
+        type: String,
+        required: true,
+        enum: [
+            'HOME', // مصارف خانگی
+            'GENERAL', // مصارف عمومی
+            'WATER_PRODUCTS', // مصارف تولیدات آب و کشاورزی
+            'INDUSTRY_PRODUCTS', // مصارف تولید (صنعت و معدن)
+            'OTHER' // سایر مصارف
+        ]
+    },// عنوان تعرفه
+    useCode: {
+        type: String, required: true, enum: [
+            'NORMAL_REGION_NON_WARM_TROPICAL', // مناطق عادی و ماه های غیر گرم مناطق گرمسیر
+            'WARM_TROPICAL_4', // ماه های گرم در مناطق گرمسیر 4
+            'WARM_TROPICAL_3', // ماه های گرم در مناطق گرمسیر 3
+            'WARM_TROPICAL_2', // ماه های گرم در مناطق گرمسیر 2
+            'WARM_TROPICAL_1', // ماه های گرم در مناطق گرمسیر 1
+            '2_A_1', // 2-الف-1
+            '2_A_2', // 2-الف-2
+            '2_B', // 2-ب
+            '3_A', // 3-الف
+            '3_B', // 3-ب
+            '3_J_1', // 3-ج-1
+            '3_J_2', // 3-ج-2
+            '4_A_1', // 4-الف-1
+            '4_A_2', // 4-الف-2
+            '4_A_3', // 4-الف-3
+            '4_B_1', // 4-ب-1
+            '4_B_2', // 4-ب-2
+            '4_B_3', // 4-ب-3
+            'MORE_THAN_30_KW', // با قدرت بیش از 30 کیلووات
+            'LESS_THAN_30_KW_NON_WARM', //با قدرت 30 کیلووات و کمتر برای مناطق غیر گرمسیر و ماه های غیر گرم مناطق گرمسیر
+            'LESS_THAN_30_KW_WARM', // با قدرت 30 کیلووات و کمتر برای ماه های گرم مناطق گرمسیر
+        ]
+    },// کد تعرفه
 
     group: {type: String, required: true, enum: ['DIMANDI', 'UN_DIMANDI']}, // گروه
     capacity: {type: String, required: true}, // ظرفیت
