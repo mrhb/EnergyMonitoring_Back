@@ -26,6 +26,7 @@ async function create(reqCreateBuildingDto) {
     try {
         return await Building.create({
             regionId: reqCreateBuildingDto.regionId,
+            regionTitle: reqCreateBuildingDto.regionTitle,
             name: reqCreateBuildingDto.name,
             useType: reqCreateBuildingDto.useType,
             constructionYear: reqCreateBuildingDto.constructionYear,
@@ -49,6 +50,7 @@ async function update(id, reqCreateBuildingDto) {
             _id: id
         }, {
             regionId: reqCreateBuildingDto.regionId,
+            regionTitle: reqCreateBuildingDto.regionTitle,
             name: reqCreateBuildingDto.name,
             useType: reqCreateBuildingDto.useType,
             constructionYear: reqCreateBuildingDto.constructionYear,

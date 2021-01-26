@@ -7,6 +7,7 @@ module.exports = ReqCreateBuilding;
 function ReqCreateBuilding(data, userId, next) {
     validate(data, next);
     this.regionId = data.regionId;
+    this.regionTitle = data.regionTitle;
     this.name = data.name;
     this.useType = data.useType;
     this.constructionYear = data.constructionYear;
