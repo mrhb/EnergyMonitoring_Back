@@ -218,7 +218,7 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
 
     let powerSharingListCount = await powerSharingDao
-        .getListPageableByFilterCount(filter)
+        .getListPageableByFilterCount()
         .then(result => {
             return result;
         }).catch(err => console.log(err));
