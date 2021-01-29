@@ -8,7 +8,8 @@ const PowerSharing = require('../../model/sharing/powerSharing.model');
 module.exports = {
     create,
     update,
-    deleteById
+    deleteById,
+    getOne
 };
 
 async function create(powerSharing) {
@@ -39,3 +40,12 @@ async function deleteById(id) {
     }
 }
 
+async function getOne(id) {
+    try {
+        return await PowerSharing.findOne({
+            _id: id
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}

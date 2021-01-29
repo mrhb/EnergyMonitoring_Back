@@ -69,3 +69,20 @@ exports.delete = (req, res, next) => {
             throw next("در حذف اشتراک برق خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
+
+exports.getOne = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+    powerSharingDao
+        .getOne(req.query.id)
+        .then(result => {
+            if (result !== null) {
+                res.send(Response(result));
+                return;
+            }
+            throw next("موردی یافت نشد");
+        }).catch(err => console.log(err));
+};

@@ -30,4 +30,10 @@ module.exports = (app) => {
      */
     app.delete(POWER_SHARING + 'delete', jwt(), powerSharingController.delete);
 
+    /**
+     * Get one
+     * Param : id
+     */
+    app.get(POWER_SHARING + 'get-one', jwt(), powerSharingController.getOne);
+
 };
