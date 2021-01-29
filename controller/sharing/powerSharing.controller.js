@@ -228,5 +228,5 @@ exports.getListPageableByFilter = async (req, res, next) => {
         return;
     }
 
-    res.send(ResponsePageable(buildingList, buildingListCount, page, size));
+    res.send(ResponsePageable(powerSharingList, powerSharingListCount, page, size));
 };
