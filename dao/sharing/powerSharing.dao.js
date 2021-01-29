@@ -9,7 +9,10 @@ module.exports = {
     create,
     update,
     deleteById,
-    getOne
+    getOne,
+    addBuildingAllocation,
+    getListPageableByFilter,
+    getListPageableByFilterCount
 };
 
 async function create(powerSharing) {
@@ -45,6 +48,59 @@ async function getOne(id) {
         return await PowerSharing.findOne({
             _id: id
         });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function addBuildingAllocation(id) {
+    try {
+        return await PowerSharing.updateOne({
+            _id: id
+        }, {
+            $push: {
+                buildingList: reqBuildingSpace
+            },
+            $inc : {
+                buildingNum : 1
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function getListPageableByFilter(page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        return await PowerSharing
+            .find({},
+                {
+                    _id: 1,
+                    name: 1,
+                    billingId: 1,
+                    addressCode: 1,
+                    useType: 1,
+                    createdAt: 1
+                })
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function getListPageableByFilterCount() {
+    try {
+        return await PowerSharing
+            .find()
+            .countDocuments();
     } catch (e) {
         console.log(e);
     }

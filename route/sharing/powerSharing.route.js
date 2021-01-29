@@ -36,4 +36,31 @@ module.exports = (app) => {
      */
     app.get(POWER_SHARING + 'get-one', jwt(), powerSharingController.getOne);
 
+    /**
+     * Add buildingAllocation
+     * Param : id
+     * Body :
+     */
+    app.post(BUILDING + 'add-building-allocation', jwt(), powerSharingController.addBuildingAllocation);
+
+    /**
+     * Update buildingAllocation
+     * Param : id
+     * Body :
+     */
+    // app.put(BUILDING + 'update-building-allocation', jwt(), powerSharingController.updateBuildingAllocation);
+
+    /**
+     * Delete buildingAllocation
+     * Param : id,allocationId
+     */
+    // app.delete(BUILDING + 'delete-building-allocation', jwt(), powerSharingController.deleteBuildingAllocation);
+
+    /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body :
+     */
+    app.post(BUILDING + 'get-list-pageable-by-filter', jwt(),powerSharingController.getListPageableByFilter)
+
 };

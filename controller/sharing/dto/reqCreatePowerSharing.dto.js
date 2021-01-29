@@ -39,6 +39,7 @@ function ReqCreatePowerSharing(data, userId, next) {
     this.coefficient = data.coefficient;
     this.voltageType = data.voltageType;
     this.powerSupplyVoltage = data.powerSupplyVoltage;
+    this.buildingNum = 0;
     this.creatorId = userId;
     this.ownerId = userId;
 }

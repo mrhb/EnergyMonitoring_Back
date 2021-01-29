@@ -62,7 +62,7 @@ const PowerSharingSchema = new Schema({
     voltageType: {type: String, required: true, enum: ['PRIMITIVE', 'SECONDARY']}, // نوع ولتاژ
     powerSupplyVoltage: {type: String, required: true, enum: ['P380', 'P220']}, // ولتاژ تغذیه
     buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number}, // تعداد ساختمان ها
+    buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
