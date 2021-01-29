@@ -324,7 +324,8 @@ exports.getListPageableByTerm = async (req, res, next) => {
     let size = Number(req.query.size);
 
     let term = req.query.term;
-
+    console.log('term');
+    console.log(term);
     let buildingList = await buildingDao
         .getListPageableByTerm(term, page, size)
         .then(result => {
