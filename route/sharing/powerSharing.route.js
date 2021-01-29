@@ -48,13 +48,13 @@ module.exports = (app) => {
      * Param : id
      * Body :
      */
-    // app.put(BUILDING + 'update-building-allocation', jwt(), powerSharingController.updateBuildingAllocation);
+    app.put(POWER_SHARING + 'update-building-allocation', jwt(), powerSharingController.updateBuildingAllocation);
 
     /**
      * Delete buildingAllocation
      * Param : id,allocationId
      */
-    // app.delete(BUILDING + 'delete-building-allocation', jwt(), powerSharingController.deleteBuildingAllocation);
+    app.delete(POWER_SHARING + 'delete-building-allocation', jwt(), powerSharingController.deleteBuildingAllocation);
 
     /**
      * Get list pageable by filter

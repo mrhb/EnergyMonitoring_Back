@@ -11,6 +11,8 @@ module.exports = {
     deleteById,
     getOne,
     addBuildingAllocation,
+    updateBuildingAllocation,
+    deleteBuildingAllocation,
     getListPageableByFilter,
     getListPageableByFilterCount
 };
@@ -53,16 +55,16 @@ async function getOne(id) {
     }
 }
 
-async function addBuildingAllocation(id) {
+async function addBuildingAllocation(id, reqBuildingAllocation) {
     try {
         return await PowerSharing.updateOne({
             _id: id
         }, {
             $push: {
-                buildingList: reqBuildingSpace
+                buildingList: reqBuildingAllocation
             },
-            $inc : {
-                buildingNum : 1
+            $inc: {
+                buildingNum: 1
             }
         });
     } catch (e) {
@@ -70,6 +72,37 @@ async function addBuildingAllocation(id) {
     }
 }
 
+async function updateBuildingAllocation(id, reqBuildingAllocation) {
+    try {
+        return await PowerSharing.updateOne({
+            _id: id,
+            buildingList: {$elemMatch: {_id: reqBuildingAllocation._id}}
+        }, {
+            $set: {
+                "buildingList.$.buildingId": reqBuildingAllocation.buildingId,
+                "buildingList.$.allocationPercentage": reqBuildingAllocation.allocationPercentage
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function deleteBuildingAllocation(id, allocationId) {
+    try {
+        return await PowerSharing.updateOne({
+            _id: id
+        }, {
+            $pull: {
+                buildingList: {
+                    _id: allocationId
+                }
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 async function getListPageableByFilter(page, size) {
     try {

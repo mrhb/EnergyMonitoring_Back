@@ -2,11 +2,11 @@
  * @author MjImani
  * phone : +989035074205
  */
-module.exports = ReqBuildingSpace;
+module.exports = ReqBuildingAllocation;
 
 const mongoose = require('../../../config/mongoose').mongoose;
 
-function ReqBuildingSpace(data, isCreate, next) {
+function ReqBuildingAllocation(data, isCreate, next) {
     validate(data, isCreate, next);
     if (isCreate) {
         this._id = new mongoose.Types.ObjectId();

@@ -88,20 +88,27 @@ exports.getOne = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
-exports.addBuildingAllocation = (req, res, next) => {
+exports.addBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
         throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
     }
 
-    // Check capacity
-
-    let powerSharing = powerSharingDao
+    let powerSharing = await powerSharingDao
         .getOne(req.query.id)
-        .then(result => {return result;});
-
+        .then(result => {
+            return result;
+        });
+    if (powerSharing.buildingList.length > 0) {
+        let allocationPercentageSum = 0;
+        for (let i = 0; i < powerSharing.buildingList.length; i++) {
+            allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
+        }
+        if (allocationPercentageSum >= 100) {
+            throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
-
     powerSharingDao
         .addBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
@@ -114,6 +121,78 @@ exports.addBuildingAllocation = (req, res, next) => {
             throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
         }).catch(err => console.log(err));
 
+};
+
+exports.updateBuildingAllocation = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+    }
+    console.log('query id ' + req.query.id);
+
+    let powerSharing = await powerSharingDao
+        .getOne(req.query.id)
+        .then(result => {
+            return result;
+        });
+    console.log(powerSharing.buildingList[0].id);
+
+    if (powerSharing.buildingList.length > 0) {
+        let allocationPercentageSum = Number(req.body.allocationPercentage);
+        for (let i = 0; i < powerSharing.buildingList.length; i++) {
+            if (powerSharing.buildingList[i].id === req.body.id) {
+                continue;
+            }
+            allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
+        }
+        if (allocationPercentageSum >= 100) {
+            throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }
+
+    let reqBuildingAllocation = new ReqBuildingAllocation(req.body, false, next);
+    powerSharingDao
+        .updateBuildingAllocation(req.query.id, reqBuildingAllocation)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                } else {
+                    res.send(Response(false));
+                    return;
+                }
+            }
+            throw next("در ویرایش اطلاعات خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.deleteBuildingAllocation = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+    }
+    console.log('query id ' + req.query.id);
+
+    if (!req.query.allocationId) {
+        throw next("شناسه ساختمان اختصاص یافته نمیتواند خالی باشد.");
+    }
+    console.log('query allocationId ' + req.query.allocationId);
+
+    powerSharingDao
+        .deleteBuildingAllocation(req.query.id, req.query.allocationId)
+        .then(result => {
+            if (result !== null) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                } else {
+                    res.send(Response(false));
+                    return;
+                }
+            }
+            throw next("در حذف کردن ساختمان اختصاص یافته خطایی رخ داده است.");
+        }).catch(err => console.log(err));
 };
 
 exports.getListPageableByFilter = async (req, res, next) => {

@@ -108,7 +108,6 @@ async function createSpace(id, reqBuildingSpace) {
     }
 }
 
-
 async function updateSpace(id, reqBuildingSpace) {
     try {
         return await Building.updateOne({
