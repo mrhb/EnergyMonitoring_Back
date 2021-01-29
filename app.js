@@ -19,5 +19,6 @@ require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
 require('./route/region/region.route')(app);
 require('./route/building/building.route')(app);
+require('./route/sharing/powerSharing.route')(app);
 
 module.exports = app;
