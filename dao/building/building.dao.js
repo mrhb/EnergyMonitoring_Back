@@ -19,7 +19,9 @@ module.exports = {
     updateWallInformation,
     getOne,
     getListPageableByFilter,
-    getListPageableByFilterCount
+    getListPageableByFilterCount,
+    getListPageableByTerm,
+    getListPageableByTermCount
 };
 
 async function create(reqCreateBuildingDto) {
@@ -256,4 +258,41 @@ async function getListPageableByFilterCount(filter) {
     }
 }
 
+async function getListPageableByTerm(term, page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        let myFilter = (term !== '') ? '{\"name\": \"' + term + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+
+        return await Building
+            .find(myFilter,
+                {
+                    _id: 1,
+                    name: 1,
+                    useType: 1,
+                    postalCode: 1
+                })
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getListPageableByTermCount(term) {
+    try {
+        let myFilter = (term !== '') ? '{\"name\": \"' + term + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+
+        return await Building
+            .find(myFilter)
+            .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}
 

@@ -97,4 +97,10 @@ module.exports = (app) => {
      */
     app.post(BUILDING + 'get-list-pageable-by-filter', jwt(),buildingController.getListPageableByFilter)
 
+    /**
+     * Get list pageable by term
+     * Param : page,size,term
+     */
+    app.post(BUILDING + 'get-list-pageable-by-term', jwt(),buildingController.getListPageableByTerm)
+
 };
