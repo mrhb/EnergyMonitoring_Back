@@ -6,7 +6,6 @@
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
-const Building = require('../../model/building/building.model');
 const ReqCreateBuildingDto = require('./dto/reqCreateBuilding.dto');
 const ReqUpdateAreaDto = require('./dto/reqUpdateArea.dto');
 const ReqBuildingSpaceDto = require('./dto/reqBuildingSpace.dto');

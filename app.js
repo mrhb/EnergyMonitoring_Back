@@ -20,5 +20,6 @@ require('./route/file/file.route')(app);
 require('./route/region/region.route')(app);
 require('./route/building/building.route')(app);
 require('./route/sharing/powerSharing.route')(app);
+require('./route/sharing/gasSharing.route')(app);
 
 module.exports = app;

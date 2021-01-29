@@ -19,7 +19,7 @@ exports.create = (req, res, next) => {
     console.log(powerSharing);
 
     powerSharingDao
-        .create(reqCreatePowerSharing)
+        .create(powerSharing)
         .then(result => {
             if (result) {
                 if (result._id) {
