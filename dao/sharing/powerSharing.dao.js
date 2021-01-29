@@ -118,6 +118,7 @@ async function getListPageableByFilter(page, size) {
                     billingId: 1,
                     addressCode: 1,
                     useType: 1,
+                    buildingNum: 1,
                     createdAt: 1
                 })
             .sort({createdAt: -1})
