@@ -94,6 +94,12 @@ exports.addBuildingAllocation = (req, res, next) => {
         throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
     }
 
+    // Check capacity
+
+    let powerSharing = powerSharingDao
+        .getOne(req.query.id)
+        .then(result => {return result;});
+
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
 
     powerSharingDao

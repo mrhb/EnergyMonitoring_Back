@@ -41,7 +41,7 @@ module.exports = (app) => {
      * Param : id
      * Body :
      */
-    app.post(BUILDING + 'add-building-allocation', jwt(), powerSharingController.addBuildingAllocation);
+    app.post(POWER_SHARING + 'add-building-allocation', jwt(), powerSharingController.addBuildingAllocation);
 
     /**
      * Update buildingAllocation
@@ -61,6 +61,6 @@ module.exports = (app) => {
      * Param : page,size
      * Body :
      */
-    app.post(BUILDING + 'get-list-pageable-by-filter', jwt(),powerSharingController.getListPageableByFilter)
+    app.post(POWER_SHARING + 'get-list-pageable-by-filter', jwt(),powerSharingController.getListPageableByFilter)
 
 };
