@@ -39,14 +39,14 @@ module.exports = (app) => {
     /**
      * Add buildingAllocation
      * Param : id
-     * Body :
+     * Body : reqBuildingAllocation.dto
      */
     app.post(POWER_SHARING + 'add-building-allocation', jwt(), powerSharingController.addBuildingAllocation);
 
     /**
      * Update buildingAllocation
      * Param : id
-     * Body :
+     * Body : reqBuildingAllocation.dto
      */
     app.put(POWER_SHARING + 'update-building-allocation', jwt(), powerSharingController.updateBuildingAllocation);
 

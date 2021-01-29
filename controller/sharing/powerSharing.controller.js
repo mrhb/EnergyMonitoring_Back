@@ -207,7 +207,7 @@ exports.getListPageableByFilter = async (req, res, next) => {
     let size = Number(req.query.size);
 
     let powerSharingList = await powerSharingDao
-        .getListPageableByFilter(filter, page, size)
+        .getListPageableByFilter(page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
