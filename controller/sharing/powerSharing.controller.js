@@ -106,7 +106,7 @@ exports.getOne = async (req, res, next) => {
             buildingList.forEach(building => {
 
 
-                if (item.buildingId === building._id.toString()){
+                if (item.buildingId === building._id.toString()) {
                     console.log(typeof item.buildingId);
                     console.log(typeof building._id.toString());
                     item.name = building.name;
@@ -140,18 +140,33 @@ exports.addBuildingAllocation = async (req, res, next) => {
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
-    powerSharingDao
+    let buildingAllocation = await powerSharingDao
         .addBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
             if (result !== null) {
                 if (result.nModified > 0) {
-                    res.send(Response(reqBuildingAllocation._id));
-                    return;
+                    return true;
+                }else {
+                    return false;
                 }
             }
-            throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
+            return null;
         }).catch(err => console.log(err));
 
+    if (buildingAllocation === null || buildingAllocation === false) {
+        throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
+    }
+
+    let building = await buildingDao
+        .getOne(reqBuildingAllocation.buildingId)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    reqBuildingAllocation.name = building.name;
+    reqBuildingAllocation.useType = building.useType;
+    reqBuildingAllocation.postalCode = building.postalCode;
+    res.send(reqBuildingAllocation);
 };
 
 exports.updateBuildingAllocation = async (req, res, next) => {

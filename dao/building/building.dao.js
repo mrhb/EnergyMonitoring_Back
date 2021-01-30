@@ -282,7 +282,7 @@ async function getListPageableByTerm(term, page, size) {
         if (skip < 0) {
             skip = 0;
         }
-        let myFilter = (term !== '') ? '{\"name\": \"' + term + '\"}' : '{}';
+        let myFilter = (term !== '') ? '{\"name\": {$regex : \"' + term + '\"} }' : '{}';
         myFilter = JSON.parse(myFilter);
 
         return await Building
