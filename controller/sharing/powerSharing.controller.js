@@ -115,8 +115,8 @@ exports.getOne = async (req, res, next) => {
                 }
             })
         });
-        res.send(Response(powerSharing));
     }
+    res.send(Response(powerSharing));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
