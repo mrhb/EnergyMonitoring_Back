@@ -4,6 +4,7 @@
  */
 
 const Building = require('../../model/building/building.model');
+const mongoose = require('../../config/mongoose').mongoose;
 
 module.exports = {
     create,
@@ -18,6 +19,7 @@ module.exports = {
     deleteMapInformation,
     updateWallInformation,
     getOne,
+    getListByIdList,
     getListPageableByFilter,
     getListPageableByFilterCount,
     getListPageableByTerm,
@@ -211,6 +213,23 @@ async function getOne(id) {
         return await Building.findOne({
             _id: id
         });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getListByIdList(idList) {
+    try {
+        console.log(idList);
+        return await Building.find({
+                _id: {$in: idList}
+            },
+            {
+                _id: 1,
+                name: 1,
+                useType: 1,
+                postalCode: 1
+            });
     } catch (e) {
         console.log(e);
     }

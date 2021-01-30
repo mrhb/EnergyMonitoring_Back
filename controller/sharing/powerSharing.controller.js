@@ -4,6 +4,7 @@
  */
 
 const powerSharingDao = require('../../dao/sharing/powerSharing.dao');
+const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreatePowerSharing = require('./dto/reqCreatePowerSharing.dto');
@@ -71,21 +72,51 @@ exports.delete = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
-exports.getOne = (req, res, next) => {
+exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
         throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    powerSharingDao
+    let powerSharing = await powerSharingDao
         .getOne(req.query.id)
         .then(result => {
-            if (result !== null) {
-                res.send(Response(result));
-                return;
-            }
-            throw next("موردی یافت نشد");
+            return result;
         }).catch(err => console.log(err));
+    console.log(powerSharing);
+
+    if (powerSharing === null) {
+        throw next('محتوایی برای نمایش موجود نیست.');
+    }
+
+    if (powerSharing.buildingList.length > 0) {
+        let buildingIdList = [];
+        powerSharing.buildingList.forEach(item => {
+            buildingIdList.push(item.buildingId);
+        });
+
+        let buildingList = await buildingDao
+            .getListByIdList(buildingIdList)
+            .then(result => {
+                return result;
+            }).catch(err => console.log(err));
+        console.log(buildingList);
+
+        powerSharing.buildingList.forEach(item => {
+            buildingList.forEach(building => {
+
+
+                if (item.buildingId === building._id.toString()){
+                    console.log(typeof item.buildingId);
+                    console.log(typeof building._id.toString());
+                    item.name = building.name;
+                    item.useType = building.useType;
+                    item.postalCode = building.postalCode;
+                }
+            })
+        });
+        res.send(Response(powerSharing));
+    }
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
