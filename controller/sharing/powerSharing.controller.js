@@ -164,8 +164,10 @@ exports.addBuildingAllocation = async (req, res, next) => {
         }).catch(err => console.log(err));
 
     reqBuildingAllocation.name = building.name;
+    reqBuildingAllocation.id = reqBuildingAllocation._id;
     reqBuildingAllocation.useType = building.useType;
     reqBuildingAllocation.postalCode = building.postalCode;
+    delete reqBuildingAllocation._id;
     res.send(Response(reqBuildingAllocation));
 };
 
