@@ -135,6 +135,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
         for (let i = 0; i < powerSharing.buildingList.length; i++) {
             allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
         }
+        allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum >= 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
         }
