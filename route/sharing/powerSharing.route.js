@@ -59,7 +59,7 @@ module.exports = (app) => {
     /**
      * Get list pageable by filter
      * Param : page,size
-     * Body :
+     * Body : {}
      */
     app.post(POWER_SHARING + 'get-list-pageable-by-filter', jwt(),powerSharingController.getListPageableByFilter)
 
