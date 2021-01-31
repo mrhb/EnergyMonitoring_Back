@@ -184,7 +184,6 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         .then(result => {
             return result;
         });
-    console.log(powerSharing.buildingList[0].id);
 
     if (powerSharing.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
@@ -194,7 +193,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             }
             allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
         }
-        if (allocationPercentageSum >= 100) {
+        if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
         }
     }
