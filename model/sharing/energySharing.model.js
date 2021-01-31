@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const BuildingAllocation = require('./buildingAllocation.model');
 
-const PowerSharingSchema = new Schema({
+const EnergySharingSchema = new Schema({
     name: {type: String, required: true}, // نام مشترک
     address: {type: String, required: true}, // نشانی محل مصرف
     energyCarrier: {type: String, required: true}, // حامل انرژی
@@ -23,7 +23,7 @@ const PowerSharingSchema = new Schema({
     timestamps: true
 });
 
-PowerSharingSchema.set('toJSON', {
+EnergySharingSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
     transform: function (doc, ret) {
@@ -31,4 +31,4 @@ PowerSharingSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('powerSharing', PowerSharingSchema);
+module.exports = mongoose.model('energySharing', EnergySharingSchema);

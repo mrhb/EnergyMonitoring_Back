@@ -11,6 +11,56 @@ module.exports = (app) => {
 
     let waterSharingController = require('../../controller/sharing/waterSharing.controller');
 
-    app.post(WATER_SHARING + 'create', jwt(), waterSharingController);
+    /**
+     * Create
+     * Body : reqCreateWaterSharing.dto
+     */
+    app.post(WATER_SHARING + 'create', jwt(), waterSharingController.create);
+
+    /**
+     * Update
+     * Param : id
+     * Body : reqCreateWaterSharing.dto
+     */
+    app.put(WATER_SHARING + 'update', jwt(), waterSharingController.update);
+
+    /**
+     * Delete
+     * Param : id
+     */
+    app.delete(WATER_SHARING + 'delete', jwt(), waterSharingController.delete);
+
+    /**
+     * Get one
+     * Param : id
+     */
+    app.get(WATER_SHARING + 'get-one', jwt(), waterSharingController.getOne);
+
+    /**
+     * Add buildingAllocation
+     * Param : id
+     * Body : reqBuildingAllocation.dto
+     */
+    app.post(WATER_SHARING + 'add-building-allocation', jwt(), waterSharingController.addBuildingAllocation);
+
+    /**
+     * Update buildingAllocation
+     * Param : id
+     * Body : reqBuildingAllocation.dto
+     */
+    app.put(WATER_SHARING + 'update-building-allocation', jwt(), waterSharingController.updateBuildingAllocation);
+
+    /**
+     * Delete buildingAllocation
+     * Param : id,allocationId
+     */
+    app.delete(WATER_SHARING + 'delete-building-allocation', jwt(), waterSharingController.deleteBuildingAllocation);
+
+    /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body : {}
+     */
+    app.post(WATER_SHARING + 'get-list-pageable-by-filter', jwt(),waterSharingController.getListPageableByFilter)
 
 };
