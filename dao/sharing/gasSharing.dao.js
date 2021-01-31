@@ -115,8 +115,10 @@ async function getListPageableByFilter(page, size) {
                 {
                     _id: 1,
                     name: 1,
+                    buildingNum: 1,
                     billingId: 1,
                     addressCode: 1,
+
                     useType: 1,
                     createdAt: 1
                 })
