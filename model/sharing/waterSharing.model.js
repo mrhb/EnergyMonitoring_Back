@@ -25,7 +25,7 @@ const WaterSharingSchema = new Schema({
     capacity: {type: String}, // ظرفیت قراردادی
 
     buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number}, // تعداد ساختمان ها
+    buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 
     useCode: {
         type: String,

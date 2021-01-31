@@ -15,7 +15,7 @@ const EnergySharingSchema = new Schema({
     shareNumber: {type: String}, // شماره کنتور
 
     buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number}, // تعداد ساختمان ها
+    buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},

@@ -40,7 +40,7 @@ const GasSharingSchema = new Schema({
     capacity: {type: String}, // ظرفیت
     coefficient: {type: String}, // ضریب اشتراک
     buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number}, // تعداد ساختمان ها
+    buildingNum: {type: Number,default: 0}, // تعداد ساختمان ها
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
