@@ -4,6 +4,7 @@
  */
 
 const Building = require('../../model/building/building.model');
+const mongoose = require('../../config/mongoose').mongoose;
 
 module.exports = {
     create,
@@ -18,6 +19,7 @@ module.exports = {
     deleteMapInformation,
     updateWallInformation,
     getOne,
+    getListByIdList,
     getListPageableByFilter,
     getListPageableByFilterCount,
     getListPageableByTerm,
@@ -216,6 +218,23 @@ async function getOne(id) {
     }
 }
 
+async function getListByIdList(idList) {
+    try {
+        console.log(idList);
+        return await Building.find({
+                _id: {$in: idList}
+            },
+            {
+                _id: 1,
+                name: 1,
+                useType: 1,
+                postalCode: 1
+            });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 async function getListPageableByFilter(filter, page, size) {
     try {
         let skip = (page * size);
@@ -263,7 +282,7 @@ async function getListPageableByTerm(term, page, size) {
         if (skip < 0) {
             skip = 0;
         }
-        let myFilter = (term !== '') ? '{\"name\": \"' + term + '\"}' : '{}';
+        let myFilter = (term !== '') ? '{\"name\": {$regex : \"' + term + '\"} }' : '{}';
         myFilter = JSON.parse(myFilter);
 
         return await Building
