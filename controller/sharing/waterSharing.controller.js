@@ -17,7 +17,9 @@ exports.create = (req, res, next) => {
     let reqCreateWaterSharing = new ReqCreateWaterSharing(req.body, req.user.id, next);
 
     let waterSharing = new WaterSharing(reqCreateWaterSharing);
+    console.log(111111111);
     console.log(waterSharing);
+    console.log(222222222);
 
     waterSharingDao
         .create(waterSharing)
@@ -28,14 +30,14 @@ exports.create = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در ایجاد اشتراک برق خطایی رخ داده است.");
-        }).catch(err => console.log(err));
+            return  next("در ایجاد اشتراک آب خطایی رخ داده است.");
+        }).catch(err => {console.log('here ' + err);throw next(err)});
 };
 
 exports.update = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let reqCreateWaterSharing = new ReqCreateWaterSharing(req.body, req.user.id, next);
@@ -48,14 +50,14 @@ exports.update = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت اشتراک برق خطایی رخ داده است.");
+            throw next("در آپدیت اشتراک آب خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.delete = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
 
@@ -68,14 +70,14 @@ exports.delete = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف اشتراک برق خطایی رخ داده است.");
+            throw next("در حذف اشتراک آب خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let waterSharing = await waterSharingDao
@@ -122,7 +124,7 @@ exports.getOne = async (req, res, next) => {
 exports.addBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
 
     let waterSharing = await waterSharingDao
@@ -175,7 +177,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
 exports.updateBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -218,7 +220,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
 exports.deleteBuildingAllocation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 

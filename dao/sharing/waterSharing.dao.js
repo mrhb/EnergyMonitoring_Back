@@ -18,19 +18,20 @@ module.exports = {
     getListPageableByFilterCount
 };
 
-async function create(powerSharing) {
+async function create(waterSharing) {
     try {
-        return await WaterSharing.create(powerSharing);
+        return await WaterSharing.create(waterSharing);
     } catch (e) {
         console.log(e);
+        throw e;
     }
 }
 
-async function update(id, powerSharing) {
+async function update(id, waterSharing) {
     try {
         return await WaterSharing.updateOne({
             _id: id
-        }, powerSharing);
+        }, waterSharing);
     } catch (e) {
         console.log(e);
     }
