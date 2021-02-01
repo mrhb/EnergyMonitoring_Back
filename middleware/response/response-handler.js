@@ -17,18 +17,3 @@ function response(data) {
         }
     }
 }
-
-//
-// function message(keyword, message) {
-//     if (flag) {
-//         return {
-//             flag: true,
-//             data: message
-//         }
-//     } else {
-//         return {
-//             flag: false,
-//             message: "محتوایی برای نمایش موجود نیست."
-//         }
-//     }
-// }

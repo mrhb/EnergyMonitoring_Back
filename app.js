@@ -4,14 +4,14 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('./middleware/cors');
+const cors = require('cors');
 const app = express();
 const Root=__dirname+'\\ui';
 
 
 // app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cors);
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -23,6 +23,9 @@ app.use('/ui',express.static(Root));
 require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
 require('./route/region/region.route')(app);
+require('./route/building/building.route')(app);
+require('./route/sharing/powerSharing.route')(app);
+require('./route/sharing/gasSharing.route')(app);
 
 app.get('/ui/*', (req,res) => {
     res.sendFile(Root+"/index.html")
