@@ -77,20 +77,20 @@ exports.getOne = async (req, res, next) => {
         throw next("شناسه اشتراک انرژی نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    let powerSharing = await energySharingDao
+    let energySharing = await energySharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
-    console.log(powerSharing);
+    console.log(energySharing);
 
-    if (powerSharing === null) {
+    if (energySharing === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
 
-    if (powerSharing.buildingList.length > 0) {
+    if (energySharing.buildingList.length > 0) {
         let buildingIdList = [];
-        powerSharing.buildingList.forEach(item => {
+        energySharing.buildingList.forEach(item => {
             buildingIdList.push(item.buildingId);
         });
 
@@ -101,7 +101,7 @@ exports.getOne = async (req, res, next) => {
             }).catch(err => console.log(err));
         console.log(buildingList);
 
-        powerSharing.buildingList.forEach(item => {
+        energySharing.buildingList.forEach(item => {
             buildingList.forEach(building => {
 
 
@@ -115,7 +115,7 @@ exports.getOne = async (req, res, next) => {
             })
         });
     }
-    res.send(Response(powerSharing));
+    res.send(Response(energySharing));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
@@ -266,6 +266,43 @@ exports.getListPageableByFilter = async (req, res, next) => {
 
     let energySharingListCount = await energySharingDao
         .getListPageableByFilterCount()
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (energySharingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(energySharingList, energySharingListCount, page, size));
+};
+
+
+exports.getListPageableByTerm = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let energySharingList = await energySharingDao
+        .getListPageableByTerm(req.body, page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (energySharingList === null || energySharingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let energySharingListCount = await energySharingDao
+        .getListPageableByTermCount(req.body)
         .then(result => {
             return result;
         }).catch(err => console.log(err));

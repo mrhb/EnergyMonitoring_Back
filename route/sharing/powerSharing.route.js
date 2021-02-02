@@ -63,4 +63,11 @@ module.exports = (app) => {
      */
     app.post(POWER_SHARING + 'get-list-pageable-by-filter', jwt(),powerSharingController.getListPageableByFilter)
 
+    /**
+     * Get list pageable by term and without building
+     * Param : page,size
+     * Body : { term }
+     */
+    app.post(POWER_SHARING + 'get-list-pageable-by-term-and-not-building', jwt(),powerSharingController.getListPageableByTerm)
+
 };

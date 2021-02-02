@@ -15,7 +15,9 @@ module.exports = {
     updateBuildingAllocation,
     deleteBuildingAllocation,
     getListPageableByFilter,
-    getListPageableByFilterCount
+    getListPageableByFilterCount,
+    getListPageableByTerm,
+    getListPageableByTermCount
 };
 
 async function create(waterSharing) {
@@ -142,4 +144,49 @@ async function getListPageableByFilterCount() {
     }
 }
 
+async function getListPageableByTerm(filter, page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        if (filter.term === null || filter.term === 'undefined'){
+            filter.term = '';
+        }
+        return await WaterSharing
+            .find({
+                    name: { $regex: filter.term},
+                    buildingNum: 0
+                },
+                {
+                    _id: 1,
+                    name: 1,
+                    billingId: 1,
+                    addressCode: 1,
+                    useType: 1,
+                    buildingNum: 1,
+                    createdAt: 1
+                })
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
 
+async function getListPageableByTermCount(filter) {
+    try {
+        if (filter.term === null || filter.term === 'undefined'){
+            filter.term = '';
+        }
+        return await WaterSharing
+            .find({
+                name: { $regex: filter.term},
+                buildingNum: 0
+            })
+            .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}

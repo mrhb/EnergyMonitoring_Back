@@ -280,3 +280,40 @@ exports.getListPageableByFilter = async (req, res, next) => {
 
     res.send(ResponsePageable(waterSharingList, waterSharingListCount, page, size));
 };
+
+
+exports.getListPageableByTerm = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let waterSharingList = await waterSharingDao
+        .getListPageableByTerm(req.body, page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (waterSharingList === null || waterSharingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let waterSharingListCount = await waterSharingDao
+        .getListPageableByTermCount(req.body)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (waterSharingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(waterSharingList, waterSharingListCount, page, size));
+};

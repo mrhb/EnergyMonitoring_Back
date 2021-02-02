@@ -63,4 +63,11 @@ module.exports = (app) => {
      */
     app.post(WATER_SHARING + 'get-list-pageable-by-filter', jwt(),waterSharingController.getListPageableByFilter)
 
+    /**
+     * Get list pageable by term and without building
+     * Param : page,size
+     * Body : { term }
+     */
+    app.post(WATER_SHARING + 'get-list-pageable-by-term-and-not-building', jwt(),waterSharingController.getListPageableByTerm)
+
 };
