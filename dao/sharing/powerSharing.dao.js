@@ -150,12 +150,12 @@ async function getListPageableByTerm(filter, page, size) {
         if (skip < 0) {
             skip = 0;
         }
-        if (filter.term === null || filter.term === 'undefined'){
+        if (filter.term === null || filter.term === 'undefined') {
             filter.term = '';
         }
         return await PowerSharing
             .find({
-                    name: { $regex: filter.term},
+                    name: {$regex: filter.term},
                     buildingNum: 0
                 },
                 {
@@ -177,12 +177,12 @@ async function getListPageableByTerm(filter, page, size) {
 
 async function getListPageableByTermCount(filter) {
     try {
-        if (filter.term === null || filter.term === 'undefined'){
+        if (filter.term === null || filter.term === 'undefined') {
             filter.term = '';
         }
         return await PowerSharing
             .find({
-                name: { $regex: filter.term},
+                name: {$regex: filter.term},
                 buildingNum: 0
             })
             .countDocuments();
