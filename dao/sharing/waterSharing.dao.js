@@ -101,6 +101,9 @@ async function deleteBuildingAllocation(id, allocationId) {
                 buildingList: {
                     _id: allocationId
                 }
+            },
+            $inc: {
+                buildingNum: -1
             }
         });
     } catch (e) {
