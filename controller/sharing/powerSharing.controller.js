@@ -147,7 +147,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
             if (result !== null) {
                 if (result.nModified > 0) {
                     return true;
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -184,7 +184,6 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         .then(result => {
             return result;
         });
-    console.log(powerSharing.buildingList[0].id);
 
     if (powerSharing.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
@@ -194,7 +193,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             }
             allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
         }
-        if (allocationPercentageSum >= 100) {
+        if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
         }
     }
@@ -268,6 +267,42 @@ exports.getListPageableByFilter = async (req, res, next) => {
 
     let powerSharingListCount = await powerSharingDao
         .getListPageableByFilterCount()
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (powerSharingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(powerSharingList, powerSharingListCount, page, size));
+};
+
+exports.getListPageableByTerm = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let powerSharingList = await powerSharingDao
+        .getListPageableByTerm(req.body, page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (powerSharingList === null || powerSharingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let powerSharingListCount = await powerSharingDao
+        .getListPageableByTermCount(req.body)
         .then(result => {
             return result;
         }).catch(err => console.log(err));

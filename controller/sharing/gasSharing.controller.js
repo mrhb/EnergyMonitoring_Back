@@ -4,6 +4,7 @@
  */
 
 const gasSharingDao = require('../../dao/sharing/gasSharing.dao');
+const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const GasSharing = require('../../model/sharing/gasSharing.model');
@@ -70,21 +71,51 @@ exports.delete = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
-exports.getOne = (req, res, next) => {
+exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
         throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    gasSharingDao
+    let powerSharing = await gasSharingDao
         .getOne(req.query.id)
         .then(result => {
-            if (result !== null) {
-                res.send(Response(result));
-                return;
-            }
-            throw next("موردی یافت نشد");
+            return result;
         }).catch(err => console.log(err));
+    console.log(powerSharing);
+
+    if (powerSharing === null) {
+        throw next('محتوایی برای نمایش موجود نیست.');
+    }
+
+    if (powerSharing.buildingList.length > 0) {
+        let buildingIdList = [];
+        powerSharing.buildingList.forEach(item => {
+            buildingIdList.push(item.buildingId);
+        });
+
+        let buildingList = await buildingDao
+            .getListByIdList(buildingIdList)
+            .then(result => {
+                return result;
+            }).catch(err => console.log(err));
+        console.log(buildingList);
+
+        powerSharing.buildingList.forEach(item => {
+            buildingList.forEach(building => {
+
+
+                if (item.buildingId === building._id.toString()) {
+                    console.log(typeof item.buildingId);
+                    console.log(typeof building._id.toString());
+                    item.name = building.name;
+                    item.useType = building.useType;
+                    item.postalCode = building.postalCode;
+                }
+            })
+        });
+    }
+    res.send(Response(powerSharing));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
@@ -103,22 +134,40 @@ exports.addBuildingAllocation = async (req, res, next) => {
         for (let i = 0; i < gasSharing.buildingList.length; i++) {
             allocationPercentageSum = allocationPercentageSum + Number(gasSharing.buildingList[i].allocationPercentage);
         }
-        if (allocationPercentageSum >= 100) {
+        allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
+        if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
-    gasSharingDao
+    let buildingAllocation = await gasSharingDao
         .addBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
             if (result !== null) {
                 if (result.nModified > 0) {
-                    res.send(Response(reqBuildingAllocation._id));
-                    return;
+                    return true;
+                }else {
+                    return false;
                 }
             }
-            throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
+            return null;
         }).catch(err => console.log(err));
+    if (buildingAllocation === null || buildingAllocation === false) {
+        throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
+    }
+
+    let building = await buildingDao
+        .getOne(reqBuildingAllocation.buildingId)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    reqBuildingAllocation.name = building.name;
+    reqBuildingAllocation.id = reqBuildingAllocation._id;
+    reqBuildingAllocation.useType = building.useType;
+    reqBuildingAllocation.postalCode = building.postalCode;
+    delete reqBuildingAllocation._id;
+    res.send(Response(reqBuildingAllocation));
 
 };
 
@@ -134,7 +183,6 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         .then(result => {
             return result;
         });
-    console.log(gasSharing.buildingList[0].id);
 
     if (gasSharing.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
@@ -144,7 +192,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             }
             allocationPercentageSum = allocationPercentageSum + Number(gasSharing.buildingList[i].allocationPercentage);
         }
-        if (allocationPercentageSum >= 100) {
+        if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
         }
     }
@@ -230,3 +278,39 @@ exports.getListPageableByFilter = async (req, res, next) => {
     res.send(ResponsePageable(gasSharingList, gasSharingListCount, page, size));
 };
 
+
+exports.getListPageableByTerm = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let gasSharingList = await gasSharingDao
+        .getListPageableByTerm(req.body, page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (gasSharingList === null || gasSharingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let gasSharingListCount = await gasSharingDao
+        .getListPageableByTermCount(req.body)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (gasSharingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(gasSharingList, gasSharingListCount, page, size));
+};

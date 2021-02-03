@@ -24,6 +24,7 @@ function ReqCreateWaterSharing(data, userId, next) {
     }
 
     this.useType = data.useType;
+    this.useCode = data.useCode;
 
     if (this.capacity !== null && this.capacity !== 'undefined') {
         this.capacity = data.capacity;
@@ -45,5 +46,11 @@ function validate(data, next) {
     }
     if (data.useType !== 'PUBLIC') {
         throw next("کاربری انشعاب درست انتخاب نشده است.");
+    }
+    if (!data.useCode) {
+        throw next("کد و نوع تعرفه نمیتواند خالی باشد.");
+    }
+    if (data.useCode !== 'PUBLIC' && data.useCode !== 'GOVERNMENT' && data.useCode !== 'HOME') {
+        throw next("کد و نوع تعرفه درست انتخاب نشده است.");
     }
 }
