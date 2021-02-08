@@ -16,7 +16,8 @@ module.exports = {
     getListPageableByFilter,
     getListPageableByFilterCount,
     getListPageableByTerm,
-    getListPageableByTermCount
+    getListPageableByTermCount,
+    isThereBuilding
 };
 
 async function create(gasSharing) {
@@ -189,6 +190,27 @@ async function getListPageableByTermCount(filter) {
                 buildingNum: 0
             })
             .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function isThereBuilding(id, buildingId) {
+    try {
+        if (id !== null) {
+            return await GasSharing
+                .find({
+                    "_id": {$ne: id},
+                    "buildingList.buildingId": buildingId
+                })
+                .countDocuments();
+        } else {
+            return await GasSharing
+                .find({
+                    "buildingList.buildingId": buildingId
+                })
+                .countDocuments();
+        }
     } catch (e) {
         console.log(e);
     }

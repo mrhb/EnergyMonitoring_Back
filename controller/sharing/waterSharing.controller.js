@@ -127,6 +127,19 @@ exports.addBuildingAllocation = async (req, res, next) => {
         throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
 
+    // Is there an water sharing for this building?
+    let isThereWater = await waterSharingDao
+        .isThereBuilding(null,req.body.buildingId)
+        .then(result => {
+            if (result !== null && result > 0)
+                return true;
+            else
+                return false;
+        });
+    if (isThereWater === true){
+        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+    }
+
     let waterSharing = await waterSharingDao
         .getOne(req.query.id)
         .then(result => {
@@ -140,6 +153,10 @@ exports.addBuildingAllocation = async (req, res, next) => {
         allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }else {
+        if (req.body.allocationPercentage > 100) {
+            throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
@@ -181,6 +198,19 @@ exports.updateBuildingAllocation = async (req, res, next) => {
     }
     console.log('query id ' + req.query.id);
 
+    // Is there an water sharing for this building?
+    let isThereWater = await waterSharingDao
+        .isThereBuilding(req.query.id,req.body.buildingId)
+        .then(result => {
+            if (result !== null && result > 0)
+                return true;
+            else
+                return false;
+        });
+    if (isThereWater === true){
+        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+    }
+
     let waterSharing = await waterSharingDao
         .getOne(req.query.id)
         .then(result => {
@@ -198,8 +228,11 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
         }
+    }else {
+        if (req.body.allocationPercentage > 100) {
+            throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
+        }
     }
-
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, false, next);
     waterSharingDao
         .updateBuildingAllocation(req.query.id, reqBuildingAllocation)
