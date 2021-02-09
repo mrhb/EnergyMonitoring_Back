@@ -12,6 +12,7 @@ function exceptionHandler(err, req, res, next) {
         // custom application response
         return res.status(400).send({
             flag: false,
+            type: "CUSTOM_EX",
             message: err
         });
     }
@@ -20,6 +21,7 @@ function exceptionHandler(err, req, res, next) {
         // mongoose validation response
         return res.status(400).send({
             flag: false,
+            type: "CUSTOM_EX",
             message: err.message
         });
     }
@@ -28,6 +30,7 @@ function exceptionHandler(err, req, res, next) {
         // jwt authentication response
         return res.status(401).send({
             flag: false,
+            type: "CUSTOM_EX",
             message: 'Unauthorized'
         });
     }
