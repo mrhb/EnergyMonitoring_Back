@@ -5285,3 +5285,4 @@ node_modules/xdg-basedir/package.json
 node_modules/xdg-basedir/readme.md
 file-resource
 deploy.sh
+run.sh
