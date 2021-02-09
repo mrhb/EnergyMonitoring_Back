@@ -137,6 +137,30 @@ exports.updateProfile = (req, res, next) => {
         }).catch(err => next(err));
 };
 
+exports.updateProfilePhoto = (req, res, next) => {
+    console.log('re id ' + req.user.id);
+
+    if (!req.body.photo) {
+        throw next("عکس نمیتواند خالی باشد.");
+    }
+    userDao
+        .updateProfilePhoto(req.user.id, req.body.photo)
+        .then(result => {
+            if (result) {
+                if (result.nModified === 1 && result.ok === 1) {
+                    res.send(Response(true))
+                } else {
+                    res.send({
+                        flag: false,
+                        message: "در بروزرسانی تصویر پروفایل خطایی رخ داده است."
+                    })
+                }
+            } else {
+                next("خطایی رخ داده است.");
+            }
+        }).catch(err => next(err));
+};
+
 exports.updatePassword = (req, res, next) => {
     console.log('re id ' + req.user.id);
     let reqUpdatePasswordDto = new ReqUpdatePassword(req.body, next);
