@@ -148,7 +148,7 @@ async function updateProfile(id, reqUserDto) {
 
 }
 
-async function updateProfilePhoto(id, reqUserDto) {
+async function updateProfilePhoto(id, photo) {
     try {
         return await User.updateOne(
             {
@@ -156,7 +156,7 @@ async function updateProfilePhoto(id, reqUserDto) {
             },
             {
                 $set: {
-                    photo: reqUserDto.photo,
+                    photo: photo,
                 }
             }
         );
