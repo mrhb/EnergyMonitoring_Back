@@ -8,9 +8,11 @@ const Schema = mongoose.Schema;
 
 const PowerReceiptSchema = new Schema({
 
+    powerSharingId: {type: String}, // شناسه شاشتراک برق
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
-    paymentCode: {type: String}, // شناسه پرداخت
+
+    paymentCode: {type: String, required: true}, // شناسه پرداخت
     period: {
         type: String, required: true,
         enum: [
@@ -31,35 +33,35 @@ const PowerReceiptSchema = new Schema({
     }, // دوره
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
-    numberDays: {type: Number}, // تعداد روز دوره
-    explanationExpenses: {type: String}, // شرح مصارف
-    previousCounter: {type: String}, // شمارنده قبلی
-    currentCounter: {type: String}, // شمارنده کنونی
-    coefficient: {type: String}, // ضریب
-    totalConsumption: {type: String}, // مصرف کل
-    totalConsumptionLastChanges: {type: String}, // مصرف بعد از آخرین تغییرات
-    rate: {type: String}, // نرخ
-    amount: {type: String}, // مبلغ
-    intermediate: {type: String}, // میان باری
-    peakLoad: {type: String}, // اوج بار
-    lowLoad: {type: String}, // کم بار
-    peakTimesFriday: {type: String}, // اوج بار جمعه
-    reactive: {type: String}, // راکتیو
-    contractualPower: {type: String}, // قدرت قراردادی
-    calculatedPower: {type: String}, // قدرت محاسبه شده
-    maximeterNumber: {type: String}, // عدد ماکسیمتر
-    powerConsumption: {type: String}, // قدرت مصرفی
-    badConsumptionLossRatio: {type: String}, // ضریب زیان بدی مصرف
-    paymentDeadLine: {type: Date}, // مهلت پرداخت
-    consumptionAmount: {type: Date}, // مبلغ مصرف
-    subscription: {type: Date}, // آبونمان
-    powerPrice: {type: Date}, // بهای قدرت
-    seasonPrice: {type: Date}, // بهای فصل
-    badPenaltiesForConsumingElectricityDuringThePeriod: {type: Date}, // جریمه بدی مصرف بهای برق دوره
-    vat: {type: Date}, // مالیات بر ارزش افزوده
-    electricalTolls: {type: Date}, // عوارض برق
-    debt: {type: Date}, // بدهکاری کسر هزار ریال
-    payableAmount: {type: Date}, // مبلغ قابل پرداخت
+    numberDays: {type: Number, required: true}, // تعداد روز دوره
+    explanationExpenses: {type: String, required: true}, // شرح مصارف
+    previousCounter: {type: String, required: true}, // شمارنده قبلی
+    currentCounter: {type: String, required: true}, // شمارنده کنونی
+    coefficient: {type: String, required: true}, // ضریب
+    totalConsumption: {type: String, required: true}, // مصرف کل
+    totalConsumptionLastChanges: {type: String, required: true}, // مصرف بعد از آخرین تغییرات
+    rate: {type: String, required: true}, // نرخ
+    amount: {type: String, required: true}, // مبلغ
+    intermediate: {type: String, required: true}, // میان باری
+    peakLoad: {type: String, required: true}, // اوج بار
+    lowLoad: {type: String, required: true}, // کم بار
+    peakTimesFriday: {type: String, required: true}, // اوج بار جمعه
+    reactive: {type: String, required: true}, // راکتیو
+    contractualPower: {type: String, required: true}, // قدرت قراردادی
+    calculatedPower: {type: String, required: true}, // قدرت محاسبه شده
+    maximeterNumber: {type: String, required: true}, // عدد ماکسیمتر
+    powerConsumption: {type: String, required: true}, // قدرت مصرفی
+    badConsumptionLossRatio: {type: String, required: true}, // ضریب زیان بدی مصرف
+    paymentDeadLine: {type: Date, required: true}, // مهلت پرداخت
+    consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
+    subscription: {type: String, required: true}, // آبونمان
+    powerPrice: {type: Number, required: true}, // بهای قدرت
+    seasonPrice: {type: Number, required: true}, // بهای فصل
+    badPenaltiesForConsumingElectricityDuringThePeriod: {type: Number, required: true}, // جریمه بدی مصرف بهای برق دوره
+    vat: {type: Number, required: true}, // مالیات بر ارزش افزوده
+    electricalTolls: {type: Number, required: true}, // عوارض برق
+    debt: {type: Number, required: true}, // بدهکاری کسر هزار ریال
+    payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
