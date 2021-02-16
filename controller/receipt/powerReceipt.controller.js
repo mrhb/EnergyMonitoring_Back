@@ -46,3 +46,49 @@ exports.create = async (req, res, next) => {
             throw next("در ایجاد قبض برق خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
+
+exports.update = async (req, res, next) => {
+    console.log('re id ' + req.user.id);
+
+    if (!req.query.id) {
+        throw next("شناسه قبض برق نمیتواند خالی باشد.");
+    }
+    if (!req.body.powerSharingId) {
+        throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
+    }
+
+    let powerSharing = await powerSharingDao
+        .getOne(req.body.powerSharingId)
+        .then(result => {
+            return result;
+        });
+    if (powerSharing === null) {
+        throw next("اشتراک برق انتخابی صحیح نمیباشد.");
+    }
+
+    let reqCreatePowerReceipt = new ReqCreatePowerReceipt(req.body, req.user.id, powerSharing, next);
+
+    powerReceiptDao
+        .update(req.query.id, reqCreatePowerReceipt)
+        .then(result => {
+            if (result) {
+                if (result.nModified > 0) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در ویرایش قبض برق خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.getOne = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه قبض برق نمیتواند خالی باشد.");
+    }
+    powerReceiptDao
+        .getOne(req.query.id)
+        .then(result => {
+            res.send(Response(result));
+        }).catch(err => console.log(err));
+};

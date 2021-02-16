@@ -11,6 +11,23 @@ module.exports = (app) => {
 
     let receiptController = require('../../controller/receipt/powerReceipt.controller');
 
+    /**
+     * Create
+     * Body : reqCreatePowerReceipt.dto
+     */
     app.post(RECEIPT + 'create', jwt(), receiptController.create);
+
+    /**
+     * Update
+     * Param : id
+     * Body : reqCreatePowerReceipt.dto
+     */
+    app.put(RECEIPT + 'update', jwt(), receiptController.update);
+
+    /**
+     * Get one
+     * Param : id
+     */
+    app.get(RECEIPT + 'get-one', jwt(), receiptController.getOne);
 
 };
