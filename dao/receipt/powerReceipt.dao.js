@@ -8,7 +8,9 @@ const PowerReceipt = require('../../model/receipt/powerReceipt.model');
 module.exports = {
     create,
     update,
-    getOne
+    getOne,
+    getListPageableByFilter,
+    getListPageableByFilterCount
 };
 
 async function create(powerReceipt) {
@@ -37,6 +39,32 @@ async function getOne(id) {
                 _id: id
             }
         );
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getListPageableByFilter(page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        return await PowerReceipt
+            .find()
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getListPageableByFilterCount() {
+    try {
+        return await PowerReceipt
+            .find()
+            .countDocuments();
     } catch (e) {
         console.log(e);
     }
