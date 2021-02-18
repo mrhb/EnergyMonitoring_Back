@@ -13,7 +13,9 @@
 // const ReqWallInformation = require('./dto/reqWallInformation.dto');
 // const ReqBuildingPageFilterDto = require('./dto/reqBuildingPageFilter.dto');
 
-exports.create = (req, res, next) => {
+exports.create = (req, res) => {
+    console.log(req.body)
+
     // console.log('re id ' + req.user.id);
     // let reqCreateBuildingDto = new ReqCreateBuildingDto(req.body, req.user.id, next);
 
