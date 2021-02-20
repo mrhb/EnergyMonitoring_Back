@@ -135,7 +135,6 @@ async function getListPageableByFilter(page, size) {
     }
 }
 
-
 async function getListPageableByFilterCount() {
     try {
         return await EnergySharing
@@ -145,7 +144,6 @@ async function getListPageableByFilterCount() {
         console.log(e);
     }
 }
-
 
 async function getListPageableByTerm(filter, page, size) {
     try {
