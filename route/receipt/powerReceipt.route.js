@@ -24,6 +24,12 @@ module.exports = (app) => {
      */
     app.put(POWER_RECEIPT + 'update', jwt(), receiptController.update);
 
+        /**
+     * Delete
+     * Param : id
+     */
+    app.delete(POWER_RECEIPT + 'delete', jwt(), receiptController.delete);
+
     /**
      * Get one
      * Param : id

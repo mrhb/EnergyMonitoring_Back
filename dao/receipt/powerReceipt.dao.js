@@ -9,6 +9,7 @@ module.exports = {
     create,
     update,
     getOne,
+    deleteById,
     getListPageableByFilter,
     getListPageableByFilterCount
 };
@@ -65,6 +66,16 @@ async function getListPageableByFilterCount() {
         return await PowerReceipt
             .find()
             .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function deleteById(id) {
+    try {
+        return await PowerReceipt.deleteOne({
+            _id: id
+        });
     } catch (e) {
         console.log(e);
     }

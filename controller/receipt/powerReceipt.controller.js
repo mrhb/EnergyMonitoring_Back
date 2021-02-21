@@ -81,6 +81,26 @@ exports.update = async (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+exports.delete = (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه قبض برق نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+
+    powerReceiptDao
+        .deleteById(req.query.id)
+        .then(result => {
+            if (result !== null) {
+                if (result.deletedCount > 0) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در حذف قبض برق خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
 exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
