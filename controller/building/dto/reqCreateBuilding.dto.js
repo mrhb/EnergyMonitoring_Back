@@ -14,9 +14,14 @@ function ReqCreateBuilding(data, userId, next) {
     this.floorNum = data.floorNum;
     this.exploitationPersonnelNum = data.exploitationPersonnelNum;
     this.postalCode = data.postalCode;
-    this.address = data.address;
+
+    if (this.address !== null && this.address !== 'undefined') {
+        this.address = data.address;
+    }
+
     this.ownership = data.ownership;
     this.coolingHeatingSystemType = data.coolingHeatingSystemType;
+
     this.creatorId = userId;
     this.ownerId = userId;
 }
@@ -46,13 +51,17 @@ function validate(data, next) {
     if (!data.postalCode) {
         throw next("کد پستی نمیتواند خالی باشد.");
     }
-    if (!data.address) {
-        throw next("آدرس نمیتواند خالی باشد.");
-    }
     if (!data.ownership) {
         throw next("مالکیت نمیتواند خالی باشد.");
     }
+    if (data.ownership !== 'STATE' && data.ownership !== 'RENT') {
+        throw next("مالکیت درست انتخاب نشده است.");
+    }
     if (!data.coolingHeatingSystemType) {
         throw next("نوع سیستم گرمایشی/سرمایشی نمیتواند خالی باشد.");
+    }
+    if (data.coolingHeatingSystemType !== 'CHILLER' && data.coolingHeatingSystemType !== 'POWER_HOUSE'&& data.coolingHeatingSystemType !== 'HEATER'
+        && data.coolingHeatingSystemType !== 'WATER_COOLER' && data.coolingHeatingSystemType !== 'GAS_COOLER') {
+        throw next("مالکیت درست انتخاب نشده است.");
     }
 }

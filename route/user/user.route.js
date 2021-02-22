@@ -24,6 +24,11 @@ module.exports = (app) => {
 
     app.put(USER + 'update-profile', jwt(), userController.updateProfile);
 
+    /**
+     * Body : { photo}
+     */
+    app.put(USER + 'update-profile-photo', jwt(), userController.updateProfilePhoto);
+
     app.put(USER + 'update-password', jwt(), userController.updatePassword);
 
     app.put(USER + 'update-mobile/:mobile', jwt(), userController.updateMobile);

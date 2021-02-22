@@ -16,7 +16,8 @@ module.exports = {
     getListPageableByFilter,
     getListPageableByFilterCount,
     getListPageableByTerm,
-    getListPageableByTermCount
+    getListPageableByTermCount,
+    isThereBuilding
 };
 
 async function create(powerSharing) {
@@ -134,7 +135,6 @@ async function getListPageableByFilter(page, size) {
     }
 }
 
-
 async function getListPageableByFilterCount() {
     try {
         return await EnergySharing
@@ -144,7 +144,6 @@ async function getListPageableByFilterCount() {
         console.log(e);
     }
 }
-
 
 async function getListPageableByTerm(filter, page, size) {
     try {
@@ -188,6 +187,27 @@ async function getListPageableByTermCount(filter) {
                 buildingNum: 0
             })
             .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function isThereBuilding(id, buildingId) {
+    try {
+        if (id !== null) {
+            return await EnergySharing
+                .find({
+                    "_id": {$ne: id},
+                    "buildingList.buildingId": buildingId
+                })
+                .countDocuments();
+        } else {
+            return await EnergySharing
+                .find({
+                    "buildingList.buildingId": buildingId
+                })
+                .countDocuments();
+        }
     } catch (e) {
         console.log(e);
     }

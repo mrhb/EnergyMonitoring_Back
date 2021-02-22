@@ -77,20 +77,20 @@ exports.getOne = async (req, res, next) => {
         throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    let powerSharing = await gasSharingDao
+    let gasSharing = await gasSharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
-    console.log(powerSharing);
+    console.log(gasSharing);
 
-    if (powerSharing === null) {
+    if (gasSharing === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
 
-    if (powerSharing.buildingList.length > 0) {
+    if (gasSharing.buildingList.length > 0) {
         let buildingIdList = [];
-        powerSharing.buildingList.forEach(item => {
+        gasSharing.buildingList.forEach(item => {
             buildingIdList.push(item.buildingId);
         });
 
@@ -101,7 +101,7 @@ exports.getOne = async (req, res, next) => {
             }).catch(err => console.log(err));
         console.log(buildingList);
 
-        powerSharing.buildingList.forEach(item => {
+        gasSharing.buildingList.forEach(item => {
             buildingList.forEach(building => {
 
 
@@ -115,13 +115,26 @@ exports.getOne = async (req, res, next) => {
             })
         });
     }
-    res.send(Response(powerSharing));
+    res.send(Response(gasSharing));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
         throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
+    }
+
+    // Is there an gas sharing for this building?
+    let isThereGas = await gasSharingDao
+        .isThereBuilding(null,req.body.buildingId)
+        .then(result => {
+            if (result !== null && result > 0)
+                return true;
+            else
+                return false;
+        });
+    if (isThereGas === true){
+        throw next('برای ساختمان انتخابی اشتراک گاز انتخاب شده است.')
     }
 
     let gasSharing = await gasSharingDao
@@ -137,6 +150,10 @@ exports.addBuildingAllocation = async (req, res, next) => {
         allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }else {
+        if (req.body.allocationPercentage > 100) {
+            throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
@@ -178,6 +195,19 @@ exports.updateBuildingAllocation = async (req, res, next) => {
     }
     console.log('query id ' + req.query.id);
 
+    // Is there an gas sharing for this building?
+    let isThereGas = await gasSharingDao
+        .isThereBuilding(req.query.id,req.body.buildingId)
+        .then(result => {
+            if (result !== null && result > 0)
+                return true;
+            else
+                return false;
+        });
+    if (isThereGas === true){
+        throw next('برای ساختمان انتخابی اشتراک گاز انتخاب شده است.')
+    }
+
     let gasSharing = await gasSharingDao
         .getOne(req.query.id)
         .then(result => {
@@ -194,6 +224,10 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         }
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }else {
+        if (req.body.allocationPercentage > 100) {
+            throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
         }
     }
 

@@ -17,6 +17,7 @@ module.exports = {
     isEmailExistsByIgnoreId,
     getProfile,
     updateProfile,
+    updateProfilePhoto,
     updatePassword,
     updateMobile,
     updateEmail,
@@ -137,8 +138,25 @@ async function updateProfile(id, reqUserDto) {
                     organizationalLevel: reqUserDto.organizationalLevel,
                     address: reqUserDto.address,
                     city: reqUserDto.city,
-                    province: reqUserDto.province,
-                    photo: reqUserDto.photo,
+                    province: reqUserDto.province
+                }
+            }
+        );
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+async function updateProfilePhoto(id, photo) {
+    try {
+        return await User.updateOne(
+            {
+                _id: id
+            },
+            {
+                $set: {
+                    photo: photo,
                 }
             }
         );

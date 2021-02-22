@@ -124,11 +124,25 @@ exports.addBuildingAllocation = async (req, res, next) => {
         throw next("شناسه اشتراک انرژی نمیتواند خالی باشد.");
     }
 
+    // Is there an energy sharing for this building?
+    let isThereEnergy = await energySharingDao
+        .isThereBuilding(null,req.body.buildingId)
+        .then(result => {
+            if (result !== null && result > 0)
+                return true;
+            else
+                return false;
+        });
+    if (isThereEnergy === true){
+        throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
+    }
+
     let energySharing = await energySharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
+    // Check allocationPercentage
     if (energySharing.buildingList.length > 0) {
         let allocationPercentageSum = 0;
         for (let i = 0; i < energySharing.buildingList.length; i++) {
@@ -137,6 +151,10 @@ exports.addBuildingAllocation = async (req, res, next) => {
         allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }else {
+        if (req.body.allocationPercentage > 100) {
+            throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
@@ -178,12 +196,26 @@ exports.updateBuildingAllocation = async (req, res, next) => {
     }
     console.log('query id ' + req.query.id);
 
+    // Is there an energy sharing for this building?
+    let isThereEnergy = await energySharingDao
+        .isThereBuilding(req.query.id,req.body.buildingId)
+        .then(result => {
+            if (result !== null && result > 0)
+                return true;
+            else
+                return false;
+        });
+    if (isThereEnergy === true){
+        throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
+    }
+
     let energySharing = await energySharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
 
+    // Check allocationPercentage
     if (energySharing.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
         for (let i = 0; i < energySharing.buildingList.length; i++) {
@@ -194,6 +226,10 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         }
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
+        }
+    }else {
+        if (req.body.allocationPercentage > 100) {
+            throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
         }
     }
 

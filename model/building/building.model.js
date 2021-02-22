@@ -16,10 +16,22 @@ const BuildingSchema = new Schema({
     floorNum: {type: Number, required: true},
     exploitationPersonnelNum: {type: Number, required: true},
     postalCode: {type: String, required: true},
-    address: {type: String, required: true},
-    ownership: {type: String, required: true},
-    coolingHeatingSystemType: {type: String},
-
+    address: {type: String},
+    ownership: {
+        type: String, required: true, enum: [
+            'STATE', // ملکی
+            'RENT' // استیجاری
+        ]
+    },
+    coolingHeatingSystemType: {
+        type: String, required: true, enum: [
+            'CHILLER', // چیلر
+            'POWER_HOUSE', // موتورخانه
+            'HEATER', // بخاری
+            'WATER_COOLER', // کولر آبی
+            'GAS_COOLER', // کولر گازی
+        ]
+    },
     arenaArea: {type: Number},
     ayanArea: {type: Number},
     useFullArea: {type: Number},

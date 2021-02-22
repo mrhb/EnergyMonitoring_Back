@@ -14,7 +14,6 @@ function ReqUpdateProfile(data, next) {
     this.address = data.address;
     this.city = data.city;
     this.province = data.province;
-    this.photo = data.photo;
 }
 
 function validate(data, next) {
@@ -41,8 +40,5 @@ function validate(data, next) {
     }
     if (!data.province) {
         throw next("استان نمیتواند خالی باشد.");
-    }
-    if (!data.photo) {
-        throw next("عکس نمیتواند خالی باشد.");
     }
 }
