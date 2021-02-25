@@ -106,11 +106,38 @@ exports.getOne = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض برق نمیتواند خالی باشد.");
     }
-    powerReceiptDao
-        .getOne(req.query.id)
+
+    let powerReceipt = await powerReceiptDao
+    .getOne(req.query.id)
+    .then(result => {
+        return result;
+    }).catch(err => console.log(err));
+    console.log(powerReceipt);
+
+    if (powerReceipt === null) {
+        throw next('این قبض موجود نیست.');
+    }
+
+    if (powerReceipt.powerSharingId) {
+
+        let powerSharing = await powerSharingDao
+        .getOne(powerReceipt.powerSharingId)
         .then(result => {
-            res.send(Response(result));
-        }).catch(err => console.log(err));
+            return result;
+        });
+    console.log(powerSharing);
+
+    powerReceipt.powerSharing=powerSharing;
+
+    if (powerSharing === null) {
+        throw next("اشتراک برق ثبت شده صحیح نمیباشد.");
+    }
+
+    }
+
+    res.send(Response(powerReceipt));
+
+
 };
 
 exports.getListPageableByFilter = async (req, res, next) => {

@@ -5,10 +5,12 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
+const powerSharingAllocation = require('./powerSharingAllocation.model');
 
 const PowerReceiptSchema = new Schema({
 
     powerSharingId: {type: String}, // شناسه شاشتراک برق
+    powerSharing:powerSharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
 

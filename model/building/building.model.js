@@ -64,4 +64,15 @@ BuildingSchema.set('toJSON', {
     }
 });
 
+
+BuildingSchema.index({
+    name: 'text',
+    ownership: 'text',
+  }, {
+    weights: {
+      name: 5,
+      ownership: 1,
+    },
+  });
+
 module.exports = mongoose.model('building', BuildingSchema);
