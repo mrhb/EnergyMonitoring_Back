@@ -25,5 +25,6 @@ require('./route/sharing/waterSharing.route')(app);
 require('./route/sharing/energySharing.route')(app);
 require('./route/climate/climate.route')(app);
 require('./route/receipt/powerReceipt.route')(app);
+require('./route/receipt/waterReceipt.route')(app);
 
 module.exports = app;
