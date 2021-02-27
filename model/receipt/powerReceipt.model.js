@@ -12,18 +12,17 @@ const ConsumptionSchema = new Schema({
     currentCounter      :  {type: String, required: true},//شمارنده کنونی
     coefficient         :  {type: String, required: true},//ضریب
     totalConsumption      :  {type: String, required: true},//مصرف کل
-    consumptionAfterLastChange      :  {type: String, required: true},//مصرف بعد از آخرین تغییرات
+    consumptionAfterLastChange      :  {type: String, required: true},//مصرف بعد از آخرین تغیرات
     nerkh               :  {type: String, required: true},//نرخ
     mablagh             :  {type: String, required: true}//مبلغ
 });
 
 const PowerReceiptSchema = new Schema({
 
-    powerSharingId: {type: String}, // شناسه شاشتراک برق
+    powerSharingId: {type: String}, // شناسه اشتراک برق
     powerSharing:powerSharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
-
     paymentCode: {type: String, required: true}, // شناسه پرداخت
     period: {
         type: String, required: true,
@@ -51,7 +50,7 @@ const PowerReceiptSchema = new Schema({
     currentCounter: {type: String, required: true}, // شمارنده کنونی
     coefficient: {type: String, required: true}, // ضریب
     totalConsumption: {type: String, required: true}, // مصرف کل
-    totalConsumptionLastChanges: {type: String, required: true}, // مصرف بعد از آخرین تغییرات
+    totalConsumptionLastChanges: {type: String, required: true}, // مصرف بعد از آخرین تغیرات
     rate: {type: String, required: true}, // نرخ
     amount: {type: String, required: true}, // مبلغ
     //*******Consumptions******* */
@@ -95,86 +94,3 @@ PowerReceiptSchema.set('toJSON', {
 });
 
 module.exports = mongoose.model('powerReceipt', PowerReceiptSchema);
-
-
-/**
- * نمونه داده قبض برق
- */
-
-// {
-//     "_id" : ObjectId("60312ebc47908dae37cb28c3"),
-//     "powerSharingId" : "60372d4d7356f03a2cb0efb2",
-//     "paymentCode" : "2535256",
-//     "period" : "FIRST",
-//     "fromDate" : "2020-01-01",
-//     "toDate" : "2020-01-30",
-//     "numberDays" : 12,
-//     "explanationExpenses" : "ssss",
-//     "previousCounter" : 2535,
-//     "currentCounter" : 3535,
-//     "coefficient" : "2155sdsd",
-//     "totalConsumption" : 25353256,
-//     "totalConsumptionLastChanges" : 3.23213213,
-//     "rate" : "25",
-//     "amount" : 250000,
-//     "intermediate" : {
-//         "preCounter" : 324,
-//         "currentCounter" : 23453,
-//         "coefficient" : 877,
-//         "totalConsumption" : 986,
-//         "consumptionAfterLastChange" : 13245,
-//         "nerkh" : 5467,
-//         "mablagh" : 9865
-//     },
-//     "peakLoad" : {
-//         "preCounter" : 324,
-//         "currentCounter" : 23453,
-//         "coefficient" : 877,
-//         "totalConsumption" : 986,
-//         "consumptionAfterLastChange" : 13245,
-//         "nerkh" : 5467,
-//         "mablagh" : 9865
-//     },
-//     "lowLoad" : {
-//         "preCounter" : 324,
-//         "currentCounter" : 23453,
-//         "coefficient" : 877,
-//         "totalConsumption" : 986,
-//         "consumptionAfterLastChange" : 13245,
-//         "nerkh" : 5467,
-//         "mablagh" : 9865
-//     },
-//     "peakTimesFriday" : {
-//         "preCounter" : 324,
-//         "currentCounter" : 23453,
-//         "coefficient" : 877,
-//         "totalConsumption" : 986,
-//         "consumptionAfterLastChange" : 13245,
-//         "nerkh" : 5467,
-//         "mablagh" : 9865
-//     },
-//     "reactive" : {
-//         "preCounter" : 7856,
-//         "currentCounter" : 6345,
-//         "coefficient" : 971,
-//         "totalConsumption" : 13457,
-//         "consumptionAfterLastChange" : 13245,
-//         "nerkh" : 186764,
-//         "mablagh" : 9987865
-//     },
-//     "contractualPower" : "sdasdsad",
-//     "calculatedPower" : "sdasdsad",
-//     "maximeterNumber" : "sdasdsad",
-//     "powerConsumption" : "sdasdsad",
-//     "badConsumptionLossRatio" : "sdasdsad",
-//     "paymentDeadLine" : 250000,
-//     "consumptionAmount" : 250000,
-//     "subscription" : "sdasdsad",
-//     "powerPrice" : 2500,
-//     "seasonPrice" : 35000,
-//     "badPenaltiesForConsumingElectricityDuringThePeriod" : 2500000,
-//     "vat" : 2533333,
-//     "electricalTolls" : 352222,
-//     "debt" : 25555,
-//     "payableAmount" : 350000
-// }

@@ -14,6 +14,15 @@ const WaterSharingSchema = new Schema({
     numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
     serialShare: {type: String}, // شماره بدنه کنتور
+    paymentCode: {type: String, required: true}, // شناسه پرداخت
+    fromDate: {type: Date, required: true}, // از تاریخ
+    toDate: {type: Date, required: true}, // تا تاریخ
+    numberDays: {type: Number, required: true}, // تعداد روز دوره
+    previousCounter: {type: String, required: true}, // شمارنده قبلی
+    currentCounter: {type: String, required: true}, // شمارنده کنونی
+    consumptionDurat: {type: String, required: true}, // مصرف دوره
+    consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
+
     useType: {
         type: String,
         required: true,

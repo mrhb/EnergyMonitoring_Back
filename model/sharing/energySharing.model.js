@@ -13,12 +13,19 @@ const EnergySharingSchema = new Schema({
     energyCarrier: {type: String, required: true}, // حامل انرژی
     energyUnit: {type: String}, // واحد انرژی
     shareNumber: {type: String}, // شماره کنتور
-
+    fromDate: {type: Date, required: true}, // از تاریخ
+    toDate: {type: Date, required: true}, // تا تاریخ
+    numberDays: {type: Number, required: true}, // تعداد روز دوره
+    consumptionAmount: {type: String, required: true}, // میزان مصرف 
+    energyCost: {type: Number, required: true}, // هزینه انرژی
+    otherCost: {type: Number, required: true}, // سایر هزینه ها
+    payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
+
 }, {
     timestamps: true
 });
