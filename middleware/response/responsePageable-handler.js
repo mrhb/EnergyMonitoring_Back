@@ -12,6 +12,7 @@ function responsePageable(dataList, totalElements, page, size) {
             totalElements: Number(totalElements),
             page: Number(page),
             size: Number(size),
+            totalPages: Math.ceil(this.totalElements / this.size),
             first: (Number(page) === 0),
             last: (((page * size) + size) >= (Number(totalElements)))
         }
