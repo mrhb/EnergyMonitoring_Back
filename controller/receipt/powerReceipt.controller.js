@@ -47,6 +47,53 @@ exports.create = async (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+exports.createMulti = async (req, res, next) => {
+    console.log('re id ' + req.user.id);
+
+    let powerReceiptList = req.body;
+
+    if (powerReceiptList == null){
+        throw next("لیست خالی میباشد.");
+    }
+
+    let powerSharingIdList = [];
+    powerReceiptList.forEach(item => {
+        powerSharingIdList.push(item.powerSharingId);
+    });
+
+    let powerSharingList = await powerSharingDao
+        .getListByIdList(powerSharingIdList)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    powerReceiptList.forEach(powerReceipt => {
+        powerSharingList.forEach(powerSharing => {
+            if (powerReceipt.powerSharingId === powerSharing.id){
+                powerReceipt.numberShare = powerSharing.numberShare;
+                powerReceipt.nameShare = powerSharing.name;
+                powerReceipt.numberDays = (new Date(powerReceipt.toDate).getTime() - new Date(powerReceipt.fromDate).getTime()) / (1000 * 3600 * 24);
+                powerReceipt.creatorId = req.user.id;
+                powerReceipt.ownerId = req.user.id;
+            }
+        });
+    });
+
+    powerReceiptDao
+        .create(powerReceiptList)
+        .then(result => {
+            console.log("my res");
+            console.log(result);
+            if (result) {
+                if (result[0]._id) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در ایجاد قبض برق خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
 exports.update = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
