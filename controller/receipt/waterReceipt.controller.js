@@ -4,7 +4,7 @@
  */
 
 const waterReceiptDao = require('../../dao/receipt/waterReceipt.dao');
-const powerSharingDao = require('../../dao/sharing/powerSharing.dao');
+const waterSharingDao = require('../../dao/sharing/waterSharing.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreateWaterReceipt = require('./dto/reqCreateWaterReceipt.dto');
@@ -24,11 +24,11 @@ exports.create = async (req, res, next) => {
             return result;
         });
     console.log(waterSharing);
-    if (powerSharing === null) {
+    if (waterSharing === null) {
         throw next("اشتراک آب انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, powerSharing, next);
+    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, waterSharing, next);
 
 
     let waterReceipt = new WaterReceipt(reqCreateWaterReceipt);
@@ -53,20 +53,20 @@ exports.update = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض آب نمیتواند خالی باشد.");
     }
-    if (!req.body.powerSharingId) {
+    if (!req.body.waterSharingId) {
         throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
 
-    let powerSharing = await powerSharingDao
-        .getOne(req.body.powerSharingId)
+    let waterSharing = await waterSharingDao
+        .getOne(req.body.waterSharingId)
         .then(result => {
             return result;
         });
-    if (powerSharing === null) {
+    if (waterSharing === null) {
         throw next("اشتراک آب انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, powerSharing, next);
+    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, waterSharing, next);
 
     waterReceiptDao
         .update(req.query.id, reqCreateWaterReceipt)
@@ -118,18 +118,18 @@ exports.getOne = async (req, res, next) => {
         throw next('این قبض موجود نیست.');
     }
 
-    if (waterReceipt.powerSharingId) {
+    if (waterReceipt.waterSharingId) {
 
-        let powerSharing = await powerSharingDao
-        .getOne(waterReceipt.powerSharingId)
+        let waterSharing = await waterSharingDao
+        .getOne(waterReceipt.waterSharingId)
         .then(result => {
             return result;
         });
-    console.log(powerSharing);
+    console.log(waterSharing);
 
-    waterReceipt.powerSharing=powerSharing;
+    waterReceipt.waterSharing=waterSharing;
 
-    if (powerSharing === null) {
+    if (waterSharing === null) {
         throw next("اشتراک آب ثبت شده صحیح نمیباشد.");
     }
 
