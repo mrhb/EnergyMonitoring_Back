@@ -18,6 +18,12 @@ module.exports = (app) => {
     app.post(POWER_RECEIPT + 'create', jwt(), receiptController.create);
 
     /**
+     * Create Multi
+     * Body : list reqCreatePowerReceipt.dto
+     */
+    app.post(POWER_RECEIPT + 'create-multi', jwt(), receiptController.createMulti);
+
+    /**
      * Update
      * Param : id
      * Body : reqCreatePowerReceipt.dto
