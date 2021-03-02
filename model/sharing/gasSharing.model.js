@@ -42,20 +42,6 @@ const GasSharingSchema = new Schema({
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number,default: 0}, // تعداد ساختمان ها
 
-    paymentCode: {type: String, required: true}, // شناسه پرداخت
-    fromDate: {type: Date, required: true}, // از تاریخ
-    toDate: {type: Date, required: true}, // تا تاریخ
-    numberDays: {type: Number, required: true}, // تعداد روز دوره
-    previousCounter: {type: String, required: true}, // شمارنده قبلی
-    currentCounter: {type: String, required: true}, // شمارنده کنونی
-    totalCounter: {type: String, required: true}, // کارکرد شمارشگر
-    estandardConsumption: {type: String, required: true}, // مصرف استاندارد
-    gasPrice: {type: Number, required: true}, // بهای گاز
-    subscription: {type: String, required: true}, // آبونمان
-    gasTolls: {type: Number, required: true}, // عوارض گاز
-    insurance: {type: Number, required: true}, //  بیمه
-    payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
-
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
 }, {
