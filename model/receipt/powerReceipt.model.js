@@ -5,13 +5,24 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
+const powerSharingAllocation = require('./powerSharingAllocation.model');
+
+const ConsumptionSchema = new Schema({
+    preCounter          :  {type: String, required: true},//شمارنده قبلی
+    currentCounter      :  {type: String, required: true},//شمارنده کنونی
+    coefficient         :  {type: String, required: true},//ضریب
+    totalConsumption      :  {type: String, required: true},//مصرف کل
+    consumptionAfterLastChange      :  {type: String, required: true},//مصرف بعد از آخرین تغیرات
+    nerkh               :  {type: String, required: true},//نرخ
+    mablagh             :  {type: String, required: true}//مبلغ
+});
 
 const PowerReceiptSchema = new Schema({
 
-    powerSharingId: {type: String}, // شناسه شاشتراک برق
+    powerSharingId: {type: String}, // شناسه اشتراک برق
+    powerSharing:powerSharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
-
     paymentCode: {type: String, required: true}, // شناسه پرداخت
     period: {
         type: String, required: true,
@@ -39,14 +50,16 @@ const PowerReceiptSchema = new Schema({
     currentCounter: {type: String, required: true}, // شمارنده کنونی
     coefficient: {type: String, required: true}, // ضریب
     totalConsumption: {type: String, required: true}, // مصرف کل
-    totalConsumptionLastChanges: {type: String, required: true}, // مصرف بعد از آخرین تغییرات
+    totalConsumptionLastChanges: {type: String, required: true}, // مصرف بعد از آخرین تغیرات
     rate: {type: String, required: true}, // نرخ
     amount: {type: String, required: true}, // مبلغ
-    intermediate: {type: String, required: true}, // میان باری
-    peakLoad: {type: String, required: true}, // اوج بار
-    lowLoad: {type: String, required: true}, // کم بار
-    peakTimesFriday: {type: String, required: true}, // اوج بار جمعه
-    reactive: {type: String, required: true}, // راکتیو
+    //*******Consumptions******* */
+    intermediate: {type: ConsumptionSchema, required: true}, // میان باری
+    peakLoad: {type: ConsumptionSchema, required: true}, // اوج بار
+    lowLoad: {type: ConsumptionSchema, required: true}, // کم بار
+    peakTimesFriday: {type: ConsumptionSchema, required: true}, // اوج بار جمعه
+    reactive: {type: ConsumptionSchema, required: true}, // راکتیو
+    //*************** */
     contractualPower: {type: String, required: true}, // قدرت قراردادی
     calculatedPower: {type: String, required: true}, // قدرت محاسبه شده
     maximeterNumber: {type: String, required: true}, // عدد ماکسیمتر
@@ -57,7 +70,8 @@ const PowerReceiptSchema = new Schema({
     subscription: {type: String, required: true}, // آبونمان
     powerPrice: {type: Number, required: true}, // بهای قدرت
     seasonPrice: {type: Number, required: true}, // بهای فصل
-    badPenaltiesForConsumingElectricityDuringThePeriod: {type: Number, required: true}, // جریمه بدی مصرف بهای برق دوره
+    badPenaltiesForConsuming: {type: Number, required: true}, // جریمه بدی مصرف 
+    electricityDuringThePeriod: {type: Number, required: true}, // بهای برق دوره
     vat: {type: Number, required: true}, // مالیات بر ارزش افزوده
     electricalTolls: {type: Number, required: true}, // عوارض برق
     debt: {type: Number, required: true}, // بدهکاری کسر هزار ریال
@@ -68,6 +82,8 @@ const PowerReceiptSchema = new Schema({
 }, {
     timestamps: true
 });
+
+
 
 PowerReceiptSchema.set('toJSON', {
     virtuals: true,

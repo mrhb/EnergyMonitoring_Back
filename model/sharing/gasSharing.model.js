@@ -11,7 +11,7 @@ const GasSharingSchema = new Schema({
 
     name: {type: String}, // نام مشترک
     address: {type: String}, // نشانی محل مصرف
-    billingId: {type: String, required: true}, // شناسه قبض
+    billingId: {type: String, required: true}, // شناسه اشتراک
     city: {type: String}, // شهر
     domainCode: {type: String}, // کد حوزه
     addressCode: {type: String, required: true}, // کد آدرس

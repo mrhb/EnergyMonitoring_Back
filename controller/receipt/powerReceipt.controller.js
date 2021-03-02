@@ -47,6 +47,53 @@ exports.create = async (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+exports.createMulti = async (req, res, next) => {
+    console.log('re id ' + req.user.id);
+
+    let powerReceiptList = req.body;
+
+    if (powerReceiptList == null){
+        throw next("لیست خالی میباشد.");
+    }
+
+    let powerSharingIdList = [];
+    powerReceiptList.forEach(item => {
+        powerSharingIdList.push(item.powerSharingId);
+    });
+
+    let powerSharingList = await powerSharingDao
+        .getListByIdList(powerSharingIdList)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    powerReceiptList.forEach(powerReceipt => {
+        powerSharingList.forEach(powerSharing => {
+            if (powerReceipt.powerSharingId === powerSharing.id){
+                powerReceipt.numberShare = powerSharing.numberShare;
+                powerReceipt.nameShare = powerSharing.name;
+                powerReceipt.numberDays = (new Date(powerReceipt.toDate).getTime() - new Date(powerReceipt.fromDate).getTime()) / (1000 * 3600 * 24);
+                powerReceipt.creatorId = req.user.id;
+                powerReceipt.ownerId = req.user.id;
+            }
+        });
+    });
+
+    powerReceiptDao
+        .create(powerReceiptList)
+        .then(result => {
+            console.log("my res");
+            console.log(result);
+            if (result) {
+                if (result[0]._id) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در ایجاد قبض برق خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
 exports.update = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
@@ -106,11 +153,38 @@ exports.getOne = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض برق نمیتواند خالی باشد.");
     }
-    powerReceiptDao
-        .getOne(req.query.id)
+
+    let powerReceipt = await powerReceiptDao
+    .getOne(req.query.id)
+    .then(result => {
+        return result;
+    }).catch(err => console.log(err));
+    console.log(powerReceipt);
+
+    if (powerReceipt === null) {
+        throw next('این قبض موجود نیست.');
+    }
+
+    if (powerReceipt.powerSharingId) {
+
+        let powerSharing = await powerSharingDao
+        .getOne(powerReceipt.powerSharingId)
         .then(result => {
-            res.send(Response(result));
-        }).catch(err => console.log(err));
+            return result;
+        });
+    console.log(powerSharing);
+
+    powerReceipt.powerSharing=powerSharing;
+
+    if (powerSharing === null) {
+        throw next("اشتراک برق ثبت شده صحیح نمیباشد.");
+    }
+
+    }
+
+    res.send(Response(powerReceipt));
+
+
 };
 
 exports.getListPageableByFilter = async (req, res, next) => {
