@@ -16,26 +16,25 @@ function ReqCreatePowerSharing(data, userId, next) {
     if (this.systemPass !== null && this.systemPass !== 'undefined') {
         this.systemPass = data.systemPass;
     }
-    if (this.city !== null && this.city !== 'undefined') {
-        this.city = data.city;
-    }
-    if (this.domainCode !== null && this.domainCode !== 'undefined') {
-        this.domainCode = data.domainCode;
+    if (this.contract !== null && this.contract !== 'undefined') {
+        this.contract = data.contract;
     }
     this.addressCode = data.addressCode;
-    if (this.numberShare !== null && this.numberShare !== 'undefined') {
-        this.numberShare = data.numberShare;
-    }
     if (this.fileNumber !== null && this.fileNumber !== 'undefined') {
         this.fileNumber = data.fileNumber;
     }
-    if (this.serialShare !== null && this.serialShare !== 'undefined') {
-        this.serialShare = data.serialShare;
-    }
+    // if (this.domainCode !== null && this.domainCode !== 'undefined') {
+    //     this.domainCode = data.domainCode;
+    // }
+    // if (this.numberShare !== null && this.numberShare !== 'undefined') {
+    //     this.numberShare = data.numberShare;
+    // }
+    // if (this.serialShare !== null && this.serialShare !== 'undefined') {
+    //     this.serialShare = data.serialShare;
+    // }
     this.useType = data.useType;
     this.useCode = data.useCode;
     this.group = data.group;
-    this.capacity = data.capacity;
     this.coefficient = data.coefficient;
     this.voltageType = data.voltageType;
     this.powerSupplyVoltage = data.powerSupplyVoltage;
@@ -43,6 +42,7 @@ function ReqCreatePowerSharing(data, userId, next) {
     this.creatorId = userId;
     this.ownerId = userId;
 }
+// this.capacity = data.capacity;
 
 function validate(data, next) {
     if (!data.billingId) {
@@ -87,9 +87,9 @@ function validate(data, next) {
     if (data.group !== 'DIMANDI' && data.group !== 'UN_DIMANDI' ) {
         throw next("گروه درست انتخاب نشده است.");
     }
-    if (!data.capacity) {
-        throw next("ظرفیت نمیتواند خالی باشد.");
-    }
+    // if (!data.capacity) {
+    //     throw next("ظرفیت نمیتواند خالی باشد.");
+    // }
     if (!data.coefficient) {
         throw next("ضریب اشتراک نمیتواند خالی باشد.");
     }

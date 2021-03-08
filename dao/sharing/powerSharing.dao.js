@@ -135,6 +135,9 @@ async function getListPageableByFilter(page, size) {
                     billingId: 1,
                     addressCode: 1,
                     useType: 1,
+                    useCode: 1,
+                    group:1,
+                    contract:1,
                     buildingNum: 1,
                     createdAt: 1
                 })
@@ -176,6 +179,7 @@ async function getListPageableByTerm(filter, page, size) {
                     billingId: 1,
                     addressCode: 1,
                     useType: 1,
+                    group:1,
                     buildingNum: 1,
                     createdAt: 1
                 })

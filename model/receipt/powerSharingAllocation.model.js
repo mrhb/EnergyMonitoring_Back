@@ -11,7 +11,7 @@ const PowerSharingAllocatoioSchema = new Schema({
     name: {type: String}, // نام مشترک
     address: {type: String}, // نشانی محل مصرف
     systemPass: {type: String}, // رمز رایانه
-    city: {type: String}, // شهر
+    contract: {type: String}, // دیماند قراردادی
     domainCode: {type: String}, // کد حوزه
     addressCode: {type: String, required: true}, // کد آدرس
     numberShare: {type: String}, // شماره اشتراک

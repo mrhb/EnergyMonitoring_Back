@@ -13,12 +13,9 @@ const PowerSharingSchema = new Schema({
     address: {type: String}, // نشانی محل مصرف
     billingId: {type: String, required: true}, // شناسه قبض
     systemPass: {type: String}, // رمز رایانه
-    city: {type: String}, // شهر
-    domainCode: {type: String}, // کد حوزه
+    contract: {type: String}, // دیماند قراردادی
     addressCode: {type: String, required: true}, // کد آدرس
-    numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
-    serialShare: {type: String}, // سریال اشتراک
     useType: {
         type: String,
         required: true,
@@ -30,6 +27,10 @@ const PowerSharingSchema = new Schema({
             'OTHER' // سایر مصارف
         ]
     },// عنوان تعرفه
+        // domainCode: {type: String}, // کد حوزه
+        // numberShare: {type: String}, // شماره اشتراک
+        // serialShare: {type: String}, // سریال اشتراک
+
     useCode: {
         type: String, required: true, enum: [
             'NORMAL_REGION_NON_WARM_TROPICAL', // مناطق عادی و ماه های غیر گرم مناطق گرمسیر
@@ -56,14 +57,13 @@ const PowerSharingSchema = new Schema({
         ]
     },// کد تعرفه
 
+    // capacontract: {type: String, required: true}, // ظرفیت
     group: {type: String, required: true, enum: ['DIMANDI', 'UN_DIMANDI']}, // گروه
-    capacity: {type: String, required: true}, // ظرفیت
     coefficient: {type: String, required: true}, // ضریب اشتراک
     voltageType: {type: String, required: true, enum: ['PRIMITIVE', 'SECONDARY']}, // نوع ولتاژ
     powerSupplyVoltage: {type: String, required: true, enum: ['P380', 'P220']}, // ولتاژ تغذیه
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
-
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
 }, {
