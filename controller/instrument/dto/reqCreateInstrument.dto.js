@@ -30,10 +30,11 @@ function ReqCreateInstrument(data, userId, next) {
         this.serialShare = data.serialShare;
     }
     this.useType = data.useType;
-    this.group = data.group;
-    this.capacity = data.capacity;
-    this.coefficient = data.coefficient;
-    this.buildingNum = 0;
+    this.instrumentCarrier =0;// نام حامل انرژی 
+    this.instrumentUsage = 0;// کاربری تجهیر 
+    this.instrumentNum = 0;//  تعداد 
+    this.consumptionPower = 0;//  توان مصرفی 
+
     this.creatorId = userId;
     this.ownerId = userId;
 }
