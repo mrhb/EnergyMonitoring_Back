@@ -127,7 +127,11 @@ async function getListPageableByFilter(page, size) {
                     addressCode: 1,
                     useType: 1,
                     buildingNum: 1,
+                    numberShare: 1, // شماره اشتراک
+                    useCode: 1, //    کد و نوع تعرفه 
+                    capacity: 1,  // ظرفیت قراردادی 
                     createdAt: 1
+
                 })
             .sort({createdAt: -1})
             .skip(Number(skip))
@@ -169,6 +173,9 @@ async function getListPageableByTerm(filter, page, size) {
                     addressCode: 1,
                     useType: 1,
                     buildingNum: 1,
+                    numberShare: 1, // شماره اشتراک
+                    useCode: 1, //    کد و نوع تعرفه 
+                    capacity: 1,  // ظرفیت قراردادی 
                     createdAt: 1
                 })
             .sort({createdAt: -1})

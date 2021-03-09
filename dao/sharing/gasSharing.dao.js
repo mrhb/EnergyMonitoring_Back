@@ -124,9 +124,11 @@ async function getListPageableByFilter(page, size) {
                     buildingNum: 1,
                     billingId: 1,
                     addressCode: 1,
-
                     useType: 1,
-                    createdAt: 1
+                    createdAt: 1,
+                    group: 1,
+                    capacity: 1,
+                    numberShare: 1
                 })
             .sort({createdAt: -1})
             .skip(Number(skip))
@@ -166,11 +168,14 @@ async function getListPageableByTerm(filter, page, size) {
                     _id: 1,
                     name: 1,
                     billingId: 1,
+                    buildingNum: 1,
                     addressCode: 1,
                     useType: 1,
-                    buildingNum: 1,
+                    group: 1,
+                    capacity: 1,
+                    numberShare: 1,
                     createdAt: 1
-                })
+               })
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));

@@ -20,7 +20,7 @@ const EnergyReceiptSchema = new Schema({
     consumptionDurat: {type: String, required: true}, // مصرف دوره- میزان مصرف 
     consumptionAmount: {type: Number, required: true}, // بهای مصرف-هزینه انرژی
     otherAmount: {type: Number, required: true}, // سایر هزینه ها
-    payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
+    // payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
