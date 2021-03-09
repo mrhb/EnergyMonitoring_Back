@@ -32,6 +32,9 @@ function ReqCreateWaterSharing(data, userId, next) {
     if (this.waterBranchDiameter !== null && this.waterBranchDiameter !== 'undefined') {
         this.waterBranchDiameter = data.waterBranchDiameter;
     }
+    if (this.sewageBranchDiameter !== null && this.sewageBranchDiameter !== 'undefined') {
+        this.sewageBranchDiameter = data.sewageBranchDiameter;
+    }
     this.buildingNum = 0;
     this.creatorId = userId;
     this.ownerId = userId;
