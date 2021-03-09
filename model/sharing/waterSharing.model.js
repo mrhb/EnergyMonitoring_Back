@@ -10,6 +10,8 @@ const BuildingAllocation = require('./buildingAllocation.model');
 const WaterSharingSchema = new Schema({
 
     name: {type: String}, // نام مشترک
+    address: {type: String}, // آدرس
+
     billingId: {type: String, required: true}, // شناسه قبض
     numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده

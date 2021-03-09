@@ -10,7 +10,9 @@ function ReqCreateWaterSharing(data, userId, next) {
     if (data.name !== null && data.name !== 'undefined') {
         this.name = data.name;
     }
-
+    if (data.address !== null && data.address !== 'undefined') {
+        this.address = data.address;
+    }
     this.billingId = data.billingId;
 
     if (this.numberShare !== null && this.numberShare !== 'undefined') {
