@@ -16,6 +16,8 @@ function ReqCreateEnergySharing(data, userId, next) {
     if (this.shareNumber !== null && this.shareNumber !== 'undefined') {
         this.shareNumber = data.shareNumber;
     }
+    this.capacity=data.capacity;
+    this.kiloWatConvert=data.kiloWatConvert;
     this.buildingNum = 0;
     this.creatorId = userId;
     this.ownerId = userId;
