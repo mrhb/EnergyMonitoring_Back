@@ -17,9 +17,7 @@ exports.create = (req, res, next) => {
     let reqCreateWaterSharing = new ReqCreateWaterSharing(req.body, req.user.id, next);
 
     let waterSharing = new WaterSharing(reqCreateWaterSharing);
-    console.log(111111111);
     console.log(waterSharing);
-    console.log(222222222);
 
     waterSharingDao
         .create(waterSharing)

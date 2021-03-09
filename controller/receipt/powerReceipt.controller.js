@@ -219,6 +219,10 @@ exports.getListPageableByFilter = async (req, res, next) => {
         res.send(Response(null));
         return;
     }
+    powerReceiptList.forEach(item=>{
+        item.ConsumptionSum=23;
+    })
+
 
     res.send(ResponsePageable(powerReceiptList, powerReceiptListCount, page, size));
 };

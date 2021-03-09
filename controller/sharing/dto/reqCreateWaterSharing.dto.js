@@ -10,7 +10,9 @@ function ReqCreateWaterSharing(data, userId, next) {
     if (data.name !== null && data.name !== 'undefined') {
         this.name = data.name;
     }
-
+    if (data.address !== null && data.address !== 'undefined') {
+        this.address = data.address;
+    }
     this.billingId = data.billingId;
 
     if (this.numberShare !== null && this.numberShare !== 'undefined') {
@@ -31,6 +33,9 @@ function ReqCreateWaterSharing(data, userId, next) {
     }
     if (this.waterBranchDiameter !== null && this.waterBranchDiameter !== 'undefined') {
         this.waterBranchDiameter = data.waterBranchDiameter;
+    }
+    if (this.sewageBranchDiameter !== null && this.sewageBranchDiameter !== 'undefined') {
+        this.sewageBranchDiameter = data.sewageBranchDiameter;
     }
     this.buildingNum = 0;
     this.creatorId = userId;

@@ -13,14 +13,6 @@ function ReqCreatePowerReceipt(data, userId, powerSharing, next) {
     this.toDate = new Date(data.toDate);
     const getNumberDays = (this.toDate.getTime() - this.fromDate.getTime()) / (1000 * 3600 * 24);
     this.numberDays = getNumberDays;
-    this.explanationExpenses = data.explanationExpenses;
-    this.previousCounter = data.previousCounter;
-    this.currentCounter = data.currentCounter;
-    this.coefficient = data.coefficient;
-    this.totalConsumption = data.totalConsumption;
-    this.totalConsumptionLastChanges = data.totalConsumptionLastChanges;
-    this.rate = data.rate;
-    this.amount = data.amount;
     this.intermediate = data.intermediate;
     this.peakLoad = data.peakLoad;
     this.lowLoad = data.lowLoad;
@@ -36,7 +28,7 @@ function ReqCreatePowerReceipt(data, userId, powerSharing, next) {
     this.subscription = data.subscription;
     this.powerPrice = data.powerPrice;
     this.seasonPrice = data.seasonPrice;
-    this.badPenaltiesForConsumingElectricityDuringThePeriod = data.badPenaltiesForConsumingElectricityDuringThePeriod;
+    this.badPenaltiesForConsuming = data.badPenaltiesForConsuming;
     this.vat = data.vat;
     this.electricalTolls = data.electricalTolls;
     this.debt = data.debt;
@@ -71,9 +63,7 @@ function validate(data, next) {
     if (new Date(data.fromDate).getTime() > new Date(data.toDate).getTime()) {
         throw next("تاریخ شروع نمیتواند بعد از تاریخ پایان باشد.");
     }
-    // if (!data.explanationExpenses) {
-    //     throw next("شرح مصارف نمیتواند خالی باشد.");
-    // }
+
     // if (!data.previousCounter) {
     //     throw next("شمارنده قبلی نمیتواند خالی باشد.");
     // }
