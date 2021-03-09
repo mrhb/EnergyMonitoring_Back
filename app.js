@@ -21,7 +21,7 @@ require('./route/region/region.route')(app);
 require('./route/building/building.route')(app);
 require('./route/instrument/instrument.route')(app);
 require('./route/sharing/powerSharing.route')(app);
-require('./route/sharing/gasSharing.route')(app);
+require('./route/sharing/waterSharing.route')(app);
 require('./route/sharing/gasSharing.route')(app);
 require('./route/sharing/energySharing.route')(app);
 require('./route/receipt/energyReceipt.route')(app);
