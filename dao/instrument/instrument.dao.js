@@ -120,12 +120,15 @@ async function getListPageableByFilter(page, size) {
             .find({},
                 {
                     _id: 1,
-                    name: 1,
-                    buildingNum: 1,
-                    billingId: 1,
-                    addressCode: 1,
 
-                    useType: 1,
+                    name:1, //نام تجهیز 
+                    instrumentCarrier:1, //نام حامل انرژی 
+                    instrumentUnit:1, //واحد انرژی
+                    instrumentNum:1, //تعداد
+                    instrumentUsage:1 , //کاربری تجهیر
+                    consumptionPower: 1, //توان مصرفی 
+                    consumptionUnit: 1, // واحد
+
                     createdAt: 1
                 })
             .sort({createdAt: -1})

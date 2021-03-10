@@ -8,37 +8,44 @@ const Schema = mongoose.Schema;
 const BuildingAllocation = require('./buildingAllocation.model');
 
 const InstrumentSchema = new Schema({
-
-    name: {type: String}, // نام مشترک
-    address: {type: String}, // نشانی محل مصرف
-    billingId: {type: String}, // شناسه اشتراک
-    city: {type: String}, // شهر
-    domainCode: {type: String}, // کد حوزه
-    addressCode: {type: String}, // کد آدرس
-    numberShare: {type: String}, // شماره اشتراک
-    fileNumber: {type: String}, // شماره پرونده
-    serialShare: {type: String}, // سریال اشتراک
-    useType: {
+    name:  {type: String}, //نام تجهیز 
+    instrumentCarrier:  {
         type: String,
         // required: true,
         enum: [
-            'HOME_CLIMATE_1', // خانگی اقلیم 1
-            'HOME_CLIMATE_2', // خانگی اقلیم 2
-            'HOME_CLIMATE_3', // خانگی اقلیم 3
-            'HOME_CLIMATE_4', // خانگی اقلیم 4
-            'HOME_CLIMATE_5', // خانگی اقلیم 5
-            'HOTEL', // هتل، مسافرخانه
-            'COMMERCIAL', // تجاری (کسب و خدمت)
-            'GOVERNMENT_PUBLIC', // اماکن و تاسیسات دولتی (عمومی)
-            'SPORT', // اماکن ورزشی
-            'EDUCATIONAL', // آموزشی
-            'GOVERNMENT_EDUCATIONAL', // آموزشی و پرورشی دولتی
-            'NON_GOVERNMENT_EDUCATIONAL', // آموزشی و پرورشی غیر دولتی
+            'ELECTRICITY',//'برق'
+            'GAS',//'گاز'
+            'GASOLIN',//'گازوزیل'
+            'BENZIN',//'بنزین'
         ]
-    },// نوع مصرف
-    group: {type: String, enum: ['DIMANDI', 'UN_DIMANDI']}, // گروه
-    capacity: {type: String}, // ظرفیت
-    coefficient: {type: String}, // ضریب اشتراک
+    }, //نام حامل انرژی 
+    instrumentUnit:  {type: String}, //واحد انرژی
+    instrumentNum:  {type: String}, //تعداد
+    instrumentUsage:  {
+        type: String,
+        // required: true,
+        enum: [
+            'LIGHTING', //روشنایی
+            'COOLING', //سرمایشی
+            'HEATING', //گرمایشی
+        ]
+    }, //کاربری تجهیر
+    consumptionPower:  {type: String}, //توان مصرفی 
+    consumptionUnit:   {
+        type: String,
+        // required: true,
+        enum: [
+            'LITER',// 'لیتر'
+            'KWATT',// 'کیلووات'
+            'METER3',// 'مترمکعب'
+        ]
+    }, // واحد
+    dailyOperatHours:  {type: String}, // ساعت کارکرد روز 
+    AnnualWorkDayNum:  {type: String}, //  تعداد روز کارکرد در سال 
+    fromDate:  {type: String}, //  تاریخ شروع کار تجهیز
+    toDate:  {type: String}, //  تاریخ خاتمه کار تجهیز
+    coincidenceCoefficient:  {type: String}, //   ضریب همزمانی  
+
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number,default: 0}, // تعداد ساختمان ها
 

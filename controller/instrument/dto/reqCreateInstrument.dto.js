@@ -29,11 +29,19 @@ function ReqCreateInstrument(data, userId, next) {
     if (this.serialShare !== null && this.serialShare !== 'undefined') {
         this.serialShare = data.serialShare;
     }
-    this.useType = data.useType;
-    this.group = data.group;
-    this.capacity = data.capacity;
-    this.coefficient = data.coefficient;
-    this.buildingNum = 0;
+    this.instrumentCarrier = data.instrumentCarrier;
+    this.instrumentUnit = data.instrumentUnit;
+    this.instrumentNum = data.instrumentNum;
+    this.instrumentUsage = data.instrumentUsage;
+    this.consumptionPower =data.consumptionPower;
+    this.consumptionUnit=data.consumptionUnit;
+
+    this.dailyOperatHours=data.dailyOperatHours;
+    this.AnnualWorkDayNum=data.AnnualWorkDayNum;
+    this.fromDate=data.fromDate;
+    this.toDate=data.toDate;
+    this.coincidenceCoefficient=data.coincidenceCoefficient;
+
     this.creatorId = userId;
     this.ownerId = userId;
 }
