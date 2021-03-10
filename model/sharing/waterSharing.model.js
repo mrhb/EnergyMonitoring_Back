@@ -10,6 +10,8 @@ const BuildingAllocation = require('./buildingAllocation.model');
 const WaterSharingSchema = new Schema({
 
     name: {type: String}, // نام مشترک
+    address: {type: String}, // آدرس
+
     billingId: {type: String, required: true}, // شناسه قبض
     numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
@@ -23,9 +25,10 @@ const WaterSharingSchema = new Schema({
             'PUBLIC', // عمومی
         ]
     }, // کاربری انشعاب
+    waterBranchDiameter: {type: Number}, // قطر انشعاب اب
     sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
     capacity: {type: String}, // ظرفیت قراردادی
-
+    
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 

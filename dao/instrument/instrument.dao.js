@@ -3,14 +3,13 @@
  * phone : +989035074205
  */
 
-const PowerSharing = require('../../model/sharing/powerSharing.model');
+const Instrument = require('../../model/instrument/instrument.model');
 
 module.exports = {
     create,
     update,
     deleteById,
     getOne,
-    getListByIdList,
     addBuildingAllocation,
     updateBuildingAllocation,
     deleteBuildingAllocation,
@@ -21,19 +20,19 @@ module.exports = {
     isThereBuilding
 };
 
-async function create(powerSharing) {
+async function create(instrument) {
     try {
-        return await PowerSharing.create(powerSharing);
+        return await Instrument.create(instrument);
     } catch (e) {
         console.log(e);
     }
 }
 
-async function update(id, powerSharing) {
+async function update(id, instrument) {
     try {
-        return await PowerSharing.updateOne({
+        return await Instrument.updateOne({
             _id: id
-        }, powerSharing);
+        }, instrument);
     } catch (e) {
         console.log(e);
     }
@@ -41,7 +40,7 @@ async function update(id, powerSharing) {
 
 async function deleteById(id) {
     try {
-        return await PowerSharing.deleteOne({
+        return await Instrument.deleteOne({
             _id: id
         });
     } catch (e) {
@@ -51,18 +50,8 @@ async function deleteById(id) {
 
 async function getOne(id) {
     try {
-        return await PowerSharing.findOne({
+        return await Instrument.findOne({
             _id: id
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-async function getListByIdList(idList) {
-    try {
-        return await PowerSharing.find({
-            _id: {$in: idList}
         });
     } catch (e) {
         console.log(e);
@@ -71,7 +60,7 @@ async function getListByIdList(idList) {
 
 async function addBuildingAllocation(id, reqBuildingAllocation) {
     try {
-        return await PowerSharing.updateOne({
+        return await Instrument.updateOne({
             _id: id
         }, {
             $push: {
@@ -88,7 +77,7 @@ async function addBuildingAllocation(id, reqBuildingAllocation) {
 
 async function updateBuildingAllocation(id, reqBuildingAllocation) {
     try {
-        return await PowerSharing.updateOne({
+        return await Instrument.updateOne({
             _id: id,
             buildingList: {$elemMatch: {_id: reqBuildingAllocation._id}}
         }, {
@@ -104,7 +93,7 @@ async function updateBuildingAllocation(id, reqBuildingAllocation) {
 
 async function deleteBuildingAllocation(id, allocationId) {
     try {
-        return await PowerSharing.updateOne({
+        return await Instrument.updateOne({
             _id: id
         }, {
             $pull: {
@@ -127,18 +116,19 @@ async function getListPageableByFilter(page, size) {
         if (skip < 0) {
             skip = 0;
         }
-        return await PowerSharing
+        return await Instrument
             .find({},
                 {
                     _id: 1,
-                    name: 1,
-                    billingId: 1,
-                    addressCode: 1,
-                    useType: 1,
-                    useCode: 1,
-                    group:1,
-                    contract:1,
-                    buildingNum: 1,
+
+                    name:1, //نام تجهیز 
+                    instrumentCarrier:1, //نام حامل انرژی 
+                    instrumentUnit:1, //واحد انرژی
+                    instrumentNum:1, //تعداد
+                    instrumentUsage:1 , //کاربری تجهیر
+                    consumptionPower: 1, //توان مصرفی 
+                    consumptionUnit: 1, // واحد
+
                     createdAt: 1
                 })
             .sort({createdAt: -1})
@@ -149,15 +139,18 @@ async function getListPageableByFilter(page, size) {
     }
 }
 
+
 async function getListPageableByFilterCount() {
     try {
-        return await PowerSharing
+        return await Instrument
             .find()
             .countDocuments();
     } catch (e) {
+        
         console.log(e);
     }
 }
+
 
 async function getListPageableByTerm(filter, page, size) {
     try {
@@ -165,12 +158,12 @@ async function getListPageableByTerm(filter, page, size) {
         if (skip < 0) {
             skip = 0;
         }
-        if (filter.term === null || filter.term === 'undefined') {
+        if (filter.term === null || filter.term === 'undefined'){
             filter.term = '';
         }
-        return await PowerSharing
+        return await Instrument
             .find({
-                    name: {$regex: filter.term},
+                    name: { $regex: filter.term},
                     buildingNum: 0
                 },
                 {
@@ -179,7 +172,6 @@ async function getListPageableByTerm(filter, page, size) {
                     billingId: 1,
                     addressCode: 1,
                     useType: 1,
-                    group:1,
                     buildingNum: 1,
                     createdAt: 1
                 })
@@ -193,12 +185,12 @@ async function getListPageableByTerm(filter, page, size) {
 
 async function getListPageableByTermCount(filter) {
     try {
-        if (filter.term === null || filter.term === 'undefined') {
+        if (filter.term === null || filter.term === 'undefined'){
             filter.term = '';
         }
-        return await PowerSharing
+        return await Instrument
             .find({
-                name: {$regex: filter.term},
+                name: { $regex: filter.term},
                 buildingNum: 0
             })
             .countDocuments();
@@ -210,14 +202,14 @@ async function getListPageableByTermCount(filter) {
 async function isThereBuilding(id, buildingId) {
     try {
         if (id !== null) {
-            return await PowerSharing
+            return await Instrument
                 .find({
                     "_id": {$ne: id},
                     "buildingList.buildingId": buildingId
                 })
                 .countDocuments();
         } else {
-            return await PowerSharing
+            return await Instrument
                 .find({
                     "buildingList.buildingId": buildingId
                 })

@@ -3,24 +3,23 @@
  * phone : +989035074205
  */
 
-const waterSharingDao = require('../../dao/sharing/waterSharing.dao');
+const instrumentDao = require('../../dao/instrument/instrument.dao');
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
-const ReqCreateWaterSharing = require('./dto/reqCreateWaterSharing.dto');
-const WaterSharing = require('../../model/sharing/waterSharing.model');
+const Instrument = require('../../model/instrument/instrument.model');
+const ReqCreateInstrument = require('./dto/reqCreateInstrument.dto');
 const ReqBuildingAllocation = require('./dto/reqBuildingAllocation.dto');
 
 
 exports.create = (req, res, next) => {
     console.log('re id ' + req.user.id);
-    let reqCreateWaterSharing = new ReqCreateWaterSharing(req.body, req.user.id, next);
+    let reqCreateInstrument = new ReqCreateInstrument(req.body, req.user.id, next);
 
-    let waterSharing = new WaterSharing(reqCreateWaterSharing);
-    console.log(waterSharing);
+    let instrument = new Instrument(reqCreateInstrument);
 
-    waterSharingDao
-        .create(waterSharing)
+    instrumentDao
+        .create(instrument)
         .then(result => {
             if (result) {
                 if (result._id) {
@@ -28,19 +27,19 @@ exports.create = (req, res, next) => {
                     return;
                 }
             }
-            return  next("در ایجاد اشتراک آب خطایی رخ داده است.");
-        }).catch(err => {console.log('here ' + err);throw next(err)});
+            throw next("در ایجاد تجهیز خطایی رخ داده است.");
+        }).catch(err => console.log(err));
 };
 
 exports.update = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه تجهیز نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    let reqCreateWaterSharing = new ReqCreateWaterSharing(req.body, req.user.id, next);
-    waterSharingDao
-        .update(req.query.id, reqCreateWaterSharing)
+    let reqCreateInstrument = new ReqCreateInstrument(req.body, req.user.id, next);
+    instrumentDao
+        .update(req.query.id, reqCreateInstrument)
         .then(result => {
             if (result !== null) {
                 if (result.nModified > 0) {
@@ -48,18 +47,18 @@ exports.update = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت اشتراک آب خطایی رخ داده است.");
+            throw next("در آپدیت تجهیز خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.delete = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه تجهیز نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
 
-    waterSharingDao
+    instrumentDao
         .deleteById(req.query.id)
         .then(result => {
             if (result !== null) {
@@ -68,30 +67,30 @@ exports.delete = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف اشتراک آب خطایی رخ داده است.");
+            throw next("در حذف تجهیز خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه تجهیز نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    let waterSharing = await waterSharingDao
+    let instrument = await instrumentDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
-    console.log(waterSharing);
+    console.log(instrument);
 
-    if (waterSharing === null) {
+    if (instrument === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
 
-    if (waterSharing.buildingList.length > 0) {
+    if (instrument.buildingList.length > 0) {
         let buildingIdList = [];
-        waterSharing.buildingList.forEach(item => {
+        instrument.buildingList.forEach(item => {
             buildingIdList.push(item.buildingId);
         });
 
@@ -102,7 +101,7 @@ exports.getOne = async (req, res, next) => {
             }).catch(err => console.log(err));
         console.log(buildingList);
 
-        waterSharing.buildingList.forEach(item => {
+        instrument.buildingList.forEach(item => {
             buildingList.forEach(building => {
 
 
@@ -116,17 +115,17 @@ exports.getOne = async (req, res, next) => {
             })
         });
     }
-    res.send(Response(waterSharing));
+    res.send(Response(instrument));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه تجهیز نمیتواند خالی باشد.");
     }
 
-    // Is there an water sharing for this building?
-    let isThereWater = await waterSharingDao
+    // Is there an instrument for this building?
+    let isThereInstrument = await instrumentDao
         .isThereBuilding(null,req.body.buildingId)
         .then(result => {
             if (result !== null && result > 0)
@@ -134,19 +133,19 @@ exports.addBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereWater === true){
-        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+    if (isThereInstrument === true){
+        throw next('برای ساختمان انتخابی تجهیز انتخاب شده است.')
     }
 
-    let waterSharing = await waterSharingDao
+    let instrument = await instrumentDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
-    if (waterSharing.buildingList.length > 0) {
+    if (instrument.buildingList.length > 0) {
         let allocationPercentageSum = 0;
-        for (let i = 0; i < waterSharing.buildingList.length; i++) {
-            allocationPercentageSum = allocationPercentageSum + Number(waterSharing.buildingList[i].allocationPercentage);
+        for (let i = 0; i < instrument.buildingList.length; i++) {
+            allocationPercentageSum = allocationPercentageSum + Number(instrument.buildingList[i].allocationPercentage);
         }
         allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum > 100) {
@@ -158,7 +157,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
-    let buildingAllocation = await waterSharingDao
+    let buildingAllocation = await instrumentDao
         .addBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
             if (result !== null) {
@@ -170,9 +169,8 @@ exports.addBuildingAllocation = async (req, res, next) => {
             }
             return null;
         }).catch(err => console.log(err));
-
     if (buildingAllocation === null || buildingAllocation === false) {
-        throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
+        throw next("در اضافه کردن ساختمان به تجهیز خطایی رخ داده است.");
     }
 
     let building = await buildingDao
@@ -187,17 +185,18 @@ exports.addBuildingAllocation = async (req, res, next) => {
     reqBuildingAllocation.postalCode = building.postalCode;
     delete reqBuildingAllocation._id;
     res.send(Response(reqBuildingAllocation));
+
 };
 
 exports.updateBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه تجهیز نمیتواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
-    // Is there an water sharing for this building?
-    let isThereWater = await waterSharingDao
+    // Is there an instrument for this building?
+    let isThereInstrument = await instrumentDao
         .isThereBuilding(req.query.id,req.body.buildingId)
         .then(result => {
             if (result !== null && result > 0)
@@ -205,23 +204,23 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereWater === true){
-        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+    if (isThereInstrument === true){
+        throw next('برای ساختمان انتخابی تجهیز انتخاب شده است.')
     }
 
-    let waterSharing = await waterSharingDao
+    let instrument = await instrumentDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
 
-    if (waterSharing.buildingList.length > 0) {
+    if (instrument.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
-        for (let i = 0; i < waterSharing.buildingList.length; i++) {
-            if (waterSharing.buildingList[i].id === req.body.id) {
+        for (let i = 0; i < instrument.buildingList.length; i++) {
+            if (instrument.buildingList[i].id === req.body.id) {
                 continue;
             }
-            allocationPercentageSum = allocationPercentageSum + Number(waterSharing.buildingList[i].allocationPercentage);
+            allocationPercentageSum = allocationPercentageSum + Number(instrument.buildingList[i].allocationPercentage);
         }
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
@@ -231,8 +230,9 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             throw next('درصد تخصیص بیشتر از 100 انتخاب شده است.')
         }
     }
+
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, false, next);
-    waterSharingDao
+    instrumentDao
         .updateBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
             if (result !== null) {
@@ -251,7 +251,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
 exports.deleteBuildingAllocation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه تجهیز نمیتواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -260,7 +260,7 @@ exports.deleteBuildingAllocation = (req, res, next) => {
     }
     console.log('query allocationId ' + req.query.allocationId);
 
-    waterSharingDao
+    instrumentDao
         .deleteBuildingAllocation(req.query.id, req.query.allocationId)
         .then(result => {
             if (result !== null) {
@@ -287,29 +287,29 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let waterSharingList = await waterSharingDao
+    let instrumentList = await instrumentDao
         .getListPageableByFilter(page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterSharingList === null || waterSharingList.length <= 0) {
+    if (instrumentList === null || instrumentList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let waterSharingListCount = await waterSharingDao
+    let instrumentListCount = await instrumentDao
         .getListPageableByFilterCount()
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterSharingListCount === null) {
+    if (instrumentListCount === null) {
         res.send(Response(null));
         return;
     }
 
-    res.send(ResponsePageable(waterSharingList, waterSharingListCount, page, size));
+    res.send(ResponsePageable(instrumentList, instrumentListCount, page, size));
 };
 
 
@@ -324,27 +324,27 @@ exports.getListPageableByTerm = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let waterSharingList = await waterSharingDao
+    let instrumentList = await instrumentDao
         .getListPageableByTerm(req.body, page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterSharingList === null || waterSharingList.length <= 0) {
+    if (instrumentList === null || instrumentList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let waterSharingListCount = await waterSharingDao
+    let instrumentListCount = await instrumentDao
         .getListPageableByTermCount(req.body)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterSharingListCount === null) {
+    if (instrumentListCount === null) {
         res.send(Response(null));
         return;
     }
 
-    res.send(ResponsePageable(waterSharingList, waterSharingListCount, page, size));
+    res.send(ResponsePageable(instrumentList, instrumentListCount, page, size));
 };

@@ -22,6 +22,7 @@ const WaterSharingAllocatoioSchema = new Schema({
             'PUBLIC', // عمومی
         ]
     }, // کاربری انشعاب
+    waterBranchDiameter: {type: Number}, // قطر انشعاب اب
     sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
     capacity: {type: String}, // ظرفیت قراردادی
     

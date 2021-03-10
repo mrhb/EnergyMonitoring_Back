@@ -45,14 +45,6 @@ const PowerReceiptSchema = new Schema({
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
     numberDays: {type: Number, required: true}, // تعداد روز دوره
-    explanationExpenses: {type: String, required: true}, // شرح مصارف
-    previousCounter: {type: String, required: true}, // شمارنده قبلی
-    currentCounter: {type: String, required: true}, // شمارنده کنونی
-    coefficient: {type: String, required: true}, // ضریب
-    totalConsumption: {type: String, required: true}, // مصرف کل
-    totalConsumptionLastChanges: {type: String, required: true}, // مصرف بعد از آخرین تغیرات
-    rate: {type: String, required: true}, // نرخ
-    amount: {type: String, required: true}, // مبلغ
     //*******Consumptions******* */
     intermediate: {type: ConsumptionSchema, required: true}, // میان باری
     peakLoad: {type: ConsumptionSchema, required: true}, // اوج بار
@@ -71,10 +63,9 @@ const PowerReceiptSchema = new Schema({
     powerPrice: {type: Number, required: true}, // بهای قدرت
     seasonPrice: {type: Number, required: true}, // بهای فصل
     badPenaltiesForConsuming: {type: Number, required: true}, // جریمه بدی مصرف 
-    electricityDuringThePeriod: {type: Number, required: true}, // بهای برق دوره
-    vat: {type: Number, required: true}, // مالیات بر ارزش افزوده
-    electricalTolls: {type: Number, required: true}, // عوارض برق
-    debt: {type: Number, required: true}, // بدهکاری کسر هزار ریال
+    vat: {type: Number}, // مالیات بر ارزش افزوده
+    electricalTolls: {type: Number}, // عوارض برق
+    debt: {type: Number}, // بدهکاری کسر هزار ریال
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
     creatorId: {type: String, required: true},
@@ -83,7 +74,16 @@ const PowerReceiptSchema = new Schema({
     timestamps: true
 });
 
-
+PowerReceiptSchema.virtual('ConsumptionSum').
+    get(function() {
+        return this.intermediate.totalConsumption+
+        this.peakLoad.totalConsumption+
+        this.lowLoad.totalConsumption+
+        this.peakTimesFriday.totalConsumption ;
+    }).
+    set(function(ConsumptionSum) {
+      
+    });
 
 PowerReceiptSchema.set('toJSON', {
     virtuals: true,

@@ -124,9 +124,15 @@ async function getListPageableByFilter(page, size) {
                     billingId: 1,
                     addressCode: 1,
                     useType: 1,
+                    energyCarrier: 1,
+                    energyUnit: 1,
+                    shareNumber: 1,
+                    capacity: 1,
+                    kiloWatConvert: 1,
                     buildingNum: 1,
                     createdAt: 1
                 })
+
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
@@ -165,9 +171,15 @@ async function getListPageableByTerm(filter, page, size) {
                     billingId: 1,
                     addressCode: 1,
                     useType: 1,
+                    energyCarrier: 1,
+                    energyUnit: 1,
+                    shareNumber: 1,
+                    capacity: 1,
                     buildingNum: 1,
+                    kiloWatConvert: 1,
                     createdAt: 1
                 })
+
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
