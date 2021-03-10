@@ -146,6 +146,7 @@ async function getListPageableByFilterCount() {
             .find()
             .countDocuments();
     } catch (e) {
+        
         console.log(e);
     }
 }
