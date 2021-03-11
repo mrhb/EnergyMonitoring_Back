@@ -15,6 +15,7 @@ const GasSharingSchema = new Schema({
     city: {type: String}, // شهر
     domainCode: {type: String}, // کد حوزه
     addressCode: {type: String, required: true}, // کد آدرس
+    numberUnits: {type: String},//تعداد واحدها
     numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
     serialShare: {type: String}, // سریال اشتراک
