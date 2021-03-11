@@ -20,6 +20,7 @@ function ReqCreateGasSharing(data, userId, next) {
         this.domainCode = data.domainCode;
     }
     this.addressCode = data.addressCode;
+    this.numberUnits = data.numberUnits;
     if (this.numberShare !== null && this.numberShare !== 'undefined') {
         this.numberShare = data.numberShare;
     }
@@ -44,6 +45,9 @@ function validate(data, next) {
     }
     if (!data.addressCode) {
         throw next("کد آدرس نمیتواند خالی باشد.");
+    }
+    if (!data.numberUnits) {
+        throw next("تعداد واحدها نمیتواند خالی باشد.");
     }
     if (!data.useType) {
         throw next("نوع مصرف نمیتواند خالی باشد.");
