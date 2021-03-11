@@ -13,10 +13,10 @@ function ReqCreateEnergyReceipt(data, userId, energySharing, next) {
     this.toDate = new Date(data.toDate);
     const getNumberDays = (this.toDate.getTime() - this.fromDate.getTime()) / (1000 * 3600 * 24);
     this.numberDays = getNumberDays;
-    // this.previousCounter = data.previousCounter;
-    // this.currentCounter = data.currentCounter;
-    // this.consumptionDurat = data.consumptionDurat;
     this.consumptionAmount = data.consumptionAmount;
+    this.consumptionDurat = data.consumptionDurat;
+    this.otherAmount=data.otherAmount;
+
     this.payableAmount=data.payableAmount;
 
     this.energySharingId = energySharing.id;
