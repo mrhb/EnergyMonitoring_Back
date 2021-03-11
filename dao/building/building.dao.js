@@ -251,6 +251,11 @@ async function getListPageableByFilter(filter, page, size) {
                     name: 1,
                     useType: 1,
                     postalCode: 1,
+                    floorNum: 1,
+                    arenaArea: 1,
+                    ayanArea: 1,
+                    useFullArea: 1,
+                    coolingHeatingSystemType: 1,
                     regionId: 1,
                     constructionYear: 1,
                     createdAt: 1
@@ -291,6 +296,11 @@ async function getListPageableByTerm(term, page, size) {
                     _id: 1,
                     name: 1,
                     useType: 1,
+                    floorNum: 1,
+                    arenaArea: 1,
+                    ayanArea: 1,
+                    useFullArea: 1,
+                    coolingHeatingSystemType: 1,
                     postalCode: 1
                 })
             .sort({createdAt: -1})
