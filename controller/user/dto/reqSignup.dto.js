@@ -8,14 +8,14 @@ function ReqSignupDto(data, next) {
     validate(data, next);
     this.firstName = data.firstName;
     this.lastName = data.lastName;
+    this.organizationalLevel = data.organizationalLevel;
     this.phone = data.phone;
     this.mobile = data.mobile;
     this.email = data.email;
-    this.password = data.password;
     this.organizationalUnit = data.organizationalUnit;
-    this.organizationalLevel = data.organizationalLevel;
     this.address = data.address;
     this.city = data.city;
+    this.password = data.password;
     this.province = data.province;
 }
 
@@ -27,30 +27,30 @@ function validate(data, next) {
     if (!data.lastName) {
         throw next("نام خانوادگی نمیتواند خالی باشد.");
     }
-    if (!data.phone) {
-        throw next("شماره تلفن نمیتواند خالی باشد.");
-    }
-    if (!data.organizationalUnit) {
-        throw next("واحد سازمانی نمیتواند خالی باشد.");
-    }
+    // if (!data.phone) {
+    //     throw next("شماره تلفن نمیتواند خالی باشد.");
+    // }
+    // if (!data.organizationalUnit) {
+    //     throw next("واحد سازمانی نمیتواند خالی باشد.");
+    // }
     if (!data.organizationalLevel) {
         throw next("پست سازمانی نمیتواند خالی باشد.");
     }
-    if (!data.address) {
-        throw next("آدرس نمیتواند خالی باشد.");
-    }
-    if (!data.city) {
-        throw next("شهر نمیتواند خالی باشد.");
-    }
-    if (!data.province) {
-        throw next("استان نمیتواند خالی باشد.");
-    }
-    if (!data.email) {
-        throw next("ایمیل نمیتواند خالی باشد.");
-    }
-    if (!data.mobile) {
-        throw next("شماره همراه نمیتواند خالی باشد.");
-    }
+    // if (!data.address) {
+    //     throw next("آدرس نمیتواند خالی باشد.");
+    // }
+    // if (!data.city) {
+    //     throw next("شهر نمیتواند خالی باشد.");
+    // }
+    // if (!data.province) {
+    //     throw next("استان نمیتواند خالی باشد.");
+    // }
+    // if (!data.email) {
+    //     throw next("ایمیل نمیتواند خالی باشد.");
+    // }
+    // if (!data.mobile) {
+    //     throw next("شماره همراه نمیتواند خالی باشد.");
+    // }
     if (!data.password) {
         throw next("رمز عبور نمیتواند خالی باشد.");
     }

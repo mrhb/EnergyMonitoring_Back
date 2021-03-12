@@ -256,10 +256,15 @@ async function getListPageableByFilter(filter, page, size) {
                     ayanArea: 1,
                     useFullArea: 1,
                     coolingHeatingSystemType: 1,
+                    powerSharNum: 1,//تعداد انشعاب برق
+                    gasSharNum: 1,//تعداد انشعاب گاز
+                    waterSharNum: 1,//تعداد انشعاب آب
+                    energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
                     regionId: 1,
                     constructionYear: 1,
                     createdAt: 1
                 })
+
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
@@ -301,6 +306,10 @@ async function getListPageableByTerm(term, page, size) {
                     ayanArea: 1,
                     useFullArea: 1,
                     coolingHeatingSystemType: 1,
+                    powerSharNum: 1,//تعداد انشعاب برق
+                    gasSharNum: 1,//تعداد انشعاب گاز
+                    waterSharNum: 1,//تعداد انشعاب آب
+                    energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
                     postalCode: 1
                 })
             .sort({createdAt: -1})
