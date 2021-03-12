@@ -17,11 +17,11 @@ const UserSchema = new Schema({
     role: {type: String, enum: ['ADMIN', 'USER']},
     photo: {type: String},
     organizationalUnit: {type: String},
-    organizationalLevel: {type: String, required: true},
+    organizationalLevel: {type: String,},
     address: {type: String},
     city: {type: String},
-    province: {type: String, required: true},
-    isActive: {type: Boolean, required: true}
+    province: {type: String, },
+    isActive: {type: Boolean,}
 }, {
     timestamps: true
 });
