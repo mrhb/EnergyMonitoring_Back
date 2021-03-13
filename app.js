@@ -19,6 +19,8 @@ require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
 require('./route/region/region.route')(app);
 require('./route/building/building.route')(app);
+require('./configuration/generation/route/generationSharing.route')(app);
+require('./configuration/generation/route/generationReceipt.route')(app);
 require('./route/instrument/instrument.route')(app);
 require('./route/sharing/powerSharing.route')(app);
 require('./route/sharing/waterSharing.route')(app);
