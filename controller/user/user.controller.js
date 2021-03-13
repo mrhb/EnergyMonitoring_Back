@@ -31,17 +31,17 @@ exports.signup = async (req, res, next) => {
         throw next('شماره وارد شده تکراری میباشد.');
     }
 
-    let isEmailExists = await userDao.isEmailExists(reqSignupDto.email)
-        .then(result => {
-            if (result) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-    if (isEmailExists) {
-        throw next('ایمیل وارد شده تکراری میباشد.');
-    }
+    // let isEmailExists = await userDao.isEmailExists(reqSignupDto.email)
+    //     .then(result => {
+    //         if (result) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     });
+    // if (isEmailExists) {
+    //     throw next('ایمیل وارد شده تکراری میباشد.');
+    // }
 
     const user = new User({
         firstName: reqSignupDto.firstName,

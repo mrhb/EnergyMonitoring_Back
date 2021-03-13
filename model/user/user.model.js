@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     phone: {type: String},
     mobile: {type: String, unique: true},
     isMobileVerify: {type: Boolean, default: false},
-    email: {type: String, unique: true},
+    email: {type: String},
     isEmailVerify: {type: Boolean, default: false},
     password: {type: String, required: true},
     role: {type: String, enum: ['ADMIN', 'USER']},
