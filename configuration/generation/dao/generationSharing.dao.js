@@ -123,9 +123,9 @@ async function getListPageableByFilter(page, size) {
                 {
                     _id: 1,
                     name: 1,// نام نیروگاه
-                    useType: 1,//  نوع نیروگاه 
+                    consumptionType: 1,//  نوع نیروگاه 
                     capacity: 1,  // ظرفیت  
-                    useCode: 1 //    نوع مصرف  
+                    generationType: 1 //    نوع مصرف  
                 })
             .sort({createdAt: -1})
             .skip(Number(skip))
@@ -163,14 +163,9 @@ async function getListPageableByTerm(filter, page, size) {
                 {
                     _id: 1,
                     name: 1,// نام نیروگاه
-                    useType: 1,//  نوع نیروگاه 
+                    consumptionType: 1,//   نوع مصرف  
                     capacity: 1,  // ظرفیت  
-                    useCode: 1 //    نوع مصرف  
-                    // billingId: 1,
-                    // addressCode: 1,
-                    // buildingNum: 1,
-                    // numberShare: 1, // شماره اشتراک
-                    // createdAt: 1
+                    generationType: 1 //   نوع نیروگاه 
                 })
             .sort({createdAt: -1})
             .skip(Number(skip))

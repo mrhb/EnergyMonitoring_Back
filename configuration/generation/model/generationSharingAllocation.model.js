@@ -15,14 +15,6 @@ const GenerationSharingAllocatoioSchema = new Schema({
     // serialShare: {type: String}, // شماره بدنه کنتور
     
 
-    useType: {
-        type: String,
-        required: true,
-        enum: [
-            'SEND2NET', // فروش به شبکه
-            'GOVERNMENT', // استفاده در محل
-        ]
-    }, //  نوع مصرف
 
     // generationBranchDiameter: {type: Number}, // قطر انشعاب اب
     sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب

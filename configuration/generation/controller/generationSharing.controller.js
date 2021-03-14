@@ -110,7 +110,7 @@ exports.getOne = async (req, res, next) => {
                     console.log(typeof item.buildingId);
                     console.log(typeof building._id.toString());
                     item.name = building.name;
-                    item.useType = building.useType;
+                    item.consumptionType = building.consumptionType;
                     item.postalCode = building.postalCode;
                 }
             })
@@ -183,7 +183,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
 
     reqBuildingAllocation.name = building.name;
     reqBuildingAllocation.id = reqBuildingAllocation._id;
-    reqBuildingAllocation.useType = building.useType;
+    reqBuildingAllocation.consumptionType = building.consumptionType;
     reqBuildingAllocation.postalCode = building.postalCode;
     delete reqBuildingAllocation._id;
     res.send(Response(reqBuildingAllocation));

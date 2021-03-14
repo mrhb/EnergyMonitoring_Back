@@ -19,7 +19,7 @@ const GenerationSharingSchema = new Schema({
     // serialShare: {type: String}, // شماره بدنه کنتور
     
 
-    useType: {
+    consumptionType: {
         type: String,
         required: true,
         enum: [
@@ -34,7 +34,7 @@ const GenerationSharingSchema = new Schema({
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 
-    useCode: {
+    generationType: {
         type: String,
         required: true,
         enum: [

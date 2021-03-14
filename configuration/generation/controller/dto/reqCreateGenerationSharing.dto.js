@@ -25,8 +25,8 @@ function ReqCreateGenerationSharing(data, userId, next) {
     //     this.serialShare = data.serialShare;
     // }
 
-    this.useType = data.useType;
-    this.useCode = data.useCode;
+    this.consumptionType = data.consumptionType;
+    this.generationType = data.generationType;
 
     if (this.capacity !== null && this.capacity !== 'undefined') {
         this.capacity = data.capacity;
@@ -46,17 +46,17 @@ function validate(data, next) {
     if (!data.billingId) {
         throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
-    if (!data.useType) {
+    if (!data.consumptionType) {
         throw next("نوع مصرف  نمیتواند خالی باشد.");
     }
 
-    if (data.useType !== 'SEND2NET' && data.useType !== 'GOVERNMENT' ) {
+    if (data.consumptionType !== 'SEND2NET' && data.consumptionType !== 'GOVERNMENT' ) {
         throw next("نوع مصرف درست انتخاب نشده است.");
     }
-    if (!data.useCode) {
+    if (!data.generationType) {
         throw next("نوع نیروگاه نمیتواند خالی باشد.");
     }
-    if (data.useCode !== 'DISELGEN' && data.useCode !== 'PHOTOVOLTA' && data.useCode !== 'GHP') {
+    if (data.generationType !== 'DISELGEN' && data.generationType !== 'PHOTOVOLTA' && data.generationType !== 'GHP') {
         throw next("نوع نیروگاه درست انتخاب نشده است.");
     }
 }
