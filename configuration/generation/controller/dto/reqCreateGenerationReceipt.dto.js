@@ -20,7 +20,7 @@ function ReqCreateGenerationReceipt(data, userId, generationSharing, next) {
     this.payableAmount=data.payableAmount;
 
     this.generationSharingId = generationSharing.id;
-    this.numberShare = generationSharing.numberShare;
+    // this.numberShare = generationSharing.numberShare;
     this.nameShare = generationSharing.name;
 
     this.creatorId = userId;

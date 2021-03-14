@@ -10,19 +10,21 @@ const GenerationSharingAllocatoioSchema = new Schema({
 
     name: {type: String}, // نام مشترک
     billingId: {type: String, required: true}, // شناسه قبض
-    numberShare: {type: String}, // شماره اشتراک
+    // numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
-    serialShare: {type: String}, // شماره بدنه کنتور
+    // serialShare: {type: String}, // شماره بدنه کنتور
     
 
     useType: {
         type: String,
         required: true,
         enum: [
-            'PUBLIC', // عمومی
+            'SEND2NET', // فروش به شبکه
+            'GOVERNMENT', // استفاده در محل
         ]
-    }, // کاربری انشعاب
-    generationBranchDiameter: {type: Number}, // قطر انشعاب اب
+    }, //  نوع مصرف
+
+    // generationBranchDiameter: {type: Number}, // قطر انشعاب اب
     sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
     capacity: {type: String}, // ظرفیت قراردادی
     

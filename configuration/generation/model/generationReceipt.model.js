@@ -12,7 +12,7 @@ const GenerationReceiptSchema = new Schema({
 
     generationSharingId: {type: String}, // شناسه اشتراک برق
     generationSharing:generationSharingAllocation,
-    numberShare: {type: String}, // شماره اشتراک
+    // numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
     paymentCode: {type: String, required: true}, // شناسه پرداخت
     fromDate: {type: Date, required: true}, // از تاریخ

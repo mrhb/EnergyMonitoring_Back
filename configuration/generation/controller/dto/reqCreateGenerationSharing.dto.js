@@ -15,15 +15,15 @@ function ReqCreateGenerationSharing(data, userId, next) {
     }
     this.billingId = data.billingId;
 
-    if (this.numberShare !== null && this.numberShare !== 'undefined') {
-        this.numberShare = data.numberShare;
-    }
+    // if (this.numberShare !== null && this.numberShare !== 'undefined') {
+    //     this.numberShare = data.numberShare;
+    // }
     if (this.fileNumber !== null && this.fileNumber !== 'undefined') {
         this.fileNumber = data.fileNumber;
     }
-    if (this.serialShare !== null && this.serialShare !== 'undefined') {
-        this.serialShare = data.serialShare;
-    }
+    // if (this.serialShare !== null && this.serialShare !== 'undefined') {
+    //     this.serialShare = data.serialShare;
+    // }
 
     this.useType = data.useType;
     this.useCode = data.useCode;
@@ -31,9 +31,9 @@ function ReqCreateGenerationSharing(data, userId, next) {
     if (this.capacity !== null && this.capacity !== 'undefined') {
         this.capacity = data.capacity;
     }
-    if (this.generationBranchDiameter !== null && this.generationBranchDiameter !== 'undefined') {
-        this.generationBranchDiameter = data.generationBranchDiameter;
-    }
+    // if (this.generationBranchDiameter !== null && this.generationBranchDiameter !== 'undefined') {
+    //     this.generationBranchDiameter = data.generationBranchDiameter;
+    // }
     if (this.sewageBranchDiameter !== null && this.sewageBranchDiameter !== 'undefined') {
         this.sewageBranchDiameter = data.sewageBranchDiameter;
     }
@@ -44,18 +44,20 @@ function ReqCreateGenerationSharing(data, userId, next) {
 
 function validate(data, next) {
     if (!data.billingId) {
-        throw next("شناسه قبض نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
     if (!data.useType) {
-        throw next("کاربری انشعاب نمیتواند خالی باشد.");
+        throw next("نوع مصرف  نمیتواند خالی باشد.");
     }
-    if (data.useType !== 'PUBLIC') {
-        throw next("کاربری انشعاب درست انتخاب نشده است.");
+
+    if (data.useType !== 'SEND2NET' && data.useType !== 'GOVERNMENT' ) {
+        throw next("نوع مصرف درست انتخاب نشده است.");
     }
     if (!data.useCode) {
-        throw next("کد و نوع تعرفه نمیتواند خالی باشد.");
+        throw next("نوع نیروگاه نمیتواند خالی باشد.");
     }
-    if (data.useCode !== 'PUBLIC' && data.useCode !== 'GOVERNMENT' && data.useCode !== 'HOME') {
-        throw next("کد و نوع تعرفه درست انتخاب نشده است.");
+    if (data.useCode !== 'DISELGEN' && data.useCode !== 'PHOTOVOLTA' && data.useCode !== 'GHP') {
+        throw next("نوع نیروگاه درست انتخاب نشده است.");
     }
 }
+

@@ -16,7 +16,7 @@ exports.create = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
     if (!req.body.generationSharingId) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمی تواند خالی باشد.");
     }
 
     let generationSharing = await generationSharingDao
@@ -26,7 +26,7 @@ exports.create = async (req, res, next) => {
         });
     console.log(generationSharing);
     if (generationSharing === null) {
-        throw next("اشتراک آب انتخابی صحیح نمیباشد.");
+        throw next("اشتراک نیروگاه انتخابی صحیح نمیباشد.");
     }
 
     let reqCreateGenerationReceipt = new ReqCreateGenerationReceipt(req.body, req.user.id, generationSharing, next);
@@ -44,7 +44,7 @@ exports.create = async (req, res, next) => {
                     return;
                 }
             }
-            throw next("در ایجاد قبض آب خطایی رخ داده است.");
+            throw next("در ایجاد نیروگاه خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
@@ -52,10 +52,10 @@ exports.update = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
     if (!req.query.id) {
-        throw next("شناسه قبض آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمی تواند خالی باشد.");
     }
     if (!req.body.generationSharingId) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمی تواند خالی باشد.");
     }
 
     let generationSharing = await generationSharingDao
@@ -64,7 +64,7 @@ exports.update = async (req, res, next) => {
             return result;
         });
     if (generationSharing === null) {
-        throw next("اشتراک آب انتخابی صحیح نمیباشد.");
+        throw next("شناسه نیروگاه انتخابی صحیح نمیباشد.");
     }
 
     let reqCreateGenerationReceipt = new ReqCreateGenerationReceipt(req.body, req.user.id, generationSharing, next);
@@ -78,14 +78,14 @@ exports.update = async (req, res, next) => {
                     return;
                 }
             }
-            throw next("در ویرایش قبض آب خطایی رخ داده است.");
+            throw next("در ویرایش نیروگاه خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.delete = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه قبض آب نمیتواند خالی باشد.");
+        throw next("شناسه شناسه نیروگاه نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
 
@@ -98,14 +98,14 @@ exports.delete = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف قبض آب خطایی رخ داده است.");
+            throw next("در حذف نیروگاه خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه قبض آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمی تواند خالی باشد.");
     }
 
     let generationReceipt = await generationReceiptDao
@@ -131,7 +131,7 @@ exports.getOne = async (req, res, next) => {
     generationReceipt.generationSharing=generationSharing;
 
     if (generationSharing === null) {
-        throw next("اشتراک آب ثبت شده صحیح نمیباشد.");
+        throw next("شناسه نیروگاه ثبت شده صحیح نمیباشد.");
     }
 
     }
