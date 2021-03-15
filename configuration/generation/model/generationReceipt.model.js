@@ -10,7 +10,7 @@ const generationSharingAllocation = require('./generationSharingAllocation.model
 
 const GenerationReceiptSchema = new Schema({
 
-    generationSharingId: {type: String}, // شناسه اشتراک برق
+    generationSharingId: {type: String}, // شناسه نیروگاه
     generationSharing:generationSharingAllocation,
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ

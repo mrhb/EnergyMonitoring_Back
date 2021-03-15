@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
         });
     console.log(gasSharing);
     if (gasSharing === null) {
-        throw next("اشتراک آب انتخابی صحیح نمیباشد.");
+        throw next("اشتراک گاز انتخابی صحیح نمیباشد.");
     }
 
     let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, gasSharing, next);
@@ -43,7 +43,7 @@ exports.create = async (req, res, next) => {
                     return;
                 }
             }
-            throw next("در ایجاد قبض آب خطایی رخ داده است.");
+            throw next("در ایجاد قبض گاز خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
@@ -77,14 +77,14 @@ exports.update = async (req, res, next) => {
                     return;
                 }
             }
-            throw next("در ویرایش قبض آب خطایی رخ داده است.");
+            throw next("در ویرایش قبض گاز خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.delete = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه قبض آب نمیتواند خالی باشد.");
+        throw next("شناسه قبض گاز نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
 
@@ -97,14 +97,14 @@ exports.delete = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف قبض آب خطایی رخ داده است.");
+            throw next("در حذف قبض گاز خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه قبض آب نمیتواند خالی باشد.");
+        throw next("شناسه قبض گاز نمیتواند خالی باشد.");
     }
 
     let gazReceipt = await gazReceiptDao
@@ -130,7 +130,7 @@ exports.getOne = async (req, res, next) => {
     gazReceipt.gasSharing=gasSharing;
 
     if (gasSharing === null) {
-        throw next("اشتراک آب ثبت شده صحیح نمیباشد.");
+        throw next("اشتراک گاز ثبت شده صحیح نمیباشد.");
     }
 
     }

@@ -28,6 +28,8 @@ const InstrumentSchema = new Schema({
             'LIGHTING', //روشنایی
             'COOLING', //سرمایشی
             'HEATING', //گرمایشی
+            'HOME', //خانگی
+            'OFICE', //اداری
         ]
     }, //کاربری تجهیر
     consumptionPower:  {type: String}, //توان مصرفی 

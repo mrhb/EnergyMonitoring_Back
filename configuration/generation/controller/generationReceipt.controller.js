@@ -85,7 +85,7 @@ exports.update = async (req, res, next) => {
 exports.delete = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه شناسه نیروگاه نمی تواند خالی باشد.");
+        throw next("شناسه نیروگاه نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
 

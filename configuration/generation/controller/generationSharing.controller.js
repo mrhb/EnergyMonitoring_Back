@@ -28,14 +28,14 @@ exports.create = (req, res, next) => {
                     return;
                 }
             }
-            return  next("در ایجاد اشتراک آب خطایی رخ داده است.");
+            return  next("در ایجاد نیروگاه خطایی رخ داده است.");
         }).catch(err => {console.log('here ' + err);throw next(err)});
 };
 
 exports.update = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let reqCreateGenerationSharing = new ReqCreateGenerationSharing(req.body, req.user.id, next);
@@ -48,14 +48,14 @@ exports.update = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت اشتراک آب خطایی رخ داده است.");
+            throw next("در ویرایش نیروگاه خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.delete = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
 
@@ -68,14 +68,14 @@ exports.delete = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف اشتراک آب خطایی رخ داده است.");
+            throw next("در حذف نیروگاه خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.getOne = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let generationSharing = await generationSharingDao
@@ -122,7 +122,7 @@ exports.getOne = async (req, res, next) => {
 exports.addBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
 
     // Is there an generation sharing for this building?
@@ -135,7 +135,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
                 return false;
         });
     if (isThereGeneration === true){
-        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+        throw next('برای ساختمان انتخابی نیروگاه انتخاب شده است.')
     }
 
     let generationSharing = await generationSharingDao
@@ -192,7 +192,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
 exports.updateBuildingAllocation = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -206,7 +206,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
                 return false;
         });
     if (isThereGeneration === true){
-        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+        throw next('برای ساختمان انتخابی نیروگاه انتخاب شده است.')
     }
 
     let generationSharing = await generationSharingDao
@@ -251,7 +251,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
 exports.deleteBuildingAllocation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
+        throw next("شناسه نیروگاه نمیتواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
