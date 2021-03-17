@@ -15,6 +15,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
+app.use('/welcome',express.static(__dirname + '/landing'));
 app.use('/ui',express.static(Root));
 
 // Routes
