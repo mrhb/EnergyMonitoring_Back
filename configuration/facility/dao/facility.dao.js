@@ -32,7 +32,7 @@ async function create(reqCreateFacilityDto) {
             regionId: reqCreateFacilityDto.regionId,
             regionTitle: reqCreateFacilityDto.regionTitle,
             name: reqCreateFacilityDto.name,
-            useType: reqCreateFacilityDto.useType,
+            facilityUsage: reqCreateFacilityDto.facilityUsage,
             constructionYear: reqCreateFacilityDto.constructionYear,
             floorNum: reqCreateFacilityDto.floorNum,
             exploitationPersonnelNum: reqCreateFacilityDto.exploitationPersonnelNum,
@@ -56,7 +56,7 @@ async function update(id, reqCreateFacilityDto) {
             regionId: reqCreateFacilityDto.regionId,
             regionTitle: reqCreateFacilityDto.regionTitle,
             name: reqCreateFacilityDto.name,
-            useType: reqCreateFacilityDto.useType,
+            facilityUsage: reqCreateFacilityDto.facilityUsage,
             constructionYear: reqCreateFacilityDto.constructionYear,
             floorNum: reqCreateFacilityDto.floorNum,
             exploitationPersonnelNum: reqCreateFacilityDto.exploitationPersonnelNum,
@@ -120,7 +120,7 @@ async function updateSpace(id, reqFacilitySpace) {
                 "spaceList.$.name": reqFacilitySpace.name,
                 "spaceList.$.number": reqFacilitySpace.number,
                 "spaceList.$.floorNum": reqFacilitySpace.floorNum,
-                "spaceList.$.useType": reqFacilitySpace.useType,
+                "spaceList.$.facilityUsage": reqFacilitySpace.facilityUsage,
                 "spaceList.$.area": reqFacilitySpace.area
             }
         });
@@ -227,7 +227,7 @@ async function getListByIdList(idList) {
             {
                 _id: 1,
                 name: 1,
-                useType: 1,
+                facilityUsage: 1,
                 postalCode: 1
             });
     } catch (e) {
@@ -249,19 +249,10 @@ async function getListPageableByFilter(filter, page, size) {
                 {
                     _id: 1,
                     name: 1,
-                    useType: 1,
-                    postalCode: 1,
-                    floorNum: 1,
-                    arenaArea: 1,
-                    ayanArea: 1,
-                    useFullArea: 1,
-                    coolingHeatingSystemType: 1,
-                    powerSharNum: 1,//تعداد انشعاب برق
-                    gasSharNum: 1,//تعداد انشعاب گاز
-                    waterSharNum: 1,//تعداد انشعاب آب
-                    energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
+                    regionTitle: 1,
+                    facilityUsage: 1,
+                    explanation:1,
                     regionId: 1,
-                    constructionYear: 1,
                     createdAt: 1
                 })
 
@@ -300,7 +291,7 @@ async function getListPageableByTerm(term, page, size) {
                 {
                     _id: 1,
                     name: 1,
-                    useType: 1,
+                    facilityUsage: 1,
                     floorNum: 1,
                     arenaArea: 1,
                     ayanArea: 1,
