@@ -4,5 +4,5 @@
   "ServerPort": "3000",
   "UploadDir" : "file-resource",
   "UploadMaxSize" : 1000000
-  
+
 }
