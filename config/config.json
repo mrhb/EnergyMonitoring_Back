@@ -1,7 +1,8 @@
 {
   "API": "/api/",
   "JwtSecret": "MySecretKey",
-  "ServerPort": "3002",
+  "ServerPort": "3000",
   "UploadDir" : "file-resource",
   "UploadMaxSize" : 1000000
+  
 }
