@@ -1,5 +1,6 @@
 {
   "API": "/api/",
+  "AnalysisAPI": "/api/analysis/",
   "JwtSecret": "MySecretKey",
   "ServerPort": "3002",
   "UploadDir" : "file-resource",
