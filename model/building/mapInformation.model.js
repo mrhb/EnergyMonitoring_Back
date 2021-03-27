@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const MapInformationSchema = new Schema({
     title: {type: String, required: true},
-    category: {type: String, required: true,enum:['ARCHITECTURAL','FACILITY']},
+    category: {type: String, required: true,enum:['ARCHITECTURAL','FACILITY','ELECTRICAL','CITE']},
     number: {type: Number, required: true},
     fileLink: {type: String, required: true}
 }, {
