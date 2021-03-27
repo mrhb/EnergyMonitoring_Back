@@ -23,13 +23,19 @@ const BuildingSchema = new Schema({
             'RENT' // استیجاری
         ]
     },
-    coolingHeatingSystemType: {
+    coolingSystemType: {
+        type: String, required: true, enum: [
+            'CHILLER', // چیلر
+            'POWER_HOUSE', // موتورخانه
+            'WATER_COOLER', // کولر آبی
+            'GAS_COOLER', // کولر گازی
+        ]
+    },
+    heatingSystemType: {
         type: String, required: true, enum: [
             'CHILLER', // چیلر
             'POWER_HOUSE', // موتورخانه
             'HEATER', // بخاری
-            'WATER_COOLER', // کولر آبی
-            'GAS_COOLER', // کولر گازی
         ]
     },
     arenaArea: {type: Number},

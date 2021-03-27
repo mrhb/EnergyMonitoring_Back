@@ -39,9 +39,15 @@ async function create(reqCreateBuildingDto) {
             postalCode: reqCreateBuildingDto.postalCode,
             address: reqCreateBuildingDto.address,
             ownership: reqCreateBuildingDto.ownership,
-            coolingHeatingSystemType: reqCreateBuildingDto.coolingHeatingSystemType,
+            heatingSystemType: reqCreateBuildingDto.heatingSystemType,
+            coolingSystemType: reqCreateBuildingDto.coolingSystemType,            
             creatorId: reqCreateBuildingDto.creatorId,
             ownerId: reqCreateBuildingDto.ownerId,
+            waterSharingNum: reqCreateBuildingDto.waterSharingNum,
+            powerSharingNum: reqCreateBuildingDto.powerSharingNum,
+            gasSharingNum: reqCreateBuildingDto.gasSharingNum,
+            nonEnergyCarrierSharingNum: reqCreateBuildingDto.nonEnergyCarrierSharingNum,
+        
         });
     } catch (e) {
         console.log(e);
@@ -63,7 +69,12 @@ async function update(id, reqCreateBuildingDto) {
             postalCode: reqCreateBuildingDto.postalCode,
             address: reqCreateBuildingDto.address,
             ownership: reqCreateBuildingDto.ownership,
-            coolingHeatingSystemType: reqCreateBuildingDto.coolingHeatingSystemType
+            waterSharingNum: reqCreateBuildingDto.waterSharingNum,
+            powerSharingNum: reqCreateBuildingDto.powerSharingNum,
+            gasSharingNum: reqCreateBuildingDto.gasSharingNum,
+            nonEnergyCarrierSharingNum: reqCreateBuildingDto.nonEnergyCarrierSharingNum,
+            heatingSystemType: reqCreateBuildingDto.heatingSystemType,
+            coolingSystemType: reqCreateBuildingDto.coolingSystemType,      
         });
     } catch (e) {
         console.log(e);
@@ -255,14 +266,16 @@ async function getListPageableByFilter(filter, page, size) {
                     arenaArea: 1,
                     ayanArea: 1,
                     useFullArea: 1,
-                    coolingHeatingSystemType: 1,
-                    powerSharNum: 1,//تعداد انشعاب برق
-                    gasSharNum: 1,//تعداد انشعاب گاز
-                    waterSharNum: 1,//تعداد انشعاب آب
-                    energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
+                    coolingSystemType: 1,
+                    heatingSystemType: 1,
+                    powerSharingNum: 1,//تعداد انشعاب برق
+                    gasSharingNum: 1,//تعداد انشعاب گاز
+                    waterSharingNum: 1,//تعداد انشعاب آب
+                    nonEnergyCarrierSharingNum: 1,// تعداد حامل های انرژی غیر 
                     regionId: 1,
                     constructionYear: 1,
                     createdAt: 1
+                   
                 })
 
             .sort({createdAt: -1})
@@ -305,11 +318,12 @@ async function getListPageableByTerm(term, page, size) {
                     arenaArea: 1,
                     ayanArea: 1,
                     useFullArea: 1,
-                    coolingHeatingSystemType: 1,
-                    powerSharNum: 1,//تعداد انشعاب برق
-                    gasSharNum: 1,//تعداد انشعاب گاز
-                    waterSharNum: 1,//تعداد انشعاب آب
-                    energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
+                    coolingSystemType: 1,
+                    heatingSystemType: 1,
+                    powerSharingNum: 1,//تعداد انشعاب برق
+                    gasSharingNum: 1,//تعداد انشعاب گاز
+                    waterSharingNum: 1,//تعداد انشعاب آب
+                    nonEnergyCarrierSharingNum: 1,// تعداد حامل های انرژی غیر 
                     postalCode: 1
                 })
             .sort({createdAt: -1})

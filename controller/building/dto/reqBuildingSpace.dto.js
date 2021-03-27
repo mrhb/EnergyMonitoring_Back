@@ -18,6 +18,10 @@ function ReqBuildingSpace(data, isCreate, next) {
     this.floorNum = data.floorNum;
     this.useType = data.useType;
     this.area = data.area;
+    this.waterSharingNum = data.waterSharingNum;
+    this.gasSharingNum = data.gasSharingNum;
+    this.powerSharingNum = data.powerSharingNum;
+    this.nonEnergyCarrierSharingNum = data.nonEnergyCarrierSharingNum;
 }
 
 function validate(data, isCreate, next) {

@@ -16,7 +16,8 @@ function ReqCreateFacility(data, userId, next) {
     }
 
     this.ownership = data.ownership;
-    this.coolingHeatingSystemType = data.coolingHeatingSystemType;
+    this.coolingSystemType = data.coolingSystemType;
+    this.heatingSystemType = data.heatingSystemType;
 
     this.creatorId = userId;
     this.ownerId = userId;

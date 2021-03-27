@@ -14,14 +14,18 @@ function ReqCreateBuilding(data, userId, next) {
     this.floorNum = data.floorNum;
     this.exploitationPersonnelNum = data.exploitationPersonnelNum;
     this.postalCode = data.postalCode;
+    this.waterSharingNum = data.waterSharingNum;
+    this.gasSharingNum = data.gasSharingNum;
+    this.powerSharingNum = data.powerSharingNum;
+    this.nonEnergyCarrierSharingNum = data.nonEnergyCarrierSharingNum;
 
     if (this.address !== null && this.address !== 'undefined') {
         this.address = data.address;
     }
 
     this.ownership = data.ownership;
-    this.coolingHeatingSystemType = data.coolingHeatingSystemType;
-
+    this.coolingSystemType = data.coolingSystemType;
+    this.heatingSystemType = data.heatingSystemType;
     this.creatorId = userId;
     this.ownerId = userId;
 }
@@ -57,11 +61,17 @@ function validate(data, next) {
     if (data.ownership !== 'STATE' && data.ownership !== 'RENT') {
         throw next("مالکیت درست انتخاب نشده است.");
     }
-    if (!data.coolingHeatingSystemType) {
-        throw next("نوع سیستم گرمایشی/سرمایشی نمیتواند خالی باشد.");
+    if (!data.coolingSystemType) {
+        throw next("نوع سیستم سرمایشی نمیتواند خالی باشد.");
     }
-    if (data.coolingHeatingSystemType !== 'CHILLER' && data.coolingHeatingSystemType !== 'POWER_HOUSE'&& data.coolingHeatingSystemType !== 'HEATER'
-        && data.coolingHeatingSystemType !== 'WATER_COOLER' && data.coolingHeatingSystemType !== 'GAS_COOLER') {
-        throw next("مالکیت درست انتخاب نشده است.");
+    if (!data.heatingSystemType) {
+        throw next("نوع سیستم گرمایشی نمیتواند خالی باشد.");
     }
+    if (data.coolingSystemType !== 'CHILLER' && data.coolingSystemType !== 'POWER_HOUSE'&& 
+       data.coolingSystemType !== 'WATER_COOLER' && data.coolingSystemType !== 'GAS_COOLER') {
+        throw next("نوع سیستم سرمایشی درست انتخاب نشده است.");
+    }
+    if (data.heatingSystemType !== 'CHILLER' && data.heatingSystemType !== 'POWER_HOUSE'&& data.heatingSystemType !== 'HEATER') {
+    throw next("نوع سیستم گرمایشی درست انتخاب نشده است.");
+}
 }
