@@ -9,13 +9,22 @@ module.exports = (app) => {
     let config = require('../../config/config');
     let SUBSCRIPTIONS = config.AnalysisAPI + 'suscriptions/';
 
-    let gasController = require('./gas/gas.controller');
+    let gasAnalysisController = require('./gas/gasAnalysis.controller');
+    let powerAnalysisController = require('./power/powerAnalysis.controller');
 
-    app.get(SUBSCRIPTIONS + 'get-gas-capacity', gasController.capacity);
-    app.get(SUBSCRIPTIONS + 'get-gas-consuption', gasController.consuption);
-    app.get(SUBSCRIPTIONS + 'get-gas-contor', gasController.contor);
-    app.get(SUBSCRIPTIONS + 'get-gas-shir', gasController.shir);
+    app.get(SUBSCRIPTIONS + 'get-gas-capacity', gasAnalysisController.capacity);
+    app.get(SUBSCRIPTIONS + 'get-gas-consuption', gasAnalysisController.consuption);
+    app.get(SUBSCRIPTIONS + 'get-gas-contor', gasAnalysisController.contor);
+    app.get(SUBSCRIPTIONS + 'get-gas-shir', gasAnalysisController.shir);
     
+    
+    
+    app.get(SUBSCRIPTIONS + 'get-power-demandPenalty', powerAnalysisController.demandPenalty);
+    app.get(SUBSCRIPTIONS + 'get-power-demand', powerAnalysisController.demand);
+    app.get(SUBSCRIPTIONS + 'get-power-demandSum', powerAnalysisController.demandSum);
+    app.get(SUBSCRIPTIONS + 'get-power-reactive', powerAnalysisController.reactive);
+    app.get(SUBSCRIPTIONS + 'get-power-tariff', powerAnalysisController.tariff);
+    app.get(SUBSCRIPTIONS + 'get-power-voltage', powerAnalysisController.voltage);
     
     // app.post(config.API + 'auth/login', authController.login);
 

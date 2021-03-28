@@ -107,7 +107,7 @@ exports.contor = async (req, res, next) => {
     
     
         let CapacityListByRegion = await gasAnalysisDao
-        .getCapacityListByRegion(this.regionId)
+        .getContorListByRegion(this.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
