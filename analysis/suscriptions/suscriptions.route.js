@@ -17,8 +17,7 @@ module.exports = (app) => {
     app.get(SUBSCRIPTIONS + 'get-gas-contor', gasAnalysisController.contor);
     app.get(SUBSCRIPTIONS + 'get-gas-shir', gasAnalysisController.shir);
     
-    
-    
+        
     app.get(SUBSCRIPTIONS + 'get-power-demandPenalty', powerAnalysisController.demandPenalty);
     app.get(SUBSCRIPTIONS + 'get-power-demand', powerAnalysisController.demand);
     app.get(SUBSCRIPTIONS + 'get-power-demandSum', powerAnalysisController.demandSum);

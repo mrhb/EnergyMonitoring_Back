@@ -14,8 +14,8 @@ exports.demandPenalty = async (req, res, next) => {
     }
 
 
-    let CapacityListByRegion = await gasAnalysisDao
-    .getCapacityListByRegion(this.regionId)
+    let CapacityListByRegion = await powerAnalysisDao
+    .getDemandPenaltyAnalysis(this.regionId)
     .then(result => {
         return result;
     }).catch(err => console.log(err));
@@ -60,8 +60,8 @@ exports.demand = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await gasAnalysisDao
-        .getCapacityListByRegion(this.regionId)
+        let CapacityListByRegion = await powerAnalysisDao
+        .getDemandAnalysis(this.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
@@ -106,8 +106,8 @@ exports.demandSum = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await gasAnalysisDao
-        .getContorListByRegion(this.regionId)
+        let CapacityListByRegion = await powerAnalysisDao
+        .getDemandAnalysis(this.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
@@ -152,8 +152,8 @@ exports.reactive = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await gasAnalysisDao
-        .getCapacityListByRegion(this.regionId)
+        let CapacityListByRegion = await powerAnalysisDao
+        .getReactiveAnalysis(this.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
@@ -198,8 +198,8 @@ exports.tariff = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await gasAnalysisDao
-        .getCapacityListByRegion(this.regionId)
+        let CapacityListByRegion = await powerAnalysisDao
+        .getTariffAnalysis(this.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
@@ -244,8 +244,8 @@ exports.voltage = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await gasAnalysisDao
-        .getCapacityListByRegion(this.regionId)
+        let CapacityListByRegion = await powerAnalysisDao
+        .getVoltageAnalysis(this.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
