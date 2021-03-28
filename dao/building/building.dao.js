@@ -47,7 +47,12 @@ async function create(reqCreateBuildingDto) {
             powerSharingNum: reqCreateBuildingDto.powerSharingNum,
             gasSharingNum: reqCreateBuildingDto.gasSharingNum,
             nonEnergyCarrierSharingNum: reqCreateBuildingDto.nonEnergyCarrierSharingNum,
-        
+            arenaArea: reqCreateBuildingDto.arenaArea,
+            ayanArea: reqCreateBuildingDto.ayanArea,
+            useFullArea: reqCreateBuildingDto.useFullArea,
+            externalWallsTotalArea: reqCreateBuildingDto.externalWallsTotalArea,
+            externalGlassTotalArea: reqCreateBuildingDto.externalGlassTotalArea,
+            
         });
     } catch (e) {
         console.log(e);
@@ -74,7 +79,12 @@ async function update(id, reqCreateBuildingDto) {
             gasSharingNum: reqCreateBuildingDto.gasSharingNum,
             nonEnergyCarrierSharingNum: reqCreateBuildingDto.nonEnergyCarrierSharingNum,
             heatingSystemType: reqCreateBuildingDto.heatingSystemType,
-            coolingSystemType: reqCreateBuildingDto.coolingSystemType,      
+            coolingSystemType: reqCreateBuildingDto.coolingSystemType,     
+            arenaArea: reqCreateBuildingDto.arenaArea,
+            ayanArea: reqCreateBuildingDto.ayanArea,
+            useFullArea: reqCreateBuildingDto.useFullArea,
+            externalWallsTotalArea: reqCreateBuildingDto.externalWallsTotalArea,
+            externalGlassTotalArea: reqCreateBuildingDto.externalGlassTotalArea 
         });
     } catch (e) {
         console.log(e);
@@ -262,20 +272,21 @@ async function getListPageableByFilter(filter, page, size) {
                     name: 1,
                     useType: 1,
                     postalCode: 1,
+                    constructionYear: 1,
                     floorNum: 1,
-                    arenaArea: 1,
-                    ayanArea: 1,
-                    useFullArea: 1,
-                    coolingSystemType: 1,
-                    heatingSystemType: 1,
+                    coolingSystemType: 1,// سیستم سرمایشی 
+                    heatingSystemType: 1,// سیستم گرمایشی 
                     powerSharingNum: 1,//تعداد انشعاب برق
                     gasSharingNum: 1,//تعداد انشعاب گاز
                     waterSharingNum: 1,//تعداد انشعاب آب
                     nonEnergyCarrierSharingNum: 1,// تعداد حامل های انرژی غیر 
+                    arenaArea: 1,  //مساحت عرصه
+                    ayanArea: 1,//مساحت اعیان
+                    useFullArea: 1,//مساحت مفید
+                    externalWallsTotalArea: 1,// مساحت کل جداره های خارجی 
+                    externalGlassTotalArea: 1,// مساحت کل شیشه های خارجی 
                     regionId: 1,
-                    constructionYear: 1,
-                    createdAt: 1
-                   
+                    createdAt: 1                  
                 })
 
             .sort({createdAt: -1})
@@ -315,15 +326,17 @@ async function getListPageableByTerm(term, page, size) {
                     name: 1,
                     useType: 1,
                     floorNum: 1,
-                    arenaArea: 1,
-                    ayanArea: 1,
-                    useFullArea: 1,
                     coolingSystemType: 1,
                     heatingSystemType: 1,
                     powerSharingNum: 1,//تعداد انشعاب برق
                     gasSharingNum: 1,//تعداد انشعاب گاز
                     waterSharingNum: 1,//تعداد انشعاب آب
                     nonEnergyCarrierSharingNum: 1,// تعداد حامل های انرژی غیر 
+                    arenaArea: 1,  //مساحت عرصه
+                    ayanArea: 1,//مساحت اعیان
+                    useFullArea: 1,//مساحت مفید
+                    externalWallsTotalArea: 1,// مساحت کل جداره های خارجی 
+                    externalGlassTotalArea: 1,// مساحت کل شیشه های خارجی 
                     postalCode: 1
                 })
             .sort({createdAt: -1})

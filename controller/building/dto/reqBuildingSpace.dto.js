@@ -18,6 +18,11 @@ function ReqBuildingSpace(data, isCreate, next) {
     this.floorNum = data.floorNum;
     this.useType = data.useType;
     this.area = data.area;
+    this.arenaArea = data.arenaArea;
+    this.ayanArea = data.ayanArea;
+    this.useFullArea = data.useFullArea;
+    this.externalWallsTotalArea = data.externalWallsTotalArea;
+    this.externalGlassTotalArea = data.externalGlassTotalArea;
     this.waterSharingNum = data.waterSharingNum;
     this.gasSharingNum = data.gasSharingNum;
     this.powerSharingNum = data.powerSharingNum;

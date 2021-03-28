@@ -38,17 +38,18 @@ const BuildingSchema = new Schema({
             'HEATER', // بخاری
         ]
     },
+    // Update by انشعابها
+    powerSharingNum: {type: Number},
+    gasSharingNum: {type: Number},
+    waterSharingNum: {type: Number},
+    nonEnergyCarrierSharingNum: {type: Number},
+     // Update  مساحت ها   
     arenaArea: {type: Number},
     ayanArea: {type: Number},
     useFullArea: {type: Number},
     externalWallsTotalArea: {type: Number},
     externalGlassTotalArea: {type: Number},
 
-    // Update by sharing
-    powerSharingNum: {type: Number},
-    gasSharingNum: {type: Number},
-    waterSharingNum: {type: Number},
-    nonEnergyCarrierSharingNum: {type: Number},
 
     spaceList: [BuildingSpaceSchema],
 

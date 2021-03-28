@@ -28,6 +28,11 @@ function ReqCreateBuilding(data, userId, next) {
     this.heatingSystemType = data.heatingSystemType;
     this.creatorId = userId;
     this.ownerId = userId;
+    this.arenaArea = data.arenaArea;
+    this.ayanArea = data.ayanArea;
+    this.useFullArea = data.useFullArea;
+    this.externalWallsTotalArea = data.externalWallsTotalArea;
+    this.externalGlassTotalArea = data.externalGlassTotalArea;
 }
 
 function validate(data, next) {
