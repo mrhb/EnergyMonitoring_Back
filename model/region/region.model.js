@@ -7,7 +7,8 @@ const Schema = mongoose.Schema;
 
 const RegionSchema = new Schema({
     title: {type: String, required: true},
-    parentId: {type: String, required: true},
+    parentId:[{type:Schema.Types.ObjectId,ref:"region"}],
+    buildings:[{type:Schema.Types.ObjectId,ref:"building"}],
 }, {
     timestamps: true
 });

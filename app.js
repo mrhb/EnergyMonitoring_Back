@@ -21,6 +21,8 @@ app.use('/ui',express.static(Root));
 // Routes
 
 
+require('./analysis/analysis.route')(app);
+
 require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
 require('./route/region/region.route')(app);

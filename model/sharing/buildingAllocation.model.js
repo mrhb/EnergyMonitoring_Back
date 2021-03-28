@@ -6,7 +6,7 @@ const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
 const BuildingAllocationSchema = new Schema({
-    buildingId: {type: String, required: true},
+    buildingId: {type: Schema.Types.ObjectId, required: true, ref:"building"},
     allocationPercentage: {type: String, required: true},
 
     // Dto

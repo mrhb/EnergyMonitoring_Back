@@ -9,6 +9,9 @@ const Region = require('../../model/region/region.model');
 
 exports.getListByParentId = (req, res, next) => {
     console.log(req.params.parentId);
+
+if(req.params.parentId=="ROOT")
+    req.params.parentId="000000000000000000000000";
     regionDao
         .getListByParentId(req.params.parentId)
         .then(result => {

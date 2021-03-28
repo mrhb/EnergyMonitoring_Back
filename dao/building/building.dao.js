@@ -21,6 +21,7 @@ module.exports = {
     getOne,
     getListByIdList,
     getListPageableByFilter,
+    getListByRegionFilter,
     getListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount
@@ -292,6 +293,39 @@ async function getListPageableByFilter(filter, page, size) {
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function getListByRegionFilter(regionId) {
+    try {
+        let myFilter = (regionId !== '') ? '{\"regionId\": \"' + regionId + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+
+        return await Building
+            .find(myFilter,
+                {
+                    _id: 1,
+                    name: 1,
+                    // useType: 1,
+                    // postalCode: 1,
+                    // floorNum: 1,
+                    // arenaArea: 1,
+                    // ayanArea: 1,
+                    // useFullArea: 1,
+                    // coolingHeatingSystemType: 1,
+                    // powerSharNum: 1,//تعداد انشعاب برق
+                    // gasSharNum: 1,//تعداد انشعاب گاز
+                    // waterSharNum: 1,//تعداد انشعاب آب
+                    // energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
+                    regionId: 1,
+                    constructionYear: 1,
+                    createdAt: 1
+                })
+
+            .sort({createdAt: -1});
     } catch (e) {
         console.log(e);
     }
