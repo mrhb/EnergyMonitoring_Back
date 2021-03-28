@@ -11,7 +11,10 @@ module.exports = (app) => {
 
     let gasController = require('./gas/gas.controller');
 
-    app.get(SUBSCRIPTIONS + 'get-capacity', gasController.capacity);
+    app.get(SUBSCRIPTIONS + 'get-gas-capacity', gasController.capacity);
+    app.get(SUBSCRIPTIONS + 'get-gas-consuption', gasController.consuption);
+    app.get(SUBSCRIPTIONS + 'get-gas-contor', gasController.contor);
+    app.get(SUBSCRIPTIONS + 'get-gas-shir', gasController.shir);
     
     
     // app.post(config.API + 'auth/login', authController.login);
