@@ -72,11 +72,16 @@ function validate(data, next) {
     if (!data.heatingSystemType) {
         throw next("نوع سیستم گرمایشی نمیتواند خالی باشد.");
     }
-    if (data.coolingSystemType !== 'CHILLER' && data.coolingSystemType !== 'POWER_HOUSE'&& 
-       data.coolingSystemType !== 'WATER_COOLER' && data.coolingSystemType !== 'GAS_COOLER') {
-        throw next("نوع سیستم سرمایشی درست انتخاب نشده است.");
+    if (data.coolingSystemType !== 'WATER_COOLER' && data.coolingSystemType !== 'FAN_A_CHILER'&& 
+    data.coolingSystemType !== 'FAN_T_CHILER' && data.coolingSystemType !== 'AIR_T_CHILER' && 
+    data.coolingSystemType !== 'PAC_DX' && data.coolingSystemType !== 'VRFOVRV' && 
+        data.coolingSystemType !== 'SPLITE' && data.coolingSystemType !== 'PAC_DX') {
+            throw next("نوع سیستم سرمایشی درست انتخاب نشده است.");
     }
-    if (data.heatingSystemType !== 'CHILLER' && data.heatingSystemType !== 'POWER_HOUSE'&& data.heatingSystemType !== 'HEATER') {
-    throw next("نوع سیستم گرمایشی درست انتخاب نشده است.");
+    if (data.heatingSystemType !== 'GAS_HEATER' && data.heatingSystemType !== 'FAN_WARMWATER'&& 
+    data.heatingSystemType !== 'AIR_WARMWATER' && data.heatingSystemType !== 'RADITR_WARMWATER'&& 
+    data.heatingSystemType !== 'PAC_DX' && data.heatingSystemType !== 'SPLITE'&& 
+    data.heatingSystemType !== 'VRFOVRV' && data.heatingSystemType !== 'FAN_STEAM' && data.heatingSystemType !== 'ARI_STEAM' ) {
+            throw next("نوع سیستم گرمایشی درست انتخاب نشده است.");
 }
 }

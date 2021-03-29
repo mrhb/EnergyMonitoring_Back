@@ -25,19 +25,30 @@ const BuildingSchema = new Schema({
     },
     coolingSystemType: {
         type: String, required: true, enum: [
-            'CHILLER', // چیلر
-            'POWER_HOUSE', // موتورخانه
             'WATER_COOLER', // کولر آبی
-            'GAS_COOLER', // کولر گازی
+            'FAN_A_CHILER', // چیلر جذبی – فن کویل
+            'FAN_T_CHILER', // چیلر تراکمی – فن کویل
+            'AIR_T_CHILER', // چیلر تراکمی – هواساز 
+            'SPLITE', // اسپیلت 
+            'PAC_DX', // DX پکیج 
+            'VRFOVRV', // VRF یا VRV 
         ]
     },
+   
     heatingSystemType: {
         type: String, required: true, enum: [
-            'CHILLER', // چیلر
-            'POWER_HOUSE', // موتورخانه
-            'HEATER', // بخاری
+            'GAS_HEATER', // بخاری گازی
+            'FAN_WARMWATER', // دیگ آب گرم – فن کویل
+            'AIR_WARMWATER', // دیگ آب گرم – هواساز
+            'RADITR_WARMWATER', // دیگ آب گرم – رادیاتور 
+            'FAN_STEAM', // دیگ بخار – فن کویل 
+            'ARI_STEAM', // دیگ بخار – هواساز 
+            'PAC_DX', // DX پکیج 
+            'SPLITE', // اسپیلت 
+            'VRFOVRV', // VRF یا VRV 
         ]
     },
+
     // Update by انشعابها
     powerSharingNum: {type: Number},
     gasSharingNum: {type: Number},
