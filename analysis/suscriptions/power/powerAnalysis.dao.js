@@ -80,7 +80,7 @@ async function getDemandAnalysis(regionId) {
                     {$project :
                        {
                            buildingId:"$buildingList.buildingId",
-                           capacity:1,
+                           group:1,
                            _id:0,
                        }
                     },
@@ -94,12 +94,12 @@ async function getDemandAnalysis(regionId) {
                     },
                     {$project: {
                             regionId: { $arrayElemAt: [ "$building.regionId", 0] },
-                            capacity:1,
+                            group:1,
                         }
                     },    
                     { "$group": {
                         "_id": {
-                            "capacity": "$group",
+                            "group": "$group",
                             "regionId": "$regionId"
                         },
                         "Count": { "$sum": 1 }
@@ -115,7 +115,7 @@ async function getDemandAnalysis(regionId) {
                     },
                     {$project: {
                         _id:0,
-                        capacity:"$_id.capacity",
+                        group:"$_id.group",
                         title: {$arrayElemAt: [ "$region.title", 0] },
                         Count:1
                         }
