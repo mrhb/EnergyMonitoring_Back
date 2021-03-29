@@ -240,34 +240,24 @@ exports.voltage = async (req, res, next) => {
             return result;
         }).catch(err => console.log(err));
     
+        let series=[];
         let labels=[];
-        let capacity=CapacityListByRegion.reduce((acc,value)=>{
-            if(!acc[value.capacity])
+        CapacityListByRegion.reduce((acc,value)=>{
+            if(!acc[value.powerSupplyVoltage])
             {
-                acc[value.capacity]={data:[],name:value.capacity};
+                acc[value.powerSupplyVoltage]={data:[],name:value.powerSupplyVoltage};
+                series.push({data:[],name:value.powerSupplyVoltage});
             }
-    
-            if(!labels[value.title])
+        
+            if(!labels.find(lbl=>lbl==value.title))
             {
                 labels.push(value.title);
             }
-            acc[value.capacity].data.push(value.Count*20);
-                return acc
+        
+           var seri= series.find(element=>element.name==value.powerSupplyVoltage)
+           seri.data[labels.indexOf(value.title)]=value.Count;
+            acc[value.powerSupplyVoltage].data.push(value.Count);
+             return acc
         },{});
-    
-    
-        CapacityList=[];
-    
-        for (const [key, value] of Object.entries(capacity)) {
-            CapacityList.push(value)
-            }
-    
-    
-            function onlyUnique(value, index, self) {
-            return self.indexOf(value) === index;
-            }
-            
-            // usage example:
-            labels = labels.filter(onlyUnique);
-        res.send(Response({"series":CapacityList,"labels":labels}));
+        res.send(Response({"series":series,"labels":labels}));
     };            

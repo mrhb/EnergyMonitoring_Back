@@ -3,7 +3,7 @@
  * phone : +989035074205
  */
 
-const GasSharing = require('../../../model/sharing/gasSharing.model');
+const PowerSharing = require('../../../model/sharing/powerSharing.model');
 
 module.exports = {
     getDemandPenaltyAnalysis,
@@ -18,7 +18,7 @@ module.exports = {
 
 async function getDemandPenaltyAnalysis(regionId) {
     try {
-        return await GasSharing
+        return await PowerSharing
             .aggregate(
                 [
                     {$unwind  : { path: "$buildingList"} },
@@ -73,7 +73,7 @@ async function getDemandPenaltyAnalysis(regionId) {
 }
 async function getDemandAnalysis(regionId) {
     try {
-        return await GasSharing
+        return await PowerSharing
             .aggregate(
                 [
                     {$unwind  : { path: "$buildingList"} },
@@ -128,7 +128,7 @@ async function getDemandAnalysis(regionId) {
 }
 async function getDemandSumAnalysis(regionId) {
     try {
-        return await GasSharing
+        return await PowerSharing
             .aggregate(
                 [
                     {$unwind  : { path: "$buildingList"} },
@@ -183,7 +183,7 @@ async function getDemandSumAnalysis(regionId) {
 }
 async function getReactiveAnalysis(regionId) {
     try {
-        return await GasSharing
+        return await PowerSharing
             .aggregate(
                 [
                     {$unwind  : { path: "$buildingList"} },
@@ -238,7 +238,7 @@ async function getReactiveAnalysis(regionId) {
 }
 async function getTariffAnalysis(regionId) {
     try {
-        return await GasSharing
+        return await PowerSharing
             .aggregate(
                 [
                     {$unwind  : { path: "$buildingList"} },
@@ -293,33 +293,33 @@ async function getTariffAnalysis(regionId) {
 }
 async function getVoltageAnalysis(regionId) {
     try {
-        return await GasSharing
+        return await PowerSharing
             .aggregate(
                 [
                     {$unwind  : { path: "$buildingList"} },
                     {$project :
-                       {
-                           buildingId:"$buildingList.buildingId",
-                           capacity:1,
-                           _id:0,
-                       }
+                    {
+                        buildingId:"$buildingList.buildingId",
+                        powerSupplyVoltage:1,
+                        _id:0,
+                    }
                     },
                     {$lookup:
-                         {
-                           from:  "buildings",
-                           localField: "buildingId",
-                           foreignField: "_id",
-                           as: "building"
-                         }
+                        {
+                        from:  "buildings",
+                        localField: "buildingId",
+                        foreignField: "_id",
+                        as: "building"
+                        }
                     },
                     {$project: {
                             regionId: { $arrayElemAt: [ "$building.regionId", 0] },
-                            capacity:1,
+                            powerSupplyVoltage:1,
                         }
                     },    
                     { "$group": {
                         "_id": {
-                            "capacity": "$group",
+                            "powerSupplyVoltage": "$powerSupplyVoltage",
                             "regionId": "$regionId"
                         },
                         "Count": { "$sum": 1 }
@@ -335,7 +335,7 @@ async function getVoltageAnalysis(regionId) {
                     },
                     {$project: {
                         _id:0,
-                        capacity:"$_id.capacity",
+                        powerSupplyVoltage:"$_id.powerSupplyVoltage",
                         title: {$arrayElemAt: [ "$region.title", 0] },
                         Count:1
                         }
