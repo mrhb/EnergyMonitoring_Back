@@ -106,7 +106,7 @@ exports.getOne = async (req, res, next) => {
             buildingList.forEach(building => {
 
 
-                if (item.buildingId === building._id.toString()) {
+                if (item.buildingId.equals(building._id)) {
                     console.log(typeof item.buildingId);
                     console.log(typeof building._id.toString());
                     item.name = building.name;
