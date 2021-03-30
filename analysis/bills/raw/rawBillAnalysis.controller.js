@@ -45,7 +45,7 @@ exports.cost = async (req, res, next) => {
     },{});
     res.send(Response({"series":series,"labels":labels}));
 };
-exports.amount = async (req, res, next) => {
+exports.consumption = async (req, res, next) => {
     //    console.log('user.id ' + req.user.id);
         if (req.body.regionId){
             this.regionId = req.body.regionId;
