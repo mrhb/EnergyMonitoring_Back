@@ -17,7 +17,7 @@ function validate(data, next) {
     if (!data.regionId) {
         throw next("شناسه منظقه نمیتواند خالی باشد.");
     }
-    if (!data.billAnalysisType) {
+    if (!data.billType) {
         throw next("نوع  قبض انتخاب نشده است.");
     }
     if (!data.billAnalysisParam) {
