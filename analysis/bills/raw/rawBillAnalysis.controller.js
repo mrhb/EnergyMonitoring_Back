@@ -2,6 +2,8 @@
  * @author M.Reza hajjar
  */
 const rawBillAnalysisDao = require('./rawBillAnalysis.dao');
+const ReqRawBillAnalysis = require('./reqRawBillAnalysis.dto');
+
 const Response = require('../../../middleware/response/response-handler');
 
 
@@ -13,7 +15,9 @@ exports.cost = async (req, res, next) => {
         this.regionId = "";
     }
 
+    let reqRawBillAnalysis = new ReqRawBillAnalysis(req.body, next);
 
+    
     let CapacityListByRegion = await rawBillAnalysisDao
     .getCapacityListByRegion(this.regionId)
     .then(result => {
