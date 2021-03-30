@@ -5,5 +5,6 @@
  module.exports = (app) => {
 
     require('./suscriptions/suscriptions.route')(app);
+    require('./bills/bills.analysis.route')(app);
 
 };

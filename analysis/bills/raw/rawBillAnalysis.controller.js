@@ -1,7 +1,7 @@
 /**
  * @author M.Reza hajjar
  */
-const gasAnalysisDao = require('./gasAnalysis.dao');
+const rawBillAnalysisDao = require('./rawBillAnalysis.dao');
 const Response = require('../../../middleware/response/response-handler');
 
 
@@ -14,7 +14,7 @@ exports.cost = async (req, res, next) => {
     }
 
 
-    let CapacityListByRegion = await gasAnalysisDao
+    let CapacityListByRegion = await rawBillAnalysisDao
     .getCapacityListByRegion(this.regionId)
     .then(result => {
         return result;
@@ -41,7 +41,7 @@ exports.cost = async (req, res, next) => {
     },{});
     res.send(Response({"series":series,"labels":labels}));
 };
-exports.emount = async (req, res, next) => {
+exports.amount = async (req, res, next) => {
     //    console.log('user.id ' + req.user.id);
         if (req.body.regionId){
             this.regionId = req.body.regionId;
@@ -50,7 +50,7 @@ exports.emount = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await gasAnalysisDao
+        let CapacityListByRegion = await rawBillAnalysisDao
         .getCapacityListByRegion(this.regionId)
         .then(result => {
             return result;
