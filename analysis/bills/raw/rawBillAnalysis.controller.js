@@ -19,7 +19,7 @@ exports.cost = async (req, res, next) => {
 
     
     let CapacityListByRegion = await rawBillAnalysisDao
-    .getCapacityListByRegion(this.regionId)
+    .getRawBillAnalysis(reqRawBillAnalysis)
     .then(result => {
         return result;
     }).catch(err => console.log(err));
@@ -27,20 +27,20 @@ exports.cost = async (req, res, next) => {
     let series=[];
     let labels=[];
     CapacityListByRegion.reduce((acc,value)=>{
-        if(!acc[value.capacity])
+        if(!acc[value.title])
         {
-            acc[value.capacity]={data:[],name:value.capacity};
-            series.push({data:[],name:value.capacity});
+            acc[value.title]={data:[],name:value.title};
+            series.push({data:[],name:value.title});
         }
     
-        if(!labels.find(lbl=>lbl==value.title))
+        if(!labels.find(lbl=>lbl==value.period))
         {
-            labels.push(value.title);
+            labels.push(value.period);
         }
     
-       var seri= series.find(element=>element.name==value.capacity)
-       seri.data[labels.indexOf(value.title)]=value.Count;
-        acc[value.capacity].data.push(value.Count);
+       var seri= series.find(element=>element.name==value.title)
+       seri.data[labels.indexOf(value.period)]=value.totalAmount;
+        acc[value.title].data.push(value.totalAmount);
          return acc
     },{});
     res.send(Response({"series":series,"labels":labels}));
