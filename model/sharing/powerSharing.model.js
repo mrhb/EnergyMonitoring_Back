@@ -27,10 +27,7 @@ const PowerSharingSchema = new Schema({
             'OTHER' // سایر مصارف
         ]
     },// عنوان تعرفه
-        // domainCode: {type: String}, // کد حوزه
-        // numberShare: {type: String}, // شماره اشتراک
-        // serialShare: {type: String}, // سریال اشتراک
-
+        
     useCode: {
         type: String, required: true, enum: [
             'NORMAL_REGION_NON_WARM_TROPICAL', // مناطق عادی و ماه های غیر گرم مناطق گرمسیر

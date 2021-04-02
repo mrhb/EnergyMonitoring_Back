@@ -10,7 +10,7 @@ const energySharingAllocation = require('./energySharingAllocation.model');
 
 const EnergyReceiptSchema = new Schema({
 
-    energySharingId: {type: String}, // شناسه اشتراک برق
+    energySharingId: {type: String}, // شناسه اشتراک انرژی
     energySharing:energySharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
