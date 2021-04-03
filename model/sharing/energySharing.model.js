@@ -10,7 +10,13 @@ const BuildingAllocation = require('./buildingAllocation.model');
 const EnergySharingSchema = new Schema({
     name: {type: String, required: true}, // نام مشترک
     address: {type: String, required: true}, // نشانی محل مصرف
-    energyCarrier: {type: String, required: true}, // حامل انرژی
+    energyCarrier: {type: String, required: true,
+        enum: [
+           'GAS',//'گاز'
+           'GASOLIN',//'گازوئیل'
+           'BENZIN',//'بنزین'
+        ]
+    }, //نام حامل انرژی     
     energyUnit: {type: String}, // واحد انرژی
     shareNumber: {type: String}, // شماره کنتور
     buildingList: [BuildingAllocation], // لیست ساختمان ها
