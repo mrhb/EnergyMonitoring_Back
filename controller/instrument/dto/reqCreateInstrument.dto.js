@@ -10,7 +10,7 @@ function ReqCreateInstrument(data, userId, next) {
         this.name = data.name;
     }
 
-    this.billingId = data.billingId;
+    this.buildingId = data.buildingId;
     
     if (this.serialShare !== null && this.serialShare !== 'undefined') {
         this.serialShare = data.serialShare;
@@ -32,6 +32,9 @@ function ReqCreateInstrument(data, userId, next) {
     this.ownerId = userId;
 }
 function validate(data, next) {
+    if (!data.buildingId) {
+        throw next("ساختمان انتخاب نشده است.");
+    }
     if (!data.instrumentUsage) {
         throw next("کاربری تجهیز نمی تواند خالی باشد.");
     }
