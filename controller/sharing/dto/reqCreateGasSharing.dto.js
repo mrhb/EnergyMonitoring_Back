@@ -60,7 +60,15 @@ function validate(data, next) {
     if (!data.group) {
         throw next("گروه نمیتواند خالی باشد.");
     }
-    if (data.group !== 'DIMANDI' && data.group !== 'UN_DIMANDI' ) {
+    if (data.group !== 'ONE' && data.group !== 'TWO' && data.group !== 'TREE' && data.group !== 'FOUR'
+    && data.group !== 'FIVE' && data.group !== 'SIX' ) {
+        throw next("گروه درست انتخاب نشده است.");
+    }
+    if (!data.capacity) {
+        throw next("ظرفیت  نمی تواند خالی باشد.");
+    }   
+    if (data.capacity !== 'G_004' && data.capacity !== 'G_006' && data.capacity !== 'G_010'&& data.capacity !== 'G_016'
+    && data.capacity !== 'G_025' && data.capacity !== 'G_040' && data.capacity !== 'G_065' && data.capacity !== 'G_100' ) {
         throw next("گروه درست انتخاب نشده است.");
     }
 }

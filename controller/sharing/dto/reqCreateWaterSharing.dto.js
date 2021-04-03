@@ -49,13 +49,19 @@ function validate(data, next) {
     if (!data.useType) {
         throw next("کاربری انشعاب نمیتواند خالی باشد.");
     }
-    if (data.useType !== 'PUBLIC') {
+    if (data.useType !== 'DOMESTIC' && data.useType !== 'COMMUNAL' && data.useType !== 'GENERAL' && data.useType !== 'FREE' && 
+    data.useType !== 'GREEN' && data.useType !== 'PRODUCTION' && data.useType !== 'COMMERCIAL' ) {
         throw next("کاربری انشعاب درست انتخاب نشده است.");
     }
     if (!data.useCode) {
         throw next("کد و نوع تعرفه نمیتواند خالی باشد.");
     }
-    if (data.useCode !== 'PUBLIC' && data.useCode !== 'GOVERNMENT' && data.useCode !== 'HOME') {
+    if (data.useCode !== 'RESIDENTIAL' && data.useCode !== 'PUBLIC_GOVERNMENTAL' && data.useCode !== 'EDUCATIONAL_RELIGIOUS_PLACES' && 
+    data.useCode !== 'COMMERCIAL' && data.useCode !== 'INDUSTRIAL' && data.useCode !== 'FREE_BUILT' &&  
+    data.useCode !== 'FREE_INDUSTRIAL_CONSTRUCTION' && data.useCode !== 'FREE_COMMERCIAL_BUILDING' && 
+    data.useCode !== 'FREE_PUBLIC_CONSTRUCTION' &&
+     data.useCode !== 'OTHER' ) {
         throw next("کد و نوع تعرفه درست انتخاب نشده است.");
     }
 }
+
