@@ -6,34 +6,21 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const WaterSharingAllocatoioSchema = new Schema({
+const EnergySharingAllocationSchema = new Schema({
 
     name: {type: String}, // نام مشترک
     billingId: {type: String, required: true}, // شناسه قبض
-    numberShare: {type: String}, // شماره اشتراک
-    fileNumber: {type: String}, // شماره پرونده
-    serialShare: {type: String}, // شماره بدنه کنتور
-    
-
-    useType: {
-        type: String,
-        required: true,
-        enum: [
-            'PUBLIC', // عمومی
-        ]
-    }, // کاربری انشعاب
-    sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
-    capacity: {type: String}, // ظرفیت قراردادی
+    energyCarrier: {type: String},
     
 }, {
     timestamps: true
 });
 
-WaterSharingAllocatoioSchema.set('toJSON', {
+EnergySharingAllocationSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
     transform: function (doc, ret) {
         delete ret._id;
     }
 });
-module.exports = WaterSharingAllocatoioSchema;
+module.exports = EnergySharingAllocationSchema;
