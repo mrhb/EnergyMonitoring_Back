@@ -3,9 +3,9 @@
  * phone : +989035074205
  */
 
-const regionDao = require('../../dao/region/region.dao');
+const regionDao = require('./region.dao');
 const Response = require('../../middleware/response/response-handler');
-const Region = require('../../model/region/region.model');
+const Region = require('./region.model');
 
 exports.getListByParentId = (req, res, next) => {
     console.log(req.params.parentId);

@@ -25,7 +25,8 @@ require('./analysis/analysis.route')(app);
 
 require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);
-require('./route/region/region.route')(app);
+// require('./route/region/region.route')(app);
+require('./configuration/region/region.route')(app);
 require('./route/building/building.route')(app);
 require('./configuration/facility/route/facility.route')(app);
 require('./configuration/generation/route/generationSharing.route')(app);

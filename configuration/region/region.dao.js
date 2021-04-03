@@ -3,7 +3,7 @@
  * phone : +989035074205
  */
 
-const Region = require('../../model/region/region.model');
+const Region = require('./region.model');
 
 module.exports = {
     getListByParentId
