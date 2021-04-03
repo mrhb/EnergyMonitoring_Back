@@ -37,8 +37,8 @@ const GasSharingSchema = new Schema({
             'NON_GOVERNMENT_EDUCATIONAL', // آموزشی و پرورشی غیر دولتی
         ]
     },// نوع مصرف
-    group: {type: String, required: true, enum: ['DIMANDI', 'UN_DIMANDI']}, // گروه
-    capacity: {type: String}, // ظرفیت
+    group: {type: String, required: true, enum: ['ONE','TWO','TREE','FOUR','FIVE','SIX']}, // گروه
+    capacity: {type: String, required: true, enum: ['G_004','G_006','G_010','G_016','G_025','G_040','G_065','G_100']}, // ظرفیت
     coefficient: {type: String}, // ضریب اشتراک
     buildingList: [BuildingAllocation], // لیست ساختمان ها
     buildingNum: {type: Number,default: 0}, // تعداد ساختمان ها

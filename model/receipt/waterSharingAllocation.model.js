@@ -13,19 +13,37 @@ const WaterSharingAllocatoioSchema = new Schema({
     numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
     serialShare: {type: String}, // شماره بدنه کنتور
-    
-
+    waterBranchDiameter: {type: Number}, // قطر انشعاب اب
+    sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
+    capacity: {type: String}, // ظرفیت قراردادی
     useType: {
         type: String,
         required: true,
         enum: [
-            'PUBLIC', // عمومی
+           'DOMESTIC',  //آب و فاضلاب خانگی
+           'COMMUNAL',  //آب و فاضلاب مصارف اشتراکی
+           'GENERAL',  //مصارف عمومی
+           'FREE',  //آب فاضلاب آزاد
+           'GREEN',  //فضای سبز
+           'PRODUCTION',  //تولیدی
+           'COMMERCIAL',  //مصارف تجاری
+        ]    }, // کاربری انشعاب
+    useCode: {
+        type: String,
+        required: true,
+        enum: [
+            'RESIDENTIAL',  //مسکونی
+            'PUBLIC_GOVERNMENTAL',  //عمومی و دولتی
+            'EDUCATIONAL_RELIGIOUS_PLACES',  //آموزشی و اماکن مذهبی
+            'COMMERCIAL',  //تجاری
+            'INDUSTRIAL',  //صنعتی
+            'FREE_BUILT',  //آزاد و بنایی
+            'FREE_INDUSTRIAL_CONSTRUCTION',  //آزاد و بنایی صنعتی
+            'FREE_COMMERCIAL_BUILDING',  //آزاد و بنایی تجاری
+            'FREE_PUBLIC_CONSTRUCTION',  //آزاد و بنایی عمومی
+            'OTHER',  //سایر
         ]
-    }, // کاربری انشعاب
-    waterBranchDiameter: {type: Number}, // قطر انشعاب اب
-    sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
-    capacity: {type: String}, // ظرفیت قراردادی
-    
+    }, // کد و نوع تعرفه       
 }, {
     timestamps: true
 });
