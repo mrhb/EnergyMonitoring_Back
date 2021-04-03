@@ -9,23 +9,9 @@ function ReqCreateInstrument(data, userId, next) {
     if (data.name !== null && data.name !== 'undefined') {
         this.name = data.name;
     }
-    if (this.address !== null && this.address !== 'undefined') {
-        this.address = data.address;
-    }
+
     this.billingId = data.billingId;
-    if (this.city !== null && this.city !== 'undefined') {
-        this.city = data.city;
-    }
-    if (this.domainCode !== null && this.domainCode !== 'undefined') {
-        this.domainCode = data.domainCode;
-    }
-    this.addressCode = data.addressCode;
-    if (this.numberShare !== null && this.numberShare !== 'undefined') {
-        this.numberShare = data.numberShare;
-    }
-    if (this.fileNumber !== null && this.fileNumber !== 'undefined') {
-        this.fileNumber = data.fileNumber;
-    }
+    
     if (this.serialShare !== null && this.serialShare !== 'undefined') {
         this.serialShare = data.serialShare;
     }
@@ -40,7 +26,7 @@ function ReqCreateInstrument(data, userId, next) {
     this.AnnualWorkDayNum=data.AnnualWorkDayNum;
     this.fromDate=data.fromDate;
     this.toDate=data.toDate;
-    this.coincidenceCoefficient=data.coincidenceCoefficient;
+    this.coincidenceCoefficient=data.coincidenceCoefficient;//ظریب همزمانی
 
     this.creatorId = userId;
     this.ownerId = userId;
