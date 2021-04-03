@@ -4,11 +4,9 @@
  */
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
-const ReqCreateInstrument = require('../../controller/instrument/instrument.controller');
-
-const BuildingAllocation = require('./buildingAllocation.model');
 
 const InstrumentSchema = new Schema({
+    buildingId: {type: String, required: true},
     instrumentUsage:  {
         type: String,
         // required: true,
@@ -113,9 +111,6 @@ const InstrumentSchema = new Schema({
     fromDate:  {type: String}, //  تاریخ شروع کار تجهیز
     toDate:  {type: String}, //  تاریخ خاتمه کار تجهیز
     coincidenceCoefficient:  {type: String}, //   ضریب همزمانی  
-
-    buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number,default: 0}, // تعداد ساختمان ها
 
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
