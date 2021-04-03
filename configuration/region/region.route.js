@@ -13,4 +13,22 @@ module.exports = (app) => {
 
     app.get(REGION + 'get-list-by-parent-id/:parentId', jwt(), regionController.getListByParentId);
 
+     /**
+     * Create
+     * Body : reqCreatePowerReceipt.dto
+     */
+      app.post(REGION + 'create', jwt(), regionController.create);
+
+      /**
+       * Update
+       * Param : id
+       * Body : reqCreatePowerReceipt.dto
+       */
+      app.put(REGION + 'update', jwt(), regionController.update);
+  
+          /**
+       * Delete
+       * Param : id
+       */
+      app.delete(REGION + 'delete', jwt(), regionController.delete);
 };
