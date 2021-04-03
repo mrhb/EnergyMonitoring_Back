@@ -10,8 +10,13 @@ const EnergySharingAllocationSchema = new Schema({
 
     name: {type: String}, // نام مشترک
     billingId: {type: String, required: true}, // شناسه قبض
-    energyCarrier: {type: String},
-    
+    energyCarrier: {type: String, required: true,
+        enum: [
+           'GAS',//'گاز'
+           'GASOLIN',//'گازوئیل'
+           'BENZIN',//'بنزین'
+        ]
+    }, //نام حامل انرژی  
 }, {
     timestamps: true
 });

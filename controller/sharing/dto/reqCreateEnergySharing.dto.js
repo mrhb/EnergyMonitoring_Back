@@ -33,4 +33,8 @@ function validate(data, next) {
     if (!data.energyCarrier) {
         throw next("حامل انرژی نمیتواند خالی باشد.");
     }
+    if (data.energyCarrier !== 'GAS' && data.energyCarrier !== 'GASOLIN' &&
+    data.energyCarrier !== 'BENZIN' ) {
+        throw next("حامل انرژی درست انتخاب نشده است.");}
+
 }
