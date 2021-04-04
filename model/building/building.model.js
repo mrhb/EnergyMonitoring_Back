@@ -14,6 +14,7 @@ const BuildingSchema = new Schema({
     utilityType: {type: String, required: true, enum: ['BUILDING', 'FACILITY']},  //تآسیس یا ساختمان
     useType: {type: String, required: true, enum: ['RESIDENTIAL', 'COMMERCIAL', 'OFFICIAL','INDUSTRIAL', 'TBS_F', 'CGS_F']},
     explanation: {type: String}, //توضیحات
+    capacitorBank: {type: Number, }, //بانک خازنی تأسیس
     constructionYear: {type: Number, },
     floorNum: {type: Number, },
     exploitationPersonnelNum: {type: Number,},

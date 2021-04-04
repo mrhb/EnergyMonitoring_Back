@@ -12,10 +12,15 @@ module.exports = (app) => {
     let buildingController = require('../../controller/building/building.controller');
 
     /**
+     * create-building
+     * Body : reqCreateBuilding.dto
+     */
+    app.post(BUILDING + 'create-building', jwt(), buildingController.createBuilding);
+    /**
      * Create
      * Body : reqCreateBuilding.dto
      */
-    app.post(BUILDING + 'create', jwt(), buildingController.create);
+     app.post(BUILDING + 'create-facility', jwt(), buildingController.createFacility);
 
     /**
      * Update
@@ -95,7 +100,15 @@ module.exports = (app) => {
      * Param : page,size
      * Body : reqBuildingPageFilter.dto
      */
-    app.post(BUILDING + 'get-list-pageable-by-filter', jwt(),buildingController.getListPageableByFilter);
+    app.post(BUILDING + 'get-building-list-pageable-by-filter', jwt(),buildingController.getBildingListPageableByFilter);
+
+
+        /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body : reqBuildingPageFilter.dto
+     */
+         app.post(BUILDING + 'get-facility-list-pageable-by-filter', jwt(),buildingController.getFacilityListPageableByFilter);
 
     /**
      * Get list pageable by term

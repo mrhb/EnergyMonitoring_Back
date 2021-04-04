@@ -7,7 +7,8 @@ const Building = require('../../model/building/building.model');
 const mongoose = require('../../config/mongoose').mongoose;
 
 module.exports = {
-    create,
+    createBuilding,
+    createFacility,
     update,
     deleteBuilding,
     updateArea,
@@ -20,14 +21,16 @@ module.exports = {
     updateWallInformation,
     getOne,
     getListByIdList,
-    getListPageableByFilter,
+    getBuildingListPageableByFilter,
+    getFacilityListPageableByFilter,
     getListByRegionFilter,
-    getListPageableByFilterCount,
+    getBuildingListPageableByFilterCount,
+    getFacilityListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount
 };
 
-async function create(reqCreateBuildingDto) {
+async function createBuilding(reqCreateBuildingDto) {
     try {
         return await Building.create({
             regionId: reqCreateBuildingDto.regionId,
@@ -55,6 +58,25 @@ async function create(reqCreateBuildingDto) {
             externalWallsTotalArea: reqCreateBuildingDto.externalWallsTotalArea,
             externalGlassTotalArea: reqCreateBuildingDto.externalGlassTotalArea,
             
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function createFacility(reqCreateBuildingDto) {
+    try {
+        return await Building.create({
+            regionId: reqCreateBuildingDto.regionId,
+            name: reqCreateBuildingDto.name,
+            utilityType: reqCreateBuildingDto.utilityType,
+            explanation: reqCreateBuildingDto.explanation, //توضیحات
+            capacitorBank: reqCreateBuildingDto.capacitorBank, //بانک خازنی تأسیس
+            useType: reqCreateBuildingDto.useType,
+                  
+            creatorId: reqCreateBuildingDto.creatorId,
+            ownerId: reqCreateBuildingDto.ownerId,
         });
     } catch (e) {
         console.log(e);
@@ -258,7 +280,7 @@ async function getListByIdList(idList) {
     }
 }
 
-async function getListPageableByFilter(filter, page, size) {
+async function getBuildingListPageableByFilter(filter, page, size) {
     try {
         let skip = (page * size);
         if (skip < 0) {
@@ -266,6 +288,7 @@ async function getListPageableByFilter(filter, page, size) {
         }
         let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
         myFilter = JSON.parse(myFilter);
+        myFilter.utilityType="BUILDING";
 
         return await Building
             .find(myFilter,
@@ -300,6 +323,37 @@ async function getListPageableByFilter(filter, page, size) {
 }
 
 
+async function getFacilityListPageableByFilter(filter, page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+        myFilter.utilityType="FACILITY";
+
+        return await Building
+            .find(myFilter,
+                {
+                    _id: 1,
+                    name: 1,
+                    useType: 1,
+                    regionId: 1,
+                    explanation:1,
+                    createdAt: 1                  
+                })
+
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+
 async function getListByRegionFilter(regionId) {
     try {
         let myFilter = (regionId !== '') ? '{\"regionId\": \"' + regionId + '\"}' : '{}';
@@ -332,10 +386,26 @@ async function getListByRegionFilter(regionId) {
     }
 }
 
-async function getListPageableByFilterCount(filter) {
+async function getBuildingListPageableByFilterCount(filter) {
     try {
         let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
         myFilter = JSON.parse(myFilter);
+        myFilter.utilityType="BUILDING";
+
+
+        return await Building
+            .find(myFilter)
+            .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getFacilityListPageableByFilterCount(filter) {
+    try {
+        let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
+        myFilter = JSON.parse(myFilter);
+        myFilter.utilityType="FACILITY";
 
         return await Building
             .find(myFilter)

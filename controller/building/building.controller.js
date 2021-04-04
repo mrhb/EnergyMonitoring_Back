@@ -13,12 +13,29 @@ const ReqMapInformation = require('./dto/reqMapInformation.dto');
 const ReqWallInformation = require('./dto/reqWallInformation.dto');
 const ReqBuildingPageFilterDto = require('./dto/reqBuildingPageFilter.dto');
 
-exports.create = (req, res, next) => {
+exports.createBuilding = (req, res, next) => {
     console.log('re id ' + req.user.id);
     let reqCreateBuildingDto = new ReqCreateBuildingDto(req.body, req.user.id, next);
 
     buildingDao
-        .create(reqCreateBuildingDto)
+        .createBuilding(reqCreateBuildingDto)
+        .then(result => {
+            if (result) {
+                if (result._id) {
+                    res.send(Response(result._id));
+                    return;
+                }
+            }
+            throw next("در ایجاد ساختمان خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+exports.createFacility = (req, res, next) => {
+    console.log('re id ' + req.user.id);
+    let reqCreateBuildingDto = new ReqCreateBuildingDto(req.body, req.user.id, next);
+
+    buildingDao
+        .createFacility(reqCreateBuildingDto)
         .then(result => {
             if (result) {
                 if (result._id) {
@@ -273,7 +290,7 @@ exports.getOne = (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
-exports.getListPageableByFilter = async (req, res, next) => {
+exports.getBildingListPageableByFilter = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {
         throw next("شماره صفحه نمیتواند خالی باشد.");
@@ -287,7 +304,7 @@ exports.getListPageableByFilter = async (req, res, next) => {
     let filter = new ReqBuildingPageFilterDto(req.body);
 
     let buildingList = await buildingDao
-        .getListPageableByFilter(filter, page, size)
+        .getBuildingListPageableByFilter(filter, page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
@@ -298,7 +315,46 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
 
     let buildingListCount = await buildingDao
-        .getListPageableByFilterCount(filter)
+        .getBuildingListPageableByFilterCount(filter)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (buildingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(buildingList, buildingListCount, page, size));
+};
+
+
+exports.getFacilityListPageableByFilter = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let filter = new ReqBuildingPageFilterDto(req.body);
+
+    let buildingList = await buildingDao
+        .getFacilityListPageableByFilter(filter, page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (buildingList === null || buildingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let buildingListCount = await buildingDao
+        .getFacilityListPageableByFilterCount(filter)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
