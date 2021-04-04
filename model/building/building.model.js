@@ -11,20 +11,22 @@ const WallInformationSchema = require('./wallInformation.model');
 const BuildingSchema = new Schema({
     regionId: {type: String, required: true},
     name: {type: String, required: true},
-    useType: {type: String, required: true, enum: ['RESIDENTIAL', 'COMMERCIAL', 'OFFICIAL']},
-    constructionYear: {type: Number, required: true},
-    floorNum: {type: Number, required: true},
-    exploitationPersonnelNum: {type: Number, required: true},
-    postalCode: {type: String, required: true},
+    utilityType: {type: String, required: true, enum: ['BUILDING', 'FACILITY']},  //تآسیس یا ساختمان
+    useType: {type: String, required: true, enum: ['RESIDENTIAL', 'COMMERCIAL', 'OFFICIAL','INDUSTRIAL', 'TBS_F', 'CGS_F']},
+    explanation: {type: String}, //توضیحات
+    constructionYear: {type: Number, },
+    floorNum: {type: Number, },
+    exploitationPersonnelNum: {type: Number,},
+    postalCode: {type: String, },
     address: {type: String},
     ownership: {
-        type: String, required: true, enum: [
+        type: String, enum: [
             'STATE', // ملکی
             'RENT' // استیجاری
         ]
     },
     coolingSystemType: {
-        type: String, required: true, enum: [
+        type: String,enum: [
             'WATER_COOLER', // کولر آبی
             'FAN_A_CHILER', // چیلر جذبی – فن کویل
             'FAN_T_CHILER', // چیلر تراکمی – فن کویل
@@ -36,7 +38,7 @@ const BuildingSchema = new Schema({
     },
    
     heatingSystemType: {
-        type: String, required: true, enum: [
+        type: String, enum: [
             'GAS_HEATER', // بخاری گازی
             'FAN_WARMWATER', // دیگ آب گرم – فن کویل
             'AIR_WARMWATER', // دیگ آب گرم – هواساز

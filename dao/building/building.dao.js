@@ -33,6 +33,7 @@ async function create(reqCreateBuildingDto) {
             regionId: reqCreateBuildingDto.regionId,
             regionTitle: reqCreateBuildingDto.regionTitle,
             name: reqCreateBuildingDto.name,
+            utilityType: reqCreateBuildingDto.utilityType,
             useType: reqCreateBuildingDto.useType,
             constructionYear: reqCreateBuildingDto.constructionYear,
             floorNum: reqCreateBuildingDto.floorNum,
