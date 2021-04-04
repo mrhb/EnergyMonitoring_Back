@@ -74,7 +74,7 @@ async function createFacility(reqCreateBuildingDto) {
             explanation: reqCreateBuildingDto.explanation, //توضیحات
             capacitorBank: reqCreateBuildingDto.capacitorBank, //بانک خازنی تأسیس
             useType: reqCreateBuildingDto.useType,
-                  
+            address: reqCreateBuildingDto.address,      
             creatorId: reqCreateBuildingDto.creatorId,
             ownerId: reqCreateBuildingDto.ownerId,
         });

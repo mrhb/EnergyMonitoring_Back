@@ -12,6 +12,7 @@ function ReqCreateBuilding(data, userId, next) {
     this.useType = data.useType;
     this.creatorId = userId;
     this.ownerId = userId;
+    this.address=data.address;
     if (data.utilityType == 'FACILITY')
     {   
          this.explanation=data.explanation //توضیحات
