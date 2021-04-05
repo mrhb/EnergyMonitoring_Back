@@ -117,8 +117,10 @@ async function getListPageableByFilter(page, size) {
             skip = 0;
         }
         return await EnergySharing
-            .find({},
-                {
+        .aggregate(
+            [
+                {$project :
+                    {
                     _id: 1,
                     name: 1,
                     billingId: 1,
@@ -129,11 +131,13 @@ async function getListPageableByFilter(page, size) {
                     shareNumber: 1,
                     capacity: 1,
                     kiloWatConvert: 1,
-                    buildingNum: 1,
-                    createdAt: 1
-                })
+                    createdAt: 1,
+                    buildingNum: {$size: "$buildingList" }
 
-            .sort({createdAt: -1})
+        }
+    }
+]
+).sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
     } catch (e) {

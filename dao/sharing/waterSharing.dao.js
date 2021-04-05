@@ -119,8 +119,10 @@ async function getListPageableByFilter(page, size) {
             skip = 0;
         }
         return await WaterSharing
-            .find({},
-                {
+        .aggregate(
+            [
+                {$project :
+                    {
                     _id: 1,
                     name: 1,
                     billingId: 1,
@@ -130,10 +132,13 @@ async function getListPageableByFilter(page, size) {
                     numberShare: 1, // شماره اشتراک
                     useCode: 1, //    کد و نوع تعرفه 
                     capacity: 1,  // ظرفیت قراردادی 
-                    createdAt: 1
+                    createdAt: 1,
+                    buildingNum: {$size: "$buildingList" }
 
-                })
-            .sort({createdAt: -1})
+        }
+    }
+]
+).sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
     } catch (e) {

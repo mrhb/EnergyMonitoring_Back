@@ -128,19 +128,25 @@ async function getListPageableByFilter(page, size) {
             skip = 0;
         }
         return await PowerSharing
-            .find({},
-                {
-                    _id: 1,
-                    name: 1,
-                    billingId: 1,
-                    addressCode: 1,
-                    useType: 1,
-                    useCode: 1,
-                    group:1,
-                    contract:1,
-                    buildingNum: 1,
-                    createdAt: 1
-                })
+            .aggregate(
+                [
+                    {$project :
+                        {
+                                    _id: 1,
+                                    name: 1,
+                                    billingId: 1,
+                                    addressCode: 1,
+                                    useType: 1,
+                                    useCode: 1,
+                                    group:1,
+                                    contract:1,
+                                    createdAt: 1,
+                                    buildingNum: {$size: "$buildingList" }
+                
+                        }
+                    }
+                ]
+            )
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
