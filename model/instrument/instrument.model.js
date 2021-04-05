@@ -90,7 +90,7 @@ const InstrumentSchema = new Schema({
             enum: [
                'ELECTRICITY',//'برق'
                'GAS',//'گاز'
-               'GASOLIN',//'گازوزیل'
+               'GASOLIN',//'گازوئیل'
                'BENZIN',//'بنزین'
             ]
         }, //نام حامل انرژی 
