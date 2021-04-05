@@ -53,7 +53,35 @@ async function getListPageableByFilter(page, size) {
             skip = 0;
         }
         return await GenerationReceipt
-            .find()
+            .aggregate(
+                [
+                    { $addFields: { "generationSharingobjectId": { "$toObjectId": "$generationSharingId" }}},
+
+ {$lookup:
+        {
+        from:  "generationsharings",
+        localField: "generationSharingobjectId",
+        foreignField: "_id",
+        as: "generationsharing"
+        }
+    },
+    {$project :
+        {
+            fromDate:1,
+            toDate:1,
+            numberDays: {
+            $trunc: {
+              $divide: [{ $subtract: ['$toDate', '$fromDate'] }, 1000 * 60 * 60 * 24]
+            },
+        },
+            consumptionDurat:1,
+            generationType: { $arrayElemAt: [ "$generationsharing.generationType", 0] },           
+            consumptionType: { $arrayElemAt: [ "$generationsharing.consumptionType", 0] },           
+            capacity: { $arrayElemAt: [ "$generationsharing.capacity", 0] },           
+        }
+    },
+                ]
+            )
             .sort({createdAt: -1})
             .skip(Number(skip))
             .limit(Number(size));
