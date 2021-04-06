@@ -22,6 +22,7 @@ app.use('/ui',express.static(Root));
 
 
 require('./analysis/analysis.route')(app);
+require('./configuration/configuration.route')(app);
 
 require('./route/user/user.route')(app);
 require('./route/file/file.route')(app);

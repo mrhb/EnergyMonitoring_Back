@@ -2,9 +2,9 @@
  * @author KpourBadakhshan
  * Email : k_pour@yahoo.com
  */
-module.exports = ReqCreateClimateSharing;
+module.exports = ReqUpdateClimate;
 
-function ReqCreateClimateSharing(data, userId, next) {
+function ReqUpdateClimate(data, userId, next) {
     validate(data, next);
 // استان
     if (data.province !== null && data.province !== 'undefined') {
@@ -48,18 +48,11 @@ function validate(data, next) {
     if (!data.billingId) {
         throw next("شناسه اقلیم نمیتواند خالی باشد.");
     }
-    // if (!data.consumptionType) {
-    //     throw next("نوع مصرف  نمیتواند خالی باشد.");
-    // }
-
-    // if (data.consumptionType !== 'SEND2NET' && data.consumptionType !== 'GOVERNMENT' ) {
-    //     throw next("نوع مصرف درست انتخاب نشده است.");
-    // }
     if (!data.climateType) {
         throw next("نوع اقلیم نمیتواند خالی باشد.");
     }
-    if (data.climateType !== 'DISELGEN' && data.climateType !== 'PHOTOVOLTA' && data.climateType !== 'GHP') {
-        throw next("نوع اقلیم درست انتخاب نشده است.");
-    }
+    // if (data.climateType !== 'DISELGEN' && data.climateType !== 'PHOTOVOLTA' && data.climateType !== 'GHP') {
+    //     throw next("نوع اقلیم درست انتخاب نشده است.");
+    // }
 }
 

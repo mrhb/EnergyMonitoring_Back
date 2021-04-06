@@ -8,6 +8,10 @@ const Schema = mongoose.Schema;
 const RegionSchema = new Schema({
     title: {type: String, required: true},
     parentId:{type:Schema.Types.ObjectId,ref:"region"},
+
+    // province: {type: String, required: true},// استان 
+    // city: {type: String, required: true},// شهر 
+
 }, {
     timestamps: true
 });
