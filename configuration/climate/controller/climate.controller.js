@@ -11,14 +11,24 @@
  
 
  exports.updateWeather = (req, res, next) => {
-    //  console.log('user.id ' + req.user.id);
+
+
      if (!req.query.id) {
          throw next("شناسه منطقه نمیتواند خالی باشد.");
      }
-     console.log('re id ' + req.query.id);
-     let reqUpdateWeather = new ReqUpdateWeather(req.body, req.user.id, next);
+
+     let WeatherList = req.body;
+
+    //  console.log('re id ' + req.query.id);
+
+    //  console.log('user.id ' + req.user.id);
+
+
+    // let reqUpdateWeather = new ReqUpdateWeather(req.body,  next);
+
+
      climateDao
-         .updateWeather(req.query.id, reqUpdateWeather)
+         .updateWeather(req.query.id, WeatherList)
          .then(result => {
              if (result !== null) {
                  if (result.nModified > 0) {
@@ -36,9 +46,9 @@
          throw next("شناسه منطقه نمیتواند خالی باشد.");
      }
      console.log('re id ' + req.query.id);
-     let reqUpdateClimate = new ReqUpdateClimate(req.body, req.user.id, next);
+     let reqUpdateClimate = new ReqUpdateClimate(req.body, next);
      climateDao
-         .updateWeather(req.query.id, reqUpdateClimate)
+         .insertWeathers(req.query.id, reqUpdateClimate)
          .then(result => {
              if (result !== null) {
                  if (result.nModified > 0) {

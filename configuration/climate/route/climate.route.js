@@ -17,7 +17,9 @@ module.exports = (app) => {
      * Create
      * Body : reqCreateFacility.dto
      */
-         app.post(CLIMATE + 'update-climate', jwt(), climateController.updateClimate);
+         app.put(CLIMATE + 'update-climate', 
+        //  jwt(),
+          climateController.updateClimate);
 
     /**
      * Update

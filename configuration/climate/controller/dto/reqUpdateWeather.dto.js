@@ -4,7 +4,7 @@
  */
 module.exports = ReqUpdateWeather;
 
-function ReqUpdateWeather(data, userId, next) {
+function ReqUpdateWeather(data,  next) {
     validate(data, next);
 // استان
     if (data.province !== null && data.province !== 'undefined') {
@@ -45,7 +45,7 @@ function ReqUpdateWeather(data, userId, next) {
 
 ///
 function validate(data, next) {
-    if (!data.billingId) {
+    if (!data.regionId) {
         throw next("شناسه اقلیم نمیتواند خالی باشد.");
     }
     // if (!data.consumptionType) {
@@ -58,8 +58,8 @@ function validate(data, next) {
     if (!data.climateType) {
         throw next("نوع اقلیم نمیتواند خالی باشد.");
     }
-    if (data.climateType !== 'DISELGEN' && data.climateType !== 'PHOTOVOLTA' && data.climateType !== 'GHP') {
-        throw next("نوع اقلیم درست انتخاب نشده است.");
-    }
+    // if (data.climateType !== 'DISELGEN' && data.climateType !== 'PHOTOVOLTA' && data.climateType !== 'GHP') {
+    //     throw next("نوع اقلیم درست انتخاب نشده است.");
+    // }
 }
 

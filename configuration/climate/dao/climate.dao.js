@@ -8,23 +8,36 @@ const Climate = require('../model/climate.model');
 
 module.exports = {
     UpdateClimate,
-    updateWeather,
+    deleteWeathers
+    insertWeathers,
     };
 
-async function UpdateClimate(climateSharing) {
+async function UpdateClimate(id,climate) {
     try {
-        return await Climate.create(climateSharing);
-    } catch (e) {
+        return await Climate.updateOne({
+            _id: id
+        }, climate);    } catch (e) {
         console.log(e);
         throw e;
     }
 }
 
-async function updateWeather(id, climateSharing) {
+async function deleteWeathers(id, WeatherIds) {
     try {
         return await Climate.updateOne({
             _id: id
-        }, climateSharing);
+        }, WeatherList);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function insertWeathers(id, WeatherList) {
+    try {
+        return await Climate.updateOne({
+            _id: id
+        }, WeatherList);
     } catch (e) {
         console.log(e);
     }
