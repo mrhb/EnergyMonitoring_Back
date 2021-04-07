@@ -8,15 +8,16 @@ const Schema = mongoose.Schema;
 const dailyWeatherSchema = new Schema({
     forDate: {type: Date, required: true, unique: true}, //  تاریخ
     tempMax: {type: Number, required: true}, // حداکثر دما روزانه
-    // tempMin: {type: Number, required: true}, // حداقل دما روزانه
-    // tempAvg: {type: Number, required: true}, // میانگین دما روزانه
-    // humidityMin: {type: Number, required: true}, // حداقل رطوبت روزانه
-    // humidityMax: {type: Number, required: true}, //حداکثر رطوبت روزانه
-    // humidityAvg: {type: Number, required: true}, //میانگین رطوبت روزانه
-    // sunRad: {type: Number, required: true}, //تابش
-    // wind: {type: Number, required: true}, //سرعت باد
+    tempMin: {type: Number, required: true}, // حداقل دما روزانه
+    tempAvg: {type: Number, required: true}, // میانگین دما روزانه
+    humidityMin: {type: Number, required: true}, // حداقل رطوبت روزانه
+    humidityMax: {type: Number, required: true}, //حداکثر رطوبت روزانه
+    humidityAvg: {type: Number, required: true}, //میانگین رطوبت روزانه
+    sunRad: {type: Number, required: true}, //تابش
+    wind: {type: Number, required: true}, //سرعت باد
 
 }, {
+    _id: false, 
     timestamps: true
 });
 
@@ -27,4 +28,8 @@ dailyWeatherSchema.set('toJSON', {
         delete ret._id;
     }
 });
+
+
+dailyWeatherSchema.index({forDate: 1 });
+
 module.exports = dailyWeatherSchema;

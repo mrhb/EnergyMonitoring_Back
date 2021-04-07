@@ -50,10 +50,10 @@
          .insertWeathers(req.query.id, WeatherList)
          .then(result => {
              if (result !== null) {
-                    if (result[0]._id) {
+                    // if (result[0]._id) {
                         res.send(Response(true));
                         return;
-                    }
+                    // }
              }
              throw next("در افزودن  اطلاعات جدید آب و هوا خطایی رخ داده است.");
          }).catch(err => console.log(err));
