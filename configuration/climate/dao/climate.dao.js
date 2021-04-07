@@ -10,6 +10,8 @@ module.exports = {
     UpdateClimate,
     deleteWeathers,
     insertWeathers,
+    getListPageableByFilter,
+    getListPageableByFilterCount
     };
 
 async function UpdateClimate(id,climate) {
@@ -46,8 +48,52 @@ async function insertWeathers(id,WeatherList) {
                 dailyweathers: WeatherList
             }
          });
+    } catch (e) {
+        console.log(e);
+    }
+}
 
-        return await Climate.create(WeatherList);
+
+async function getListPageableByFilter(page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        return await Climate
+        .aggregate(
+            [
+                {$project :
+                    {
+                    // _id: 1,
+                    province:1 , // نوع استان 
+                    city: 1, // شهر
+                    village: 1,//روستا
+                    longitude: 1, // طول جغرافیایی
+                    latitude: 1,// عرض جغرافیایی 
+                    height: 1, // ارتفاع از سطح دریا
+                    climateType: 1, // نوع اقلیم 
+                    dominantThermalReq: 1, // نیاز غالب حرارتی
+                    energyDegree: 1,  // درجه انرژی
+                                   
+                }
+            }
+        ]
+    )
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function getListPageableByFilterCount() {
+    try {
+        return await Climate
+            .find()
+            .countDocuments();
     } catch (e) {
         console.log(e);
     }

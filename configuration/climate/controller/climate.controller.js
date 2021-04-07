@@ -11,12 +11,9 @@
  
 
  exports.updateWeather = (req, res, next) => {
-
-
      if (!req.query.id) {
          throw next("شناسه منطقه نمیتواند خالی باشد.");
      }
-
      let WeatherList = req.body;
 
     //  console.log('re id ' + req.query.id);
@@ -80,3 +77,39 @@
          }).catch(err => console.log(err));
  };
  
+ 
+exports.getListPageableByFilter = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let climateList = await climateDao
+        .getListPageableByFilter(page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (climateList === null || climateList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let climateListCount = await climateDao
+        .getListPageableByFilterCount()
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (climateListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(climateList, climateListCount, page, size));
+};
