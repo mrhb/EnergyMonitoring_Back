@@ -23,10 +23,10 @@ function validate(data, next) {
     if (!data.useFullArea) {
         throw next("مساحت مفید نمیتواند خالی باشد.");
     }
-    if (!data.externalWallsTotalArea) {
-        throw next("مساحت کل جداره های خارجی نمیتواند خالی باشد.");
-    }
-    if (!data.externalGlassTotalArea) {
-        throw next("مساحت کل شیشه خارجی نمیتواند خالی باشد.");
-    }
+    // if (!data.externalWallsTotalArea) {
+    //     throw next("مساحت کل جداره های خارجی نمیتواند خالی باشد.");
+    // }
+    // if (!data.externalGlassTotalArea) {
+    //     throw next("مساحت کل شیشه خارجی نمیتواند خالی باشد.");
+    // }
 }

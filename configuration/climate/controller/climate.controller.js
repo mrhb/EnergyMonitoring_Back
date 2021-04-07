@@ -68,7 +68,7 @@
      console.log('re id ' + req.query.id);
      let reqUpdateClimate = new ReqUpdateClimate(req.body, next);
      climateDao
-         .insertWeathers(req.query.id, reqUpdateClimate)
+         .UpdateClimate(req.query.id, reqUpdateClimate)
          .then(result => {
              if (result !== null) {
                  if (result.nModified > 0) {
@@ -76,7 +76,7 @@
                      return;
                  }
              }
-             throw next("در ویرایش اطلاعات آب و هوا خطایی رخ داده است.");
+             throw next("در ویرایش اطلاعات اقلیم خطایی رخ داده است.");
          }).catch(err => console.log(err));
  };
  

@@ -45,9 +45,9 @@ function ReqUpdateWeather(data,  next) {
 
 ///
 function validate(data, next) {
-    if (!data.regionId) {
-        throw next("شناسه اقلیم نمیتواند خالی باشد.");
-    }
+    // if (!data.regionId) {
+    //     throw next("شناسه اقلیم نمیتواند خالی باشد.");
+    // }
     // if (!data.consumptionType) {
     //     throw next("نوع مصرف  نمیتواند خالی باشد.");
     // }
