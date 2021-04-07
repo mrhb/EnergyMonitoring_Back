@@ -27,8 +27,14 @@
     // let reqUpdateWeather = new ReqUpdateWeather(req.body,  next);
 
 
-     climateDao
-         .updateWeather(req.query.id, WeatherList)
+
+    let WeatherListIds = [];
+    WeatherList.forEach(item => {
+        WeatherListIds.push(item.forDate);
+    });
+
+    climateDao
+         .deleteWeathers(req.query.id, WeatherListIds)
          .then(result => {
              if (result !== null) {
                  if (result.nModified > 0) {
@@ -36,8 +42,22 @@
                      return;
                  }
              }
-             throw next("در ویرایش اطلاعات آب و هوا خطایی رخ داده است.");
+             throw next("در حذف اطلاعات قبلی آب و هوا خطایی رخ داده است.");
          }).catch(err => console.log(err));
+
+
+    climateDao
+         .insertWeathers(req.query.id, WeatherList)
+         .then(result => {
+             if (result !== null) {
+                    if (result[0]._id) {
+                        res.send(Response(true));
+                        return;
+                    }
+             }
+             throw next("در افزودن  اطلاعات جدید آب و هوا خطایی رخ داده است.");
+         }).catch(err => console.log(err));
+ 
  };
  
  exports.updateClimate = (req, res, next) => {

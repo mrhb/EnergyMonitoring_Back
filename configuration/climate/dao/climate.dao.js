@@ -8,7 +8,7 @@ const Climate = require('../model/climate.model');
 
 module.exports = {
     UpdateClimate,
-    deleteWeathers
+    deleteWeathers,
     insertWeathers,
     };
 
@@ -22,22 +22,32 @@ async function UpdateClimate(id,climate) {
     }
 }
 
-async function deleteWeathers(id, WeatherIds) {
+
+
+async function deleteWeathers(id,WeatherIds) {
     try {
-        return await Climate.updateOne({
-            _id: id
-        }, WeatherList);
+        return await Climate.updateOne(
+            {_id:id},
+            { $pull: {
+                dailyweathers:{forDate:{ $in: WeatherIds}}
+            }
+         });
     } catch (e) {
         console.log(e);
     }
 }
 
 
-async function insertWeathers(id, WeatherList) {
+async function insertWeathers(id,WeatherList) {
     try {
-        return await Climate.updateOne({
-            _id: id
-        }, WeatherList);
+        return await Climate.updateOne(
+            {_id:id},
+            { $push: {
+                dailyweathers: WeatherList
+            }
+         });
+
+        return await Climate.create(WeatherList);
     } catch (e) {
         console.log(e);
     }
