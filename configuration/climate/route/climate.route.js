@@ -27,6 +27,23 @@ module.exports = (app) => {
      * Body : reqCreateClimateSharing.dto
      */
     app.put(CLIMATE + 'update-weather',
-    //  jwt(),
     climateController.updateWeather);
-};
+
+    /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body :
+     */
+     app.post(CLIMATE + 'get-climate-list-pageable-by-filter', 
+     jwt(),
+     climateController.getListPageableByFilter);
+
+    /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body :
+     */
+    //  app.post(CLIMATE + 'get-weather-list-by-yaer', 
+    //  jwt(),
+    //  waetherListController.getListPageableByFilter);
+    };
