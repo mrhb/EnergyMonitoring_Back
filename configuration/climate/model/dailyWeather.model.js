@@ -13,8 +13,8 @@ const dailyWeatherSchema = new Schema({
     // humidityMin: {type: Number, required: true}, // حداقل رطوبت روزانه
     // humidityMax: {type: Number, required: true}, //حداکثر رطوبت روزانه
     // humidityAvg: {type: Number, required: true}, //میانگین رطوبت روزانه
-    // radiation: {type: Number, required: true}, //تابش
-    // speed: {type: Number, required: true}, //سرعت باد
+    // sunRad: {type: Number, required: true}, //تابش
+    // wind: {type: Number, required: true}, //سرعت باد
 
 }, {
     timestamps: true
