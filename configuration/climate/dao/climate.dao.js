@@ -75,6 +75,7 @@ async function getListPageableByFilter(page, size) {
                 {$project :
                     {
                     _id: 1,
+                    title:1,// نام منطقه
                     province:1 , // نوع استان 
                     city: 1, // شهر
                     village: 1,//روستا
@@ -84,9 +85,55 @@ async function getListPageableByFilter(page, size) {
                     climateType: 1, // نوع اقلیم 
                     dominantThermalReq: 1, // نیاز غالب حرارتی
                     energyDegree: 1,  // درجه انرژی
-                                   
+                    dailyweathers:1,
                 }
-            }
+            },
+             {$unwind  : { path: "$dailyweathers" ,includeArrayIndex:"index",}  },
+                    {$group:
+                        {
+                        _id: { _id: "$_id"},
+                        title: { $first: '$title' }, // نوع استان 
+                        province: { $first: '$province' }, // نوع استان 
+                        city: { $first: '$city' }, // شهر
+                        longitude: { $first: '$longitude' }, // طول جغرافیایی
+                        latitude: { $first: '$latitude' },// عرض جغرافیایی 
+                        climateType: { $first: '$climateType' }, // نوع اقلیم 
+                        
+                        title : { $first: '$title' },
+                        regionId : { $first: '$_id' },
+                        tempMaxMean:{$avg: "$dailyweathers.tempMax"},
+                        tempMinMean:{$avg: "$dailyweathers.tempMin"},
+                        HumidMaxMean:{$avg: "$dailyweathers.humidityMax"},
+                        lowHumidMean:{$avg: "$dailyweathers.humidityMin"},
+                        windMean:{$avg: "$dailyweathers.wind"},
+                        }
+                    },
+
+                    { $project:
+                         { 
+                            _id: 1,
+                            title:1,// نام منطقه
+                            province:1 , // نوع استان 
+                            city: 1, // شهر
+                            village: 1,//روستا
+                            longitude: 1, // طول جغرافیایی
+                            latitude: 1,// عرض جغرافیایی 
+                            height: 1, // ارتفاع از سطح دریا
+                            climateType: 1, // نوع اقلیم 
+                            dominantThermalReq: 1, // نیاز غالب حرارتی
+                            energyDegree: 1,  // درجه انرژی
+                            dailyweathers:1,
+                            
+
+                            tempMaxMean:{ $round: ["$tempMaxMean",2]},
+                            tempMinMean:{ $round: ["$tempMinMean",2]},
+                            HumidMaxMean:{ $round: ["$HumidMaxMean",2]},
+                            lowHumidMean:{ $round: ["$lowHumidMean",2]},
+                            windMean:{ $round: ["$windMean",2]},
+                             roundedValue: { $round: [ "$value", -1 ] } 
+                         }
+                        }
+
         ]
     )
             .sort({createdAt: -1})
