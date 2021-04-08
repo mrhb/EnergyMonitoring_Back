@@ -29,6 +29,9 @@ module.exports = (app) => {
     app.put(CLIMATE + 'update-weather',
     climateController.updateWeather);
 
+
+    app.post(CLIMATE + 'get-weather-list-by-Date', climateController.getWeatherListByDate);
+
     /**
      * Get list pageable by filter
      * Param : page,size

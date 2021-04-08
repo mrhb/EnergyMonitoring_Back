@@ -4,10 +4,13 @@
  */
 
  const climateDao = require('../dao/climate.dao');
+ const weatherDao = require('../dao/weather.dao');
  const Response = require('../../../middleware/response/response-handler');
  const ResponsePageable = require('../../../middleware/response/responsePageable-handler');
  const ReqUpdateWeather=require('./dto/reqUpdateWeather.dto');
  const ReqUpdateClimate=require('./dto/reqUpdateWeather.dto');
+ const ReqWeatherList=require('./dto/reqWeatherList.dto');
+
  
 
  exports.updateWeather = (req, res, next) => {
@@ -56,7 +59,29 @@
          }).catch(err => console.log(err));
  
  };
+
  
+
+ exports.getWeatherListByDate = async (req, res, next) => {
+    //    console.log('user.id ' + req.user.id);
+        if (req.body.regionId){
+            this.regionId = req.body.regionId;
+        }else {
+            this.regionId = "";
+        }
+        let reqWeatherList = new ReqWeatherList(req.body, next);
+
+    
+        let weatherList = await weatherDao
+        .getWeatherListByDate(reqWeatherList)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+    
+          
+        res.send(Response(weatherList[0].dailyweathers));
+    };
+
  exports.updateClimate = (req, res, next) => {
     //  console.log('user.id ' + req.user.id);
      if (!req.query.id) {
