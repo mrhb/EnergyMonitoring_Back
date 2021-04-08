@@ -63,6 +63,14 @@ async function getListPageableByFilter(page, size) {
         return await Climate
         .aggregate(
             [
+                { $match:
+                    {
+                        "climateType": { 
+                        "$exists": true, 
+                        "$ne": null 
+                    }
+                }    
+            },
                 {$project :
                     {
                     // _id: 1,
