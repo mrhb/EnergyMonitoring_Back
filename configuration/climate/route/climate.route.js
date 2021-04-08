@@ -38,6 +38,13 @@ module.exports = (app) => {
      jwt(),
      climateController.getListPageableByFilter);
 
+         /**
+     * Get one
+     * Param : id
+     */
+    app.get(CLIMATE + 'get-one', jwt(), climateController.getOne);
+
+
     /**
      * Get list pageable by filter
      * Param : page,size

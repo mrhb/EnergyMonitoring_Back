@@ -113,3 +113,22 @@ exports.getListPageableByFilter = async (req, res, next) => {
 
     res.send(ResponsePageable(climateList, climateListCount, page, size));
 };
+
+exports.getOne = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.id) {
+        throw next("شناسه اقلیم نمیتواند خالی باشد.");
+    }
+    console.log('re id ' + req.query.id);
+    let climate = await climateDao
+        .getOne(req.query.id)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+    console.log(climate);
+
+    if (climate === null) {
+        throw next('محتوایی برای نمایش موجود نیست.');
+    }
+    res.send(Response(climate));
+};

@@ -11,7 +11,8 @@ module.exports = {
     deleteWeathers,
     insertWeathers,
     getListPageableByFilter,
-    getListPageableByFilterCount
+    getListPageableByFilterCount,
+    getOne
     };
 
 async function UpdateClimate(id,climate) {
@@ -73,7 +74,7 @@ async function getListPageableByFilter(page, size) {
             },
                 {$project :
                     {
-                    // _id: 1,
+                    _id: 1,
                     province:1 , // نوع استان 
                     city: 1, // شهر
                     village: 1,//روستا
@@ -102,6 +103,26 @@ async function getListPageableByFilterCount() {
         return await Climate
             .find()
             .countDocuments();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getOne(id) {
+    try {
+        return await Climate.findOne({
+            _id: id
+        },
+        {
+            title:1,
+            province:1,
+            city:1,
+            village:1,
+            longitude:1,
+            latitude:1,
+            height:1,
+            climateType:1,
+        });
     } catch (e) {
         console.log(e);
     }
