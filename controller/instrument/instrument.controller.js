@@ -87,35 +87,23 @@ exports.getOne = async (req, res, next) => {
     if (instrument === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
+    var instrumentJSON = JSON.parse(JSON.stringify(instrument));
 
-    if (instrument.buildingList.length > 0) {
-        let buildingIdList = [];
-        instrument.buildingList.forEach(item => {
-            buildingIdList.push(item.buildingId);
-        });
+    if (instrument.buildingId !=null) {
 
-        let buildingList = await buildingDao
-            .getListByIdList(buildingIdList)
+        let building = await buildingDao
+            .getOne(instrument.buildingId)
             .then(result => {
                 return result;
-            }).catch(err => console.log(err));
-        console.log(buildingList);
-
-        instrument.buildingList.forEach(item => {
-            buildingList.forEach(building => {
-
-
-                if (item.buildingId.equals(building._id)) {
-                    console.log(typeof item.buildingId);
-                    console.log(typeof building._id.toString());
-                    item.name = building.name;
-                    item.useType = building.useType;
-                    item.postalCode = building.postalCode;
-                }
-            })
-        });
+            }).catch(err => {
+                console.log(err);                
+            });
+            if (building === null) {
+            throw next('ساختمان تخصیص یافته، حذف شده است.');
+        }   console.log(building);
+        instrumentJSON.buildingName=building.name;
     }
-    res.send(Response(instrument));
+    res.send(Response(instrumentJSON));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
