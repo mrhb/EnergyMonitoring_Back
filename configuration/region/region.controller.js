@@ -6,6 +6,7 @@
 const regionDao = require('./region.dao');
 const Response = require('../../middleware/response/response-handler');
 const ReqRegionCreate= require('./reqRegionCreate.dto');
+const ReqRegionEdit= require('./reqRegionEdit.dto');
 const Region = require('./region.model');
 
 
@@ -66,10 +67,10 @@ exports.update = async (req, res, next) => {
         throw next("شناسه منطقه بالاتر انتخابی صحیح نمیباشد.");
     }
 
-    let reqRegionCreate = new ReqRegionCreate(req.body, req.user.id, parentRegion, next);
+    let reqRegionEdit = new ReqRegionEdit(req.body, req.user.id, parentRegion, next);
 
     regionDao
-        .update(req.query.id, reqRegionCreate)
+        .update(reqRegionEdit.id, reqRegionEdit)
         .then(result => {
             if (result) {
                 if (result.nModified > 0) {
