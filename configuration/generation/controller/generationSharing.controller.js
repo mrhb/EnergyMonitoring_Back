@@ -110,7 +110,7 @@ exports.getOne = async (req, res, next) => {
                     console.log(typeof item.buildingId);
                     console.log(typeof building._id.toString());
                     item.name = building.name;
-                    item.consumptionType = building.consumptionType;
+                    item.useType = building.useType;
                     item.postalCode = building.postalCode;
                 }
             })
