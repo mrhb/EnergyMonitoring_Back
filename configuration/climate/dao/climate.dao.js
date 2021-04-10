@@ -91,7 +91,7 @@ async function getListPageableByFilter(page, size) {
              {$unwind  : { path: "$dailyweathers" ,includeArrayIndex:"index",}  },
                     {$group:
                         {
-                        _id: { _id: "$_id"},
+                        _id: "$_id",
                         title: { $first: '$title' }, // نوع استان 
                         province: { $first: '$province' }, // نوع استان 
                         city: { $first: '$city' }, // شهر
