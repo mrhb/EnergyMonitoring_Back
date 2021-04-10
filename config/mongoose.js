@@ -3,7 +3,7 @@
  * phone : +989035074205
  */
 let mongoose = require('mongoose');
-const DbLink = 'mongodb://localhost:27017/';
+const DbLink = 'mongodb://185.252.29.76:27017/';
 const DbName = 'EnergyMonitoring';
 
 mongoose.connect(DbLink + DbName,
