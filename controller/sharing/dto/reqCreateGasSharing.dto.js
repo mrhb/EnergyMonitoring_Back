@@ -69,6 +69,6 @@ function validate(data, next) {
     }   
     if (data.capacity !== 'G_004' && data.capacity !== 'G_006' && data.capacity !== 'G_010'&& data.capacity !== 'G_016'
     && data.capacity !== 'G_025' && data.capacity !== 'G_040' && data.capacity !== 'G_065' && data.capacity !== 'G_100' ) {
-        throw next("گروه درست انتخاب نشده است.");
+        throw next("ظرفیت درست انتخاب نشده است.");
     }
 }

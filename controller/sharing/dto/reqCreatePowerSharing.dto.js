@@ -82,10 +82,10 @@ function validate(data, next) {
         }
     }
     if (!data.group) {
-        throw next("گروه نمیتواند خالی باشد.");
+        throw next("نوع کنتور نمیتواند خالی باشد.");
     }
     if (data.group !== 'DIMANDI' && data.group !== 'UN_DIMANDI' ) {
-        throw next("گروه درست انتخاب نشده است.");
+        throw next("نوع کنتور درست انتخاب نشده است.");
     }
     // if (!data.capacity) {
     //     throw next("ظرفیت نمیتواند خالی باشد.");
