@@ -274,8 +274,6 @@ async function getListByIdList(idList) {
                 _id: 1,
                 name: 1,
                 utilityType:1,
-                useType: 1,
-                postalCode: 1
             });
     } catch (e) {
         console.log(e);
