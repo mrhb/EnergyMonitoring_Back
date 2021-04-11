@@ -24,7 +24,12 @@ function ReqCreateBuilding(data, userId, next) {
         this.constructionYear = data.constructionYear;
         this.floorNum = data.floorNum;
         this.exploitationPersonnelNum = data.exploitationPersonnelNum;
-        this.postalCode = data.postalCode;
+
+        if (this.address !== null && this.address !== 'undefined') {
+            this.postalCode = data.postalCode;
+        }
+
+        
         this.waterSharingNum = data.waterSharingNum;
         this.gasSharingNum = data.gasSharingNum;
         this.powerSharingNum = data.powerSharingNum;
@@ -33,6 +38,8 @@ function ReqCreateBuilding(data, userId, next) {
         if (this.address !== null && this.address !== 'undefined') {
             this.address = data.address;
         }
+
+        
 
         this.ownership = data.ownership;
         this.coolingSystemType = data.coolingSystemType;
@@ -136,9 +143,7 @@ function validate(data, next) {
         if (!data.exploitationPersonnelNum) {
             throw next("تعداد نفرات بهره بردار نمیتواند خالی باشد.");
         }
-        if (!data.postalCode) {
-            throw next("کد پستی نمیتواند خالی باشد.");
-        }
+  
         if (!data.ownership) {
             throw next("مالکیت نمیتواند خالی باشد.");
         }
