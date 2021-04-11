@@ -58,7 +58,6 @@ exports.delete = (req, res, next) => {
         throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-
     waterSharingDao
         .deleteById(req.query.id)
         .then(result => {
@@ -88,10 +87,10 @@ exports.getOne = async (req, res, next) => {
     if (waterSharing === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
-
-    if (waterSharing.buildingList.length > 0) {
+    var waterSharingJSON = JSON.parse(JSON.stringify(waterSharing));
+    if (waterSharingJSON.buildingList.length > 0) {
         let buildingIdList = [];
-        waterSharing.buildingList.forEach(item => {
+        waterSharingJSON.buildingList.forEach(item => {
             buildingIdList.push(item.buildingId);
         });
 
@@ -102,7 +101,7 @@ exports.getOne = async (req, res, next) => {
             }).catch(err => console.log(err));
         console.log(buildingList);
 
-        waterSharing.buildingList.forEach(item => {
+        waterSharingJSON.buildingList.forEach(item => {
             buildingList.forEach(building => {
 
 
@@ -110,13 +109,12 @@ exports.getOne = async (req, res, next) => {
                     console.log(typeof item.buildingId);
                     console.log(typeof building._id.toString());
                     item.name = building.name;
-                    item.useType = building.useType;
-                    item.postalCode = building.postalCode;
+                    item.utilityType = building.utilityType;
                 }
             })
         });
     }
-    res.send(Response(waterSharing));
+    res.send(Response(waterSharingJSON));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {

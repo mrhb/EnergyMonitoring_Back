@@ -89,8 +89,6 @@ exports.getOne = async (req, res, next) => {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
     var powerSharingJSON = JSON.parse(JSON.stringify(powerSharing));
-
-
     if (powerSharingJSON.buildingList.length > 0) {
         let buildingIdList = [];
         powerSharingJSON.buildingList.forEach(item => {
