@@ -88,10 +88,12 @@ exports.getOne = async (req, res, next) => {
     if (powerSharing === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
+    var powerSharingJSON = JSON.parse(JSON.stringify(powerSharing));
 
-    if (powerSharing.buildingList.length > 0) {
+
+    if (powerSharingJSON.buildingList.length > 0) {
         let buildingIdList = [];
-        powerSharing.buildingList.forEach(item => {
+        powerSharingJSON.buildingList.forEach(item => {
             buildingIdList.push(item.buildingId);
         });
 
@@ -102,7 +104,7 @@ exports.getOne = async (req, res, next) => {
             }).catch(err => console.log(err));
         console.log(buildingList);
 
-        powerSharing.buildingList.forEach(item => {
+        powerSharingJSON.buildingList.forEach(item => {
             buildingList.forEach(building => {
 
 
@@ -110,13 +112,12 @@ exports.getOne = async (req, res, next) => {
                     console.log(typeof item.buildingId);
                     console.log(typeof building._id.toString());
                     item.name = building.name;
-                    item.useType = building.useType;
-                    item.postalCode = building.postalCode;
+                    item.utilityType = building.utilityType;
                 }
             })
         });
     }
-    res.send(Response(powerSharing));
+    res.send(Response(powerSharingJSON));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
