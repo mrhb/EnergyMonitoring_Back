@@ -23,6 +23,7 @@ module.exports = {
     getListByIdList,
     getBuildingListPageableByFilter,
     getFacilityListPageableByFilter,
+    getListPageableByTermForSelection,
     getListByRegionFilter,
     getBuildingListPageableByFilterCount,
     getFacilityListPageableByFilterCount,
@@ -452,6 +453,33 @@ async function getListPageableByTerm(term, page, size) {
         console.log(e);
     }
 }
+
+
+
+async function getListPageableByTermForSelection(term, page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        let myFilter = (term !== '') ? '{\"name\": {$regex : \"' + term + '\"} }' : '{}';
+        myFilter = JSON.parse(myFilter);
+
+        return await Building
+            .find(myFilter,
+                {
+                    _id: 1,
+                    name: 1,
+                    utilityType:1,
+                })
+            .sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 
 async function getListPageableByTermCount(term) {
     try {

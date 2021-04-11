@@ -405,3 +405,43 @@ exports.getListPageableByTerm = async (req, res, next) => {
 
     res.send(ResponsePageable(buildingList, buildingListCount, page, size));
 };
+
+
+exports.getListPageableByTermForSelection = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let term = req.query.term;
+    console.log('term');
+    console.log(term);
+    let buildingList = await buildingDao
+        .getListPageableByTermForSelection(term, page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (buildingList === null || buildingList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let buildingListCount = await buildingDao
+        .getListPageableByTermCount(term)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    if (buildingListCount === null) {
+        res.send(Response(null));
+        return;
+    }
+
+    res.send(ResponsePageable(buildingList, buildingListCount, page, size));
+};
