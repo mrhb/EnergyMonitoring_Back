@@ -30,6 +30,6 @@ dailyWeatherSchema.set('toJSON', {
 });
 
 
-dailyWeatherSchema.index({forDate: 1 });
+// dailyWeatherSchema.index({forDate: 1 });
 
 module.exports = dailyWeatherSchema;
