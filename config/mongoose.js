@@ -6,12 +6,15 @@ let mongoose = require('mongoose');
 const DbLink = 'mongodb://185.252.29.76:27017/';
 const DbName = 'EnergyMonitoring';
 
-mongoose.connect(DbLink + DbName,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    }
-).then(r => console.log('MongoDb connected.'));
+mongoose.connect( DbLink, {
+    poolSize: 10,
+    authSource: "admin",
+    user: "useradmin",
+    pass: "mrhb9Tirmrhb9Tir", 
+    dbName:DbName,
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+} ).then(r => console.log('MongoDb connected.'));
 
 exports.mongoose = mongoose;
