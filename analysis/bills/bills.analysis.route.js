@@ -10,6 +10,7 @@ module.exports = (app) => {
     let BILLS = config.AnalysisAPI + 'bills/';
 
     let rawBillAnalysisController = require('./raw/rawBillAnalysis.controller');
+    let rawBillValidationController = require('./validation/rawBillValidation.controller');
     // let normalizedBillAnalysisController = require('./normalized/nomalizedBillAnalysis.controller');
 
     app.post(BILLS + 'get-raw-bill-cost',rawBillAnalysisController.cost);
@@ -18,4 +19,7 @@ module.exports = (app) => {
     // app.get(BILLS + 'get-normalized-bill-cost',normalizedBillAnalysisController.cost);
     // app.get(BILLS + 'get-normalized-bill-amount', normalizedBillAnalysisController.amount);
     
+
+    app.post(BILLS + 'get-validation-bill-cost',rawBillValidationController.cost);
+    app.post(BILLS + 'get-validation-bill-consumption', rawBillValidationController.consumption);
 };
