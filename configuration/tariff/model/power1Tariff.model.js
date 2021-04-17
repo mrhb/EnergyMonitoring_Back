@@ -62,9 +62,10 @@ const Power1Schema = new Schema({
 
     group: {
         type: String,
-        default: "power",
+        required: true,
+        default: "POWER",
         set(value) {
-          return this.kind;
+          return "POWER";
         },
       },
     useType: {

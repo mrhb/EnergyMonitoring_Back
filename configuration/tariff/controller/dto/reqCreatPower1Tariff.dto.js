@@ -14,11 +14,12 @@ function ReqCreatePower1Tariff(data, userId, next) {
     if (data.toDate !== null && data.toDate !== 'undefined') {
             this.toDate = data.toDate;
         }
-
+   
     
     this.approvalDate = data.approvalDate;
-    this.garmsMonth=data.garmsMonth
-    this.kind = data.kind;
+
+    this.group="POWER";
+    this.garmsMonth=data.garmsMonth;
     this.useType = data.useType;
     this.useCode = data.useCode;
     this.params = data.params;

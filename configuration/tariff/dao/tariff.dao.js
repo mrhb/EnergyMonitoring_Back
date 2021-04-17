@@ -9,6 +9,7 @@ const Tariff = require('../model/tariff.model');
 module.exports = {
     getListPageableByFilter,
     getListPageableByFilterCount,
+    deleteById,
     getOne
     };
 
@@ -22,6 +23,10 @@ async function getListPageableByFilter(page, size) {
         .find({},
             {
                 _id: 1,
+                id: 1,
+                group: 1,
+                useType:1,
+                useCode:1,
                 approvalDate:1, // تاریخ تصویب
                 fromDate: 1, // اعتبار از تاریخ
                 toDate: 1, //  اعتبار تا تاریخ
@@ -44,6 +49,17 @@ async function getListPageableByFilterCount() {
         console.log(e);
     }
 }
+
+async function deleteById(id) {
+    try {
+        return await Tariff.deleteOne({
+            _id: id
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 
 async function getOne(id) {
     try {

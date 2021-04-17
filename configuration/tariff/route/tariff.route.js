@@ -42,9 +42,17 @@ module.exports = (app) => {
      * Param : page,size
      * Body :
      */
-     app.post(TARIFF + 'get-tariff-list-pageable-by-filter', 
+     app.post(TARIFF + 'get-list-pageable-by-filter', 
      jwt(),
      tariffController.getListPageableByFilter);
+
+     
+    /**
+     * Delete
+     * Param : id
+     */
+    app.delete(TARIFF + 'delete', jwt(), tariffController.delete);
+
 
          /**
      * Get one
