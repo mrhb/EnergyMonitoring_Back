@@ -8,14 +8,24 @@ module.exports = (app) => {
     let hasRole = require('../../../middleware/auth/preAuthorize');
     let config = require('../../../config/config');
     let tariffController=require('../controller/tariff.controller');
+    let power1TariffController=require('../controller/power1Tariff.controller');
     let TARIFF = config.API + 'tariff/';
 
 
+    
     /**
      * Create
-     * Body : reqCreateFacility.dto
+     * Body : reqCreateGenerationSharing.dto
      */
-        //  app.put(TARIFF + 'update-tariff', tariffController.updateClimate);
+     app.post(TARIFF + 'create-power1', jwt(), power1TariffController.create);
+
+     /**
+      * Update
+      * Param : id
+      * Body : reqCreateGenerationSharing.dto
+      */
+     app.put(TARIFF + 'update-power1', jwt(), power1TariffController.update);
+
 
     /**
      * Update

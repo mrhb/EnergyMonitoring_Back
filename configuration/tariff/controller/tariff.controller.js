@@ -8,26 +8,6 @@
  const ResponsePageable = require('../../../middleware/response/responsePageable-handler');
  const ReqCreatTariff=require('./dto/reqCreatTariff.dto');
 
- exports.updateTariff = (req, res, next) => {
-    //  console.log('user.id ' + req.user.id);
-     if (!req.query.id) {
-         throw next("شناسه منطقه نمیتواند خالی باشد.");
-     }
-     console.log('re id ' + req.query.id);
-     let reqCreatTariff = new ReqCreatTariff(req.body, next);
-     TariffDao
-         .UpdateTariff(req.query.id, reqCreatTariff)
-         .then(result => {
-             if (result !== null) {
-                 if (result.nModified > 0) {
-                     res.send(Response(true));
-                     return;
-                 }
-             }
-             throw next("در ویرایش اطلاعات اقلیم خطایی رخ داده است.");
-         }).catch(err => console.log(err));
- };
- 
 exports.getListPageableByFilter = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {

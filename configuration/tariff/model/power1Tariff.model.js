@@ -13,12 +13,54 @@ const options = {
 };
 
 
-const eventSchema = new mongoose.Schema({ time: Date }, options);
-const Event = mongoose.model('Event', eventSchema);
+const Power1Param = new Schema({
+  // "garmsMonth":[0,0,1,1,1,1,0,0,0,0,0,0],
+  // "x":[100,200,300,400,500,600],
+  // "y":[490,571,1224,2203,2531,3184,3511],
+  // "x_garm":[1000,2000,3000,3500,4500,6000],
+  // "y_garm":[360,816,1388,1714,2042,2203,2368],
+  // "coeff":2,
+  // "demandPrice":57175
+  garmsMonth: {
+    type: [{
+      type: Boolean
+    }],
+    validate: [monthLimit, '{PATH} must be contain 12 elements']
+  },
+  x: {
+    type: [{
+      type: Number
+    }],
+    validate: [paramlengh, '{PATH} must be contain 6 number']
+  },
+  y: {
+    type: [{
+      type: Number
+    }],
+    validate: [paramlengh, '{PATH} must be contain 6 number']
+  },
+  xGarm: {
+    type: [{
+      type: Number
+    }],
+    validate: [paramlengh, '{PATH} must be contain 6 number']
+  },
+  yGarm:{
+    type: [ Number],
+    validate: [paramlengh, '{PATH} must be contain 6 number']
+  },
+  demandPrice  :  {type: Number, required: true},//قیمت دیماند
+});
 
+function paramlengh(val) {
+  return val.length == 6;
+}
+function monthLimit(val) {
+  return val.length == 12;
+}
 const Power1Schema = new Schema({
 
-    kind: {
+    group: {
         type: String,
         default: "power",
         set(value) {
@@ -63,13 +105,14 @@ const Power1Schema = new Schema({
         ]
     },// کد تعرفه
 
+    params:{type: Power1Param, required: true}, // پارامترها
 }, options);
 
 
 // Power1Tariff is a special type of Event that has
 // a URL.
-const Power1Tariff = Tariff.discriminator('Power1',Power1Schema);
+// const Power1Tariff = Tariff.discriminator('power1',Power1Schema);
 
 
 
-module.exports = mongoose.model('power1', Power1Tariff,'tariffs');
+module.exports =Tariff.discriminator('power1Tariff',Power1Schema);

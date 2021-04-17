@@ -28,4 +28,4 @@ TariffSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('Tariff', TariffSchema,'tariffs');
+module.exports = mongoose.model('tariff', TariffSchema);
