@@ -41,6 +41,6 @@ console.log(
     kwhhighNorm=kwh[2]/(days*12);
     
 
-    return [energy,avg_energy,pf,zian,demandC,DemandFactor,
-        demandCost,energyCost,varrCost,faslCost,totalCost,kwhCost];
+    return [energyCost,energy,avg_energy,pf,zian,demandC,DemandFactor,
+        demandCost,varrCost,faslCost,totalCost,kwhCost];
 }

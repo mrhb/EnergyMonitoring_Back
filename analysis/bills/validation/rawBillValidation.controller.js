@@ -30,6 +30,12 @@ exports.cost = async (req, res, next) => {
         return result;
     }).catch(err => console.log(err));
 
+
+
+    let series=[{data:[],name:'Cost'},{data:[],name:'cal'}];
+    let labels=[];
+
+
     BillTariffs.forEach(item => {
 
         param=item.tariffs[0].params;
@@ -45,30 +51,37 @@ exports.cost = async (req, res, next) => {
 
             var demandM=320;//دیماند مصرفی
             var demandG=1400; //دیماند قراردادی
-            CalEnergyCost(kwh,demandM,demandG,startDate,endDate,param);
+            var cal=CalEnergyCost(kwh,demandM,demandG,startDate,endDate,param);
+
+            item.energyCost=item.reciept.consumptionAmount;//cal[2];
+            item.energyCal=item.reciept.consumptionAmount;
+
+                
             
     });
 
+    BillTariffs.reduce((acc,value)=>{
+        if(!acc[value.reciept.period])
+        {
+            acc[value.reciept.period]={data:[],name:value.reciept.period};
+            // series.push({data:[],name:value.reciept.period});
+        }
+    
+        if(!labels.find(lbl=>lbl==value.reciept.period))
+        {
+            labels.push(value.reciept.period);
+        }
+    
+       var seri= series[0]
+       seri.data[labels.indexOf(value.reciept.period)]=value.energyCost;
 
-    let series=[];
-    let labels=[];
-    // CapacityListByRegion.reduce((acc,value)=>{
-    //     if(!acc[value.title])
-    //     {
-    //         acc[value.title]={data:[],name:value.title};
-    //         series.push({data:[],name:value.title});
-    //     }
-    
-    //     if(!labels.find(lbl=>lbl==value.period))
-    //     {
-    //         labels.push(value.period);
-    //     }
-    
-    //    var seri= series.find(element=>element.name==value.title)
-    //    seri.data[labels.indexOf(value.period)]=value.totalAmount;
-    //     acc[value.title].data.push(value.totalAmount);
-    //      return acc
-    // },{});
+       var seri= series[1]
+       seri.data[labels.indexOf(value.reciept.period)]=value.energyCal;
+       
+
+        acc[value.reciept.period].data.push(value.totalAmount);
+         return acc
+    },{});
     res.send(Response({"series":series,"labels":labels}));
 };
 exports.consumption = async (req, res, next) => {
@@ -93,9 +106,9 @@ exports.consumption = async (req, res, next) => {
                 acc[value.capacity]={data:[],name:value.capacity};
             }
     
-            if(!labels[value.title])
+            if(!labels[value.reciept.period])
             {
-                labels.push(value.title);
+                labels.push(value.reciept.period);
             }
             acc[value.capacity].data.push(value.Count);
              return acc
