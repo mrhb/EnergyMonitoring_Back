@@ -2,6 +2,157 @@ var moment = require('jalali-moment');
 var PieceCost = require('../PieceCost')
 
 
+var item=  {
+    "_id" : ObjectId("607bb8c41408c414b824c800"),
+    "reciept" : {
+        "_id" : ObjectId("607be17ea9e9ed2a1422f7e0"),
+        "period" : "FOURTH",
+        "paymentCode" : "1239843564323",
+        "fromDate" : ISODate("2021-02-19T20:30:00.000Z"),
+        "toDate" : ISODate("2021-03-20T20:30:00.000Z"),
+        "numberDays" : 29,
+        "intermediate" : {
+            "_id" : ObjectId("607be17ea9e9ed2a1422f7e1"),
+            "preCounter" : "12",
+            "currentCounter" : "1",
+            "coefficient" : "2",
+            "totalConsumption" : "212",
+            "consumptionAfterLastChange" : "121",
+            "nerkh" : "21",
+            "mablagh" : "21"
+        },
+        "peakLoad" : {
+            "_id" : ObjectId("607be17ea9e9ed2a1422f7e2"),
+            "preCounter" : "21",
+            "currentCounter" : "21",
+            "coefficient" : "21",
+            "totalConsumption" : "21",
+            "consumptionAfterLastChange" : "212",
+            "nerkh" : "121",
+            "mablagh" : "21"
+        },
+        "lowLoad" : {
+            "_id" : ObjectId("607be17ea9e9ed2a1422f7e3"),
+            "preCounter" : "21",
+            "currentCounter" : "21",
+            "coefficient" : "21",
+            "totalConsumption" : "21",
+            "consumptionAfterLastChange" : "21",
+            "nerkh" : "21",
+            "mablagh" : "21"
+        },
+        "peakTimesFriday" : {
+            "_id" : ObjectId("607be17ea9e9ed2a1422f7e4"),
+            "preCounter" : "21",
+            "currentCounter" : "21",
+            "coefficient" : "2121",
+            "totalConsumption" : "21",
+            "consumptionAfterLastChange" : "21",
+            "nerkh" : "12",
+            "mablagh" : "21"
+        },
+        "reactive" : {
+            "_id" : ObjectId("607be17ea9e9ed2a1422f7e5"),
+            "preCounter" : "21",
+            "currentCounter" : "21",
+            "coefficient" : "21",
+            "totalConsumption" : "21",
+            "consumptionAfterLastChange" : "21",
+            "nerkh" : "21",
+            "mablagh" : "21"
+        },
+        "contractualPower" : "87",
+        "calculatedPower" : "87",
+        "maximeterNumber" : "87",
+        "powerConsumption" : "87",
+        "badConsumptionLossRatio" : "87",
+        "paymentDeadLine" : ISODate("1986-12-31T20:30:00.000Z"),
+        "consumptionAmount" : 12,
+        "subscription" : "12",
+        "powerPrice" : 12,
+        "seasonPrice" : 21,
+        "badPenaltiesForConsuming" : 2,
+        "payableAmount" : 1,
+        "powerSharingId" : "607bb8c41408c414b824c800",
+        "nameShare" : "ساختمان سهند",
+        "creatorId" : "6072dbc2bfb0101ec8bdcaa0",
+        "ownerId" : "6072dbc2bfb0101ec8bdcaa0",
+        "createdAt" : ISODate("2021-04-18T07:36:30.725Z"),
+        "updatedAt" : ISODate("2021-04-18T07:53:59.950Z"),
+        "__v" : 0,
+        "debt" : null,
+        "electricalTolls" : null,
+        "numberShare" : null,
+        "vat" : null
+    },
+    "tariffs" : [ 
+        {
+            "_id" : ObjectId("607c0303a9e9ed2a1422f8d4"),
+            "group" : "POWER",
+            "dataType" : "power1Tariff",
+            "fromDate" : ISODate("2020-03-20T20:30:00.000Z"),
+            "toDate" : ISODate("2021-03-20T20:30:00.000Z"),
+            "approvalDate" : ISODate("2020-03-20T20:30:00.000Z"),
+            "useType" : "HOME",
+            "useCode" : "WARM_TROPICAL_4",
+            "params" : {
+                "garmsMonth" : [ 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true, 
+                    true
+                ],
+                "x" : [ 
+                    100, 
+                    200, 
+                    300, 
+                    400, 
+                    500, 
+                    600
+                ],
+                "y" : [ 
+                    234, 
+                    35, 
+                    34, 
+                    345, 
+                    344, 
+                    345
+                ],
+                "xGarm" : [ 
+                    234, 
+                    35, 
+                    34, 
+                    345, 
+                    344, 
+                    345
+                ],
+                "yGarm" : [ 
+                    234, 
+                    35, 
+                    34, 
+                    345, 
+                    344, 
+                    345
+                ],
+                "_id" : ObjectId("607c0303a9e9ed2a1422f8d5"),
+                "demandPrice" : 132423
+            },
+            "createdAt" : ISODate("2021-04-18T09:59:31.685Z"),
+            "updatedAt" : ISODate("2021-04-18T09:59:31.685Z"),
+            "__v" : 0
+        }
+    ]
+}
+
+
 module.exports =  function(kwh,demandM,demandG,startDate,endDate) {
     //jomiee,low,middle,higth,var
 const params=[

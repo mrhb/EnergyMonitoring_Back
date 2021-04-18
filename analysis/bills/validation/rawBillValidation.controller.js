@@ -1,7 +1,7 @@
 /**
  * @author M.Reza hajjar
  */
-const rawBillAnalysisDao = require('./rawBillAnalysis.dao');
+const rawBillValidation = require('./rawBillValidation.dao');
 const ReqRawBillAnalysis = require('./reqRawBillAnalysis.dto');
 
 const Response = require('../../../middleware/response/response-handler');
@@ -18,31 +18,34 @@ exports.cost = async (req, res, next) => {
     let reqRawBillAnalysis = new ReqRawBillAnalysis(req.body, next);
 
     
-    let CapacityListByRegion = await rawBillAnalysisDao
-    .getRawBillAnalysis(reqRawBillAnalysis)
+    let BillTariffs = await rawBillValidation
+    .getPowerBillTariffs(reqRawBillAnalysis)
     .then(result => {
+        console.log(result)
         return result;
     }).catch(err => console.log(err));
 
+
+
     let series=[];
     let labels=[];
-    CapacityListByRegion.reduce((acc,value)=>{
-        if(!acc[value.title])
-        {
-            acc[value.title]={data:[],name:value.title};
-            series.push({data:[],name:value.title});
-        }
+    // CapacityListByRegion.reduce((acc,value)=>{
+    //     if(!acc[value.title])
+    //     {
+    //         acc[value.title]={data:[],name:value.title};
+    //         series.push({data:[],name:value.title});
+    //     }
     
-        if(!labels.find(lbl=>lbl==value.period))
-        {
-            labels.push(value.period);
-        }
+    //     if(!labels.find(lbl=>lbl==value.period))
+    //     {
+    //         labels.push(value.period);
+    //     }
     
-       var seri= series.find(element=>element.name==value.title)
-       seri.data[labels.indexOf(value.period)]=value.totalAmount;
-        acc[value.title].data.push(value.totalAmount);
-         return acc
-    },{});
+    //    var seri= series.find(element=>element.name==value.title)
+    //    seri.data[labels.indexOf(value.period)]=value.totalAmount;
+    //     acc[value.title].data.push(value.totalAmount);
+    //      return acc
+    // },{});
     res.send(Response({"series":series,"labels":labels}));
 };
 exports.consumption = async (req, res, next) => {
@@ -54,7 +57,7 @@ exports.consumption = async (req, res, next) => {
         }
     
     
-        let CapacityListByRegion = await rawBillAnalysisDao
+        let CapacityListByRegion = await rawBillValidation
         .getCapacityListByRegion(this.regionId)
         .then(result => {
             return result;
