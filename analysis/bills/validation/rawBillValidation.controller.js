@@ -3,6 +3,11 @@
  */
 const rawBillValidation = require('./rawBillValidation.dao');
 const ReqRawBillAnalysis = require('./reqRawBillAnalysis.dto');
+const CalEnergyCost=require('./calEnergyCost');
+
+
+var moment = require('../../../node_modules/jalali-moment/jalali-moment');
+
 
 const Response = require('../../../middleware/response/response-handler');
 
@@ -25,6 +30,24 @@ exports.cost = async (req, res, next) => {
         return result;
     }).catch(err => console.log(err));
 
+    BillTariffs.forEach(item => {
+
+        param=item.tariffs[0].params;
+
+        var kwh=[item.reciept.intermediate.totalConsumption,
+            item.reciept.peakLoad.totalConsumption,
+            item.reciept.lowLoad.totalConsumption,
+            item.reciept.peakTimesFriday.totalConsumption,
+            item.reciept.reactive.totalConsumption
+        ];
+            startDate = moment.from("1397/06/01", 'fa', 'YYYY/MM/DD');
+            endDate = moment.from("1397/08/01", 'fa', 'YYYY/MM/DD');
+
+            var demandM=320;//دیماند مصرفی
+            var demandG=1400; //دیماند قراردادی
+            CalEnergyCost(kwh,demandM,demandG,startDate,endDate,param);
+            
+    });
 
 
     let series=[];
