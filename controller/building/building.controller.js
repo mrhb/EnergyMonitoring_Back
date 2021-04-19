@@ -43,14 +43,14 @@ exports.createFacility = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در ایجاد ساختمان خطایی رخ داده است.");
+            throw next("در ایجاد تأسیس خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.update = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه مکان نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let reqCreateBuildingDto = new ReqCreateBuildingDto(req.body, req.user.id, next);
@@ -63,14 +63,14 @@ exports.update = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت ساختمان خطایی رخ داده است.");
+            throw next("در آپدیت مکان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.deleteBuilding = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه مکان نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     buildingDao
@@ -82,7 +82,7 @@ exports.deleteBuilding = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف ساختمان خطایی رخ داده است.");
+            throw next("در حذف مکان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
@@ -276,7 +276,7 @@ exports.updateWallInformation = (req, res, next) => {
 exports.getOne = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه مکان نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     buildingDao
