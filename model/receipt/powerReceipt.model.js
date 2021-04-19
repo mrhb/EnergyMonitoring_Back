@@ -5,7 +5,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const sharingAllocation = require('./powerSharingAllocation.model');
+const sharingAllocation = require('./sharingAllocation.model');
 
 const ConsumptionSchema = new Schema({
     preCounter          :  {type: String, required: true},//شمارنده قبلی
@@ -18,11 +18,22 @@ const ConsumptionSchema = new Schema({
 });
 
 const PowerReceiptSchema = new Schema({
-
+    
     powerSharingId: {type: String}, // شناسه اشتراک برق
     powerSharing:sharingAllocation,
+    fromDate: {type: Date, required: true}, // از تاریخ
+    toDate: {type: Date, required: true}, // تا تاریخ
+    consumptionDurat: {type: String, required: true}, // مصرف دوره
+    consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
+    creatorId: {type: String, required: true},
+    ownerId: {type: String, required: true},
+    
+
+
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
+
+
     paymentCode: {type: String, required: true}, // شناسه پرداخت
     period: {
         type: String, required: true,
@@ -42,8 +53,6 @@ const PowerReceiptSchema = new Schema({
         ],
         default: 'FIRST'
     }, // دوره
-    fromDate: {type: Date, required: true}, // از تاریخ
-    toDate: {type: Date, required: true}, // تا تاریخ
     numberDays: {type: Number, required: true}, // تعداد روز دوره
     //*******Consumptions******* */
     intermediate: {type: ConsumptionSchema, required: true}, // میان باری
@@ -58,7 +67,6 @@ const PowerReceiptSchema = new Schema({
     powerConsumption: {type: String, required: true}, // قدرت مصرفی
     badConsumptionLossRatio: {type: String, required: true}, // ضریب زیان بدی مصرف
     paymentDeadLine: {type: Date, required: true}, // مهلت پرداخت
-    consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
     subscription: {type: String, required: true}, // آبونمان
     powerPrice: {type: Number, required: true}, // بهای قدرت
     seasonPrice: {type: Number, required: true}, // بهای فصل
@@ -67,9 +75,6 @@ const PowerReceiptSchema = new Schema({
     electricalTolls: {type: Number}, // عوارض برق
     debt: {type: Number}, // بدهکاری کسر هزار ریال
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
-
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
 }, {
     timestamps: true
 });

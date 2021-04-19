@@ -6,26 +6,31 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const sharingAllocation = require('./waterSharingAllocation.model');
+const sharingAllocation = require('./sharingAllocation.model');
 
 const WaterReceiptSchema = new Schema({
 
-    waterSharingId: {type: String}, // شناسه اشتراک برق
-    waterSharing:sharingAllocation,
-    numberShare: {type: String}, // شماره اشتراک
-    nameShare: {type: String}, // نام اشتراک
-    paymentCode: {type: String, required: true}, // شناسه پرداخت
+    sharingId: {type: String}, // شناسه اشتراک برق
+    sharing:sharingAllocation,
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
+    consumptionDurat: {type: String, required: true}, // مصرف دوره
+    consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
+    creatorId: {type: String, required: true},
+    ownerId: {type: String, required: true},
+
+
+        
+    numberShare: {type: String}, // شماره اشتراک
+    nameShare: {type: String}, // نام اشتراک
+
+
+    paymentCode: {type: String, required: true}, // شناسه پرداخت
     numberDays: {type: Number, required: true}, // تعداد روز دوره
     previousCounter: {type: String, required: true}, // شمارنده قبلی
     currentCounter: {type: String, required: true}, // شمارنده کنونی
-    consumptionDurat: {type: String, required: true}, // مصرف دوره
-    consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
 }, {
     timestamps: true
 });

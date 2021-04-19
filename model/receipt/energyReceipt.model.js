@@ -12,18 +12,20 @@ const EnergyReceiptSchema = new Schema({
 
     energySharingId: {type: String}, // شناسه اشتراک انرژی
     energySharing:sharingAllocation,
-    numberShare: {type: String}, // شماره اشتراک
-    nameShare: {type: String}, // نام اشتراک
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
-    numberDays: {type: Number, required: true}, // تعداد روز دوره
     consumptionDurat: {type: String, required: true}, // مصرف دوره- میزان مصرف 
     consumptionAmount: {type: Number, required: true}, // بهای مصرف-هزینه انرژی
+    creatorId: {type: String, required: true},
+    ownerId: {type: String, required: true},
+
+
+    numberShare: {type: String}, // شماره اشتراک
+    nameShare: {type: String}, // نام اشتراک
+    numberDays: {type: Number, required: true}, // تعداد روز دوره
     otherAmount: {type: Number, required: true}, // سایر هزینه ها
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
 }, {
     timestamps: true
 });

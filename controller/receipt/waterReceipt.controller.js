@@ -14,21 +14,21 @@ const WaterReceipt = require('../../model/receipt/waterReceipt.model');
 exports.create = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
-    if (!req.body.waterSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
 
-    let waterSharing = await waterSharingDao
-        .getOne(req.body.waterSharingId)
+    let sharing = await waterSharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    console.log(waterSharing);
-    if (waterSharing === null) {
+    console.log(sharing);
+    if (sharing === null) {
         throw next("اشتراک آب انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, waterSharing, next);
+    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, sharing, next);
 
 
     let waterReceipt = new WaterReceipt(reqCreateWaterReceipt);
@@ -53,20 +53,20 @@ exports.update = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض آب نمیتواند خالی باشد.");
     }
-    if (!req.body.waterSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک آب نمیتواند خالی باشد.");
     }
 
-    let waterSharing = await waterSharingDao
-        .getOne(req.body.waterSharingId)
+    let sharing = await waterSharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    if (waterSharing === null) {
+    if (sharing === null) {
         throw next("اشتراک آب انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, waterSharing, next);
+    let reqCreateWaterReceipt = new ReqCreateWaterReceipt(req.body, req.user.id, sharing, next);
 
     waterReceiptDao
         .update(req.query.id, reqCreateWaterReceipt)
@@ -118,26 +118,23 @@ exports.getOne = async (req, res, next) => {
         throw next('این قبض موجود نیست.');
     }
 
-    if (waterReceipt.waterSharingId) {
+    if (waterReceipt.sharingId) {
 
-        let waterSharing = await waterSharingDao
-        .getOne(waterReceipt.waterSharingId)
+        let sharing = await waterSharingDao
+        .getOne(waterReceipt.sharingId)
         .then(result => {
             return result;
         });
-    console.log(waterSharing);
+    console.log(sharing);
 
-    waterReceipt.waterSharing=waterSharing;
+    waterReceipt.sharing=sharing;
 
-    if (waterSharing === null) {
+    if (sharing === null) {
         throw next("اشتراک آب ثبت شده صحیح نمیباشد.");
     }
 
     }
-
     res.send(Response(waterReceipt));
-
-
 };
 
 exports.getListPageableByFilter = async (req, res, next) => {

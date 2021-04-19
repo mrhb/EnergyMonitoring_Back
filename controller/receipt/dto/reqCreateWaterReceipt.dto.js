@@ -5,7 +5,7 @@
  */
 module.exports = ReqCreateWaterReceipt;
 
-function ReqCreateWaterReceipt(data, userId, waterSharing, next) {
+function ReqCreateWaterReceipt(data, userId, sharing, next) {
     validate(data, next);
 
     this.paymentCode = data.paymentCode;
@@ -19,9 +19,9 @@ function ReqCreateWaterReceipt(data, userId, waterSharing, next) {
     this.consumptionAmount = data.consumptionAmount;
     this.payableAmount=data.payableAmount;
 
-    this.waterSharingId = waterSharing.id;
-    this.numberShare = waterSharing.numberShare;
-    this.nameShare = waterSharing.name;
+    this.sharingId = sharing.id;
+    this.numberShare = sharing.numberShare;
+    this.nameShare = sharing.name;
 
     this.creatorId = userId;
     this.ownerId = userId;
