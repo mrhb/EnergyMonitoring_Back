@@ -20,19 +20,19 @@ module.exports = {
     isThereBuilding
 };
 
-async function create(gasSharing) {
+async function create(sharing) {
     try {
-        return await GasSharing.create(gasSharing);
+        return await GasSharing.create(sharing);
     } catch (e) {
         console.log(e);
     }
 }
 
-async function update(id, gasSharing) {
+async function update(id, sharing) {
     try {
         return await GasSharing.updateOne({
             _id: id
-        }, gasSharing);
+        }, sharing);
     } catch (e) {
         console.log(e);
     }

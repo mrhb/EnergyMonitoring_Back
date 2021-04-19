@@ -14,21 +14,21 @@ const GasReceipt = require('../../model/receipt/gasReceipt.model');
 exports.create = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
-    if (!req.body.gasSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
     }
 
-    let gasSharing = await gasSharingDao
-        .getOne(req.body.gasSharingId)
+    let sharing = await gasSharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    console.log(gasSharing);
-    if (gasSharing === null) {
+    console.log(sharing);
+    if (sharing === null) {
         throw next("اشتراک گاز انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, gasSharing, next);
+    let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, sharing, next);
 
 
     let gazReceipt = new GasReceipt(reqCreateGasReceipt);
@@ -53,20 +53,20 @@ exports.update = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض گاز نمیتواند خالی باشد.");
     }
-    if (!req.body.gasSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
     }
 
-    let gasSharing = await gasSharingDao
-        .getOne(req.body.gasSharingId)
+    let sharing = await gasSharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    if (gasSharing === null) {
+    if (sharing === null) {
         throw next("اشتراک گاز انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, gasSharing, next);
+    let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, sharing, next);
 
     gazReceiptDao
         .update(req.query.id, reqCreateGasReceipt)
@@ -118,18 +118,18 @@ exports.getOne = async (req, res, next) => {
         throw next('این قبض موجود نیست.');
     }
 
-    if (gazReceipt.gasSharingId) {
+    if (gazReceipt.sharingId) {
 
-        let gasSharing = await gasSharingDao
-        .getOne(gazReceipt.gasSharingId)
+        let sharing = await gasSharingDao
+        .getOne(gazReceipt.sharingId)
         .then(result => {
             return result;
         });
-    console.log(gasSharing);
+    console.log(sharing);
 
-    gazReceipt.gasSharing=gasSharing;
+    gazReceipt.sharing=sharing;
 
-    if (gasSharing === null) {
+    if (sharing === null) {
         throw next("اشتراک گاز ثبت شده صحیح نمیباشد.");
     }
 
