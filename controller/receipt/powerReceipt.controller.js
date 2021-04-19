@@ -14,21 +14,21 @@ const PowerReceipt = require('../../model/receipt/powerReceipt.model');
 exports.create = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
-    if (!req.body.powerSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
     }
 
-    let powerSharing = await powerSharingDao
-        .getOne(req.body.powerSharingId)
+    let sharing = await powerSharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    console.log(powerSharing);
-    if (powerSharing === null) {
+    console.log(sharing);
+    if (sharing === null) {
         throw next("اشتراک برق انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreatePowerReceipt = new ReqCreatePowerReceipt(req.body, req.user.id, powerSharing, next);
+    let reqCreatePowerReceipt = new ReqCreatePowerReceipt(req.body, req.user.id, sharing, next);
 
 
     let powerReceipt = new PowerReceipt(reqCreatePowerReceipt);
@@ -56,22 +56,22 @@ exports.createMulti = async (req, res, next) => {
         throw next("لیست خالی میباشد.");
     }
 
-    let powerSharingIdList = [];
+    let sharingIdList = [];
     powerReceiptList.forEach(item => {
-        powerSharingIdList.push(item.powerSharingId);
+        sharingIdList.push(item.sharingId);
     });
 
     let powerSharingList = await powerSharingDao
-        .getListByIdList(powerSharingIdList)
+        .getListByIdList(sharingIdList)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
     powerReceiptList.forEach(powerReceipt => {
-        powerSharingList.forEach(powerSharing => {
-            if (powerReceipt.powerSharingId === powerSharing.id){
-                powerReceipt.numberShare = powerSharing.numberShare;
-                powerReceipt.nameShare = powerSharing.name;
+        powerSharingList.forEach(sharing => {
+            if (powerReceipt.sharingId === sharing.id){
+                powerReceipt.numberShare = sharing.numberShare;
+                powerReceipt.nameShare = sharing.name;
                 powerReceipt.numberDays = (new Date(powerReceipt.toDate).getTime() - new Date(powerReceipt.fromDate).getTime()) / (1000 * 3600 * 24);
                 powerReceipt.creatorId = req.user.id;
                 powerReceipt.ownerId = req.user.id;
@@ -100,20 +100,20 @@ exports.update = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض برق نمیتواند خالی باشد.");
     }
-    if (!req.body.powerSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
     }
 
-    let powerSharing = await powerSharingDao
-        .getOne(req.body.powerSharingId)
+    let sharing = await powerSharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    if (powerSharing === null) {
+    if (sharing === null) {
         throw next("اشتراک برق انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreatePowerReceipt = new ReqCreatePowerReceipt(req.body, req.user.id, powerSharing, next);
+    let reqCreatePowerReceipt = new ReqCreatePowerReceipt(req.body, req.user.id, sharing, next);
 
     powerReceiptDao
         .update(req.query.id, reqCreatePowerReceipt)
@@ -165,18 +165,18 @@ exports.getOne = async (req, res, next) => {
         throw next('این قبض موجود نیست.');
     }
 
-    if (powerReceipt.powerSharingId) {
+    if (powerReceipt.sharingId) {
 
-        let powerSharing = await powerSharingDao
-        .getOne(powerReceipt.powerSharingId)
+        let sharing = await powerSharingDao
+        .getOne(powerReceipt.sharingId)
         .then(result => {
             return result;
         });
-    console.log(powerSharing);
+    console.log(sharing);
 
-    powerReceipt.powerSharing=powerSharing;
+    powerReceipt.sharing=sharing;
 
-    if (powerSharing === null) {
+    if (sharing === null) {
         throw next("اشتراک برق ثبت شده صحیح نمیباشد.");
     }
 

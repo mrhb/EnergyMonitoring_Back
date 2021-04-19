@@ -4,7 +4,7 @@
  */
 module.exports = ReqCreatePowerReceipt;
 
-function ReqCreatePowerReceipt(data, userId, powerSharing, next) {
+function ReqCreatePowerReceipt(data, userId, sharing, next) {
     validate(data, next);
 
     this.paymentCode = data.paymentCode;
@@ -25,6 +25,7 @@ function ReqCreatePowerReceipt(data, userId, powerSharing, next) {
     this.badConsumptionLossRatio = data.badConsumptionLossRatio;
     this.paymentDeadLine = data.paymentDeadLine;
     this.consumptionAmount = data.consumptionAmount;
+    this.consumptionDurat = data.consumptionDurat;
     this.subscription = data.subscription;
     this.powerPrice = data.powerPrice;
     this.seasonPrice = data.seasonPrice;
@@ -34,9 +35,9 @@ function ReqCreatePowerReceipt(data, userId, powerSharing, next) {
     this.debt = data.debt;
     this.payableAmount = data.payableAmount;
 
-    this.powerSharingId = powerSharing.id;
-    this.numberShare = powerSharing.numberShare;
-    this.nameShare = powerSharing.name;
+    this.sharingId = sharing.id;
+    this.numberShare = sharing.numberShare;
+    this.nameShare = sharing.name;
 
     this.creatorId = userId;
     this.ownerId = userId;

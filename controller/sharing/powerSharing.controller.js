@@ -16,11 +16,11 @@ exports.create = (req, res, next) => {
     console.log('re id ' + req.user.id);
     let reqCreatePowerSharing = new ReqCreatePowerSharing(req.body, req.user.id, next);
 
-    let powerSharing = new PowerSharing(reqCreatePowerSharing);
-    console.log(powerSharing);
+    let sharing = new PowerSharing(reqCreatePowerSharing);
+    console.log(sharing);
 
     powerSharingDao
-        .create(powerSharing)
+        .create(sharing)
         .then(result => {
             if (result) {
                 if (result._id) {
@@ -78,17 +78,17 @@ exports.getOne = async (req, res, next) => {
         throw next("شناسه اشتراک برق نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    let powerSharing = await powerSharingDao
+    let sharing = await powerSharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
-    console.log(powerSharing);
+    console.log(sharing);
 
-    if (powerSharing === null) {
+    if (sharing === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
-    var powerSharingJSON = JSON.parse(JSON.stringify(powerSharing));
+    var powerSharingJSON = JSON.parse(JSON.stringify(sharing));
     if (powerSharingJSON.buildingList.length > 0) {
         let buildingIdList = [];
         powerSharingJSON.buildingList.forEach(item => {
@@ -137,16 +137,16 @@ exports.addBuildingAllocation = async (req, res, next) => {
         throw next('برای ساختمان انتخابی اشتراک برق انتخاب شده است.')
     }
 
-    let powerSharing = await powerSharingDao
+    let sharing = await powerSharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
     // Check allocationPercentage
-    if (powerSharing.buildingList.length > 0) {
+    if (sharing.buildingList.length > 0) {
         let allocationPercentageSum = 0;
-        for (let i = 0; i < powerSharing.buildingList.length; i++) {
-            allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
+        for (let i = 0; i < sharing.buildingList.length; i++) {
+            allocationPercentageSum = allocationPercentageSum + Number(sharing.buildingList[i].allocationPercentage);
         }
         allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum > 100) {
@@ -209,19 +209,19 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         throw next('برای ساختمان انتخابی اشتراک برق انتخاب شده است.')
     }
 
-    let powerSharing = await powerSharingDao
+    let sharing = await powerSharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
     // Check allocationPercentage
-    if (powerSharing.buildingList.length > 0) {
+    if (sharing.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
-        for (let i = 0; i < powerSharing.buildingList.length; i++) {
-            if (powerSharing.buildingList[i].id === req.body.id) {
+        for (let i = 0; i < sharing.buildingList.length; i++) {
+            if (sharing.buildingList[i].id === req.body.id) {
                 continue;
             }
-            allocationPercentageSum = allocationPercentageSum + Number(powerSharing.buildingList[i].allocationPercentage);
+            allocationPercentageSum = allocationPercentageSum + Number(sharing.buildingList[i].allocationPercentage);
         }
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')

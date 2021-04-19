@@ -19,8 +19,8 @@ const ConsumptionSchema = new Schema({
 
 const PowerReceiptSchema = new Schema({
     
-    powerSharingId: {type: String}, // شناسه اشتراک برق
-    powerSharing:sharingAllocation,
+    sharingId: {type: String}, // شناسه اشتراک برق
+    sharing:sharingAllocation,
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
     consumptionDurat: {type: String, required: true}, // مصرف دوره

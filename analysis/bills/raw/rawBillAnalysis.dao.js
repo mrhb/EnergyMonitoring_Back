@@ -36,7 +36,7 @@ async function getRawBillAnalysis(req) {
               
                     
                                     
-                    { $addFields: { "powerSharingobjectId": { "$toObjectId": "$powerSharingId" }}},
+                    { $addFields: { "powerSharingobjectId": { "$toObjectId": "$sharingId" }}},
 
                     {$lookup:
                         {

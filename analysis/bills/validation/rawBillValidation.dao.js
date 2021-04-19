@@ -35,7 +35,7 @@ async function getPowerBillTariffs(req) {
                         {
                         from:  "powerreceipts",
                         localField: "powerSharingStringId",
-                        foreignField: "powerSharingId",
+                        foreignField: "sharingId",
                         as: "reciept"
                         }
                     },
