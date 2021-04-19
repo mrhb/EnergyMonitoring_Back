@@ -10,8 +10,8 @@ const sharingAllocation = require('./sharingAllocation.model');
 
 const EnergyReceiptSchema = new Schema({
 
-    energySharingId: {type: String}, // شناسه اشتراک انرژی
-    energySharing:sharingAllocation,
+    sharingId: {type: String}, // شناسه اشتراک انرژی
+    sharing:sharingAllocation,
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
     consumptionDurat: {type: String, required: true}, // مصرف دوره- میزان مصرف 

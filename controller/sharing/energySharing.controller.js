@@ -3,7 +3,7 @@
  * phone : +989035074205
  */
 
-const energySharingDao = require('../../dao/sharing/energySharing.dao');
+const sharingDao = require('../../dao/sharing/energySharing.dao');
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
@@ -16,10 +16,10 @@ exports.create = (req, res, next) => {
     console.log('re id ' + req.user.id);
     let reqCreateEnergySharing = new ReqCreateEnergySharing(req.body, req.user.id, next);
 
-    let energySharing = new EnergySharing(reqCreateEnergySharing);
+    let sharing = new EnergySharing(reqCreateEnergySharing);
 
-    energySharingDao
-        .create(energySharing)
+    sharingDao
+        .create(sharing)
         .then(result => {
             if (result) {
                 if (result._id) {
@@ -38,7 +38,7 @@ exports.update = (req, res, next) => {
     }
     console.log('re id ' + req.query.id);
     let reqCreateEnergySharing = new ReqCreateEnergySharing(req.body, req.user.id, next);
-    energySharingDao
+    sharingDao
         .update(req.query.id, reqCreateEnergySharing)
         .then(result => {
             if (result !== null) {
@@ -58,7 +58,7 @@ exports.delete = (req, res, next) => {
     }
     console.log('re id ' + req.query.id);
 
-    energySharingDao
+    sharingDao
         .deleteById(req.query.id)
         .then(result => {
             if (result !== null) {
@@ -77,20 +77,20 @@ exports.getOne = async (req, res, next) => {
         throw next("شناسه اشتراک انرژی نمیتواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
-    let energySharing = await energySharingDao
+    let sharing = await sharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
-    console.log(energySharing);
+    console.log(sharing);
 
-    if (energySharing === null) {
+    if (sharing === null) {
         throw next('محتوایی برای نمایش موجود نیست.');
     }
-    var energySharingJSON = JSON.parse(JSON.stringify(energySharing));
-    if (energySharingJSON.buildingList.length > 0) {
+    var sharingJSON = JSON.parse(JSON.stringify(sharing));
+    if (sharingJSON.buildingList.length > 0) {
         let buildingIdList = [];
-        energySharingJSON.buildingList.forEach(item => {
+        sharingJSON.buildingList.forEach(item => {
             buildingIdList.push(item.buildingId);
         });
 
@@ -101,7 +101,7 @@ exports.getOne = async (req, res, next) => {
             }).catch(err => console.log(err));
         console.log(buildingList);
 
-        energySharingJSON.buildingList.forEach(item => {
+        sharingJSON.buildingList.forEach(item => {
             buildingList.forEach(building => {
 
 
@@ -114,7 +114,7 @@ exports.getOne = async (req, res, next) => {
             })
         });
     }
-    res.send(Response(energySharingJSON));
+    res.send(Response(sharingJSON));
 };
 
 exports.addBuildingAllocation = async (req, res, next) => {
@@ -124,7 +124,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
     }
 
     // Is there an energy sharing for this building?
-    let isThereEnergy = await energySharingDao
+    let isThereEnergy = await sharingDao
         .isThereBuilding(null,req.body.buildingId)
         .then(result => {
             if (result !== null && result > 0)
@@ -136,16 +136,16 @@ exports.addBuildingAllocation = async (req, res, next) => {
         throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
     }
 
-    let energySharing = await energySharingDao
+    let sharing = await sharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
     // Check allocationPercentage
-    if (energySharing.buildingList.length > 0) {
+    if (sharing.buildingList.length > 0) {
         let allocationPercentageSum = 0;
-        for (let i = 0; i < energySharing.buildingList.length; i++) {
-            allocationPercentageSum = allocationPercentageSum + Number(energySharing.buildingList[i].allocationPercentage);
+        for (let i = 0; i < sharing.buildingList.length; i++) {
+            allocationPercentageSum = allocationPercentageSum + Number(sharing.buildingList[i].allocationPercentage);
         }
         allocationPercentageSum = allocationPercentageSum + Number(req.body.allocationPercentage);
         if (allocationPercentageSum > 100) {
@@ -157,7 +157,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
         }
     }
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, true, next);
-    let buildingAllocation = await energySharingDao
+    let buildingAllocation = await sharingDao
         .addBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
             if (result !== null) {
@@ -196,7 +196,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
     console.log('query id ' + req.query.id);
 
     // Is there an energy sharing for this building?
-    let isThereEnergy = await energySharingDao
+    let isThereEnergy = await sharingDao
         .isThereBuilding(req.query.id,req.body.buildingId)
         .then(result => {
             if (result !== null && result > 0)
@@ -208,20 +208,20 @@ exports.updateBuildingAllocation = async (req, res, next) => {
         throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
     }
 
-    let energySharing = await energySharingDao
+    let sharing = await sharingDao
         .getOne(req.query.id)
         .then(result => {
             return result;
         });
 
     // Check allocationPercentage
-    if (energySharing.buildingList.length > 0) {
+    if (sharing.buildingList.length > 0) {
         let allocationPercentageSum = Number(req.body.allocationPercentage);
-        for (let i = 0; i < energySharing.buildingList.length; i++) {
-            if (energySharing.buildingList[i].id === req.body.id) {
+        for (let i = 0; i < sharing.buildingList.length; i++) {
+            if (sharing.buildingList[i].id === req.body.id) {
                 continue;
             }
-            allocationPercentageSum = allocationPercentageSum + Number(energySharing.buildingList[i].allocationPercentage);
+            allocationPercentageSum = allocationPercentageSum + Number(sharing.buildingList[i].allocationPercentage);
         }
         if (allocationPercentageSum > 100) {
             throw next('درصد های تخصیص بیشتر از 100 شده است.')
@@ -233,7 +233,7 @@ exports.updateBuildingAllocation = async (req, res, next) => {
     }
 
     let reqBuildingAllocation = new ReqBuildingAllocation(req.body, false, next);
-    energySharingDao
+    sharingDao
         .updateBuildingAllocation(req.query.id, reqBuildingAllocation)
         .then(result => {
             if (result !== null) {
@@ -261,7 +261,7 @@ exports.deleteBuildingAllocation = (req, res, next) => {
     }
     console.log('query allocationId ' + req.query.allocationId);
 
-    energySharingDao
+    sharingDao
         .deleteBuildingAllocation(req.query.id, req.query.allocationId)
         .then(result => {
             if (result !== null) {
@@ -288,29 +288,29 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let energySharingList = await energySharingDao
+    let sharingList = await sharingDao
         .getListPageableByFilter(page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (energySharingList === null || energySharingList.length <= 0) {
+    if (sharingList === null || sharingList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let energySharingListCount = await energySharingDao
+    let sharingListCount = await sharingDao
         .getListPageableByFilterCount()
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (energySharingListCount === null) {
+    if (sharingListCount === null) {
         res.send(Response(null));
         return;
     }
 
-    res.send(ResponsePageable(energySharingList, energySharingListCount, page, size));
+    res.send(ResponsePageable(sharingList, sharingListCount, page, size));
 };
 
 
@@ -325,27 +325,27 @@ exports.getListPageableByTerm = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let energySharingList = await energySharingDao
+    let sharingList = await sharingDao
         .getListPageableByTerm(req.body, page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (energySharingList === null || energySharingList.length <= 0) {
+    if (sharingList === null || sharingList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let energySharingListCount = await energySharingDao
+    let sharingListCount = await sharingDao
         .getListPageableByTermCount(req.body)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (energySharingListCount === null) {
+    if (sharingListCount === null) {
         res.send(Response(null));
         return;
     }
 
-    res.send(ResponsePageable(energySharingList, energySharingListCount, page, size));
+    res.send(ResponsePageable(sharingList, sharingListCount, page, size));
 };

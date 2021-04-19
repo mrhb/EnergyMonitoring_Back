@@ -4,7 +4,7 @@
  */
 
 const energyReceiptDao = require('../../dao/receipt/energyReceipt.dao');
-const energySharingDao = require('../../dao/sharing/energySharing.dao');
+const sharingDao = require('../../dao/sharing/energySharing.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreateEnergyReceipt = require('./dto/reqCreateEnergyReceipt.dto');
@@ -14,21 +14,21 @@ const EnergyReceipt = require('../../model/receipt/energyReceipt.model');
 exports.create = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
-    if (!req.body.energySharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک انرژی نمیتواند خالی باشد.");
     }
 
-    let energySharing = await energySharingDao
-        .getOne(req.body.energySharingId)
+    let sharing = await sharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    console.log(energySharing);
-    if (energySharing === null) {
+    console.log(sharing);
+    if (sharing === null) {
         throw next("اشتراک انرژی انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateEnergyReceipt = new ReqCreateEnergyReceipt(req.body, req.user.id, energySharing, next);
+    let reqCreateEnergyReceipt = new ReqCreateEnergyReceipt(req.body, req.user.id, sharing, next);
 
 
     let energyReceipt = new EnergyReceipt(reqCreateEnergyReceipt);
@@ -53,20 +53,20 @@ exports.update = async (req, res, next) => {
     if (!req.query.id) {
         throw next("شناسه قبض انرژی نمیتواند خالی باشد.");
     }
-    if (!req.body.energySharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه اشتراک انرژی نمیتواند خالی باشد.");
     }
 
-    let energySharing = await energySharingDao
-        .getOne(req.body.energySharingId)
+    let sharing = await sharingDao
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });
-    if (energySharing === null) {
+    if (sharing === null) {
         throw next("اشتراک انرژی انتخابی صحیح نمیباشد.");
     }
 
-    let reqCreateEnergyReceipt = new ReqCreateEnergyReceipt(req.body, req.user.id, energySharing, next);
+    let reqCreateEnergyReceipt = new ReqCreateEnergyReceipt(req.body, req.user.id, sharing, next);
 
     energyReceiptDao
         .update(req.query.id, reqCreateEnergyReceipt)
@@ -118,18 +118,18 @@ exports.getOne = async (req, res, next) => {
         throw next('این قبض موجود نیست.');
     }
 
-    if (energyReceipt.energySharingId) {
+    if (energyReceipt.sharingId) {
 
-        let energySharing = await energySharingDao
-        .getOne(energyReceipt.energySharingId)
+        let sharing = await sharingDao
+        .getOne(energyReceipt.sharingId)
         .then(result => {
             return result;
         });
-    console.log(energySharing);
+    console.log(sharing);
 
-    energyReceipt.energySharing=energySharing;
+    energyReceipt.sharing=sharing;
 
-    if (energySharing === null) {
+    if (sharing === null) {
         throw next("اشتراک انرژی ثبت شده صحیح نمیباشد.");
     }
 

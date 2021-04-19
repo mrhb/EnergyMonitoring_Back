@@ -5,7 +5,7 @@
  */
 module.exports = ReqCreateEnergyReceipt;
 
-function ReqCreateEnergyReceipt(data, userId, energySharing, next) {
+function ReqCreateEnergyReceipt(data, userId, sharing, next) {
     validate(data, next);
 
     this.paymentCode = data.paymentCode;
@@ -19,9 +19,9 @@ function ReqCreateEnergyReceipt(data, userId, energySharing, next) {
 
     this.payableAmount=data.payableAmount;
 
-    this.energySharingId = energySharing.id;
-    this.numberShare = energySharing.numberShare;
-    this.nameShare = energySharing.name;
+    this.sharingId = sharing.id;
+    this.numberShare = sharing.numberShare;
+    this.nameShare = sharing.name;
 
     this.creatorId = userId;
     this.ownerId = userId;
