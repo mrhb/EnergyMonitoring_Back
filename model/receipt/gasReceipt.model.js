@@ -6,23 +6,13 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const sharingAllocation = require('./sharingAllocation.model');
+const RecieptBase = require('./receiptBase.model');
 
 const GasReceiptSchema = new Schema({
 
-    sharingId: {type: String}, // شناسه اشتراک برق
-    sharing:sharingAllocation,
-    fromDate: {type: Date, required: true}, // از تاریخ
-    toDate: {type: Date, required: true}, // تا تاریخ
-    consumptionDurat: {type: String, required: true}, // مصرف دوره
-    consumptionAmount: {type: Number, required: true}, // بهای گاز مصرفی
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
     
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
-
-
 
     paymentCode: {type: String, required: true}, // شناسه پرداخت
     numberDays: {type: Number, required: true}, // تعداد روز دوره
@@ -44,4 +34,5 @@ GasReceiptSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('gasReceipt', GasReceiptSchema);
+module.exports =RecieptBase.discriminator('gasReceipt',GasReceiptSchema);
+
