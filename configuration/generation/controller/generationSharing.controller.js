@@ -183,8 +183,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
 
     reqBuildingAllocation.name = building.name;
     reqBuildingAllocation.id = reqBuildingAllocation._id;
-    reqBuildingAllocation.consumptionType = building.consumptionType;
-    reqBuildingAllocation.postalCode = building.postalCode;
+    reqBuildingAllocation.useType = building.useType;
     delete reqBuildingAllocation._id;
     res.send(Response(reqBuildingAllocation));
 };
