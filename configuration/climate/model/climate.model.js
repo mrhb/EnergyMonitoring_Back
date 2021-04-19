@@ -54,13 +54,14 @@ const ClimateSchema = new Schema({
         type: String,
         required: true,
         enum: [
-            'VERY_HOT_DRY', // بسیار گرم و خشک
-            'HOT_DRY', //   گرم و خشک
-            'SEMI_DRY', //   نیمه خشک
-            'VERY_HOT_HUMID', //  بسیار گرم و مرطوب
+            'VERYCOLD', //   بسیار سرد
+            'COLD', //   سرد
             'TEMPER_RAINY', //   معتدل و بارانی
             'SEMI_TEMPER_RAINY', //   نیمه معتدل و بارانی
-            'COLD', //   سرد
+            'SEMI_DRY', //   نیمه خشک
+            'HOT_DRY', //   گرم و خشک
+            'VERY_HOT_HUMID', //  بسیار گرم و مرطوب
+            'VERY_HOT_DRY', // بسیار گرم و خشک
         ]
     }, // نوع اقلیم 
     dominantThermalReq: String, // نیاز غالب حرارتی
