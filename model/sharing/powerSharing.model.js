@@ -4,13 +4,10 @@
  */
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
-
-const BuildingAllocation = require('./buildingAllocation.model');
+const SharingBase = require('./sharingBase.model');
 
 const PowerSharingSchema = new Schema({
 
-    name: {type: String}, // نام مشترک
-    address: {type: String}, // نشانی محل مصرف
     billingId: {type: String, required: true}, // شناسه قبض
     systemPass: {type: String}, // رمز رایانه
     contract: {type: String}, // دیماند قراردادی
@@ -59,11 +56,7 @@ const PowerSharingSchema = new Schema({
     coefficient: {type: String, required: true}, // ضریب اشتراک
     voltageType: {type: String, required: true, enum: ['PRIMITIVE', 'SECONDARY']}, // نوع ولتاژ
     powerSupplyVoltage: {type: String, required: true, enum: ['P380', 'P220']}, // ولتاژ تغذیه
-    buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
-}, {
+  }, {
     timestamps: true
 });
 
@@ -75,4 +68,4 @@ PowerSharingSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('powerSharing', PowerSharingSchema);
+module.exports =SharingBase.discriminator('power',PowerSharingSchema);

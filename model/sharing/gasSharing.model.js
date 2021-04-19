@@ -4,13 +4,9 @@
  */
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
-
-const BuildingAllocation = require('./buildingAllocation.model');
+const SharingBase = require('./sharingBase.model');
 
 const GasSharingSchema = new Schema({
-
-    name: {type: String}, // نام مشترک
-    address: {type: String}, // نشانی محل مصرف
     billingId: {type: String, required: true}, // شناسه اشتراک
     city: {type: String}, // شهر
     domainCode: {type: String}, // کد حوزه
@@ -40,11 +36,7 @@ const GasSharingSchema = new Schema({
     group: {type: String, required: true, enum: ['ONE','TWO','TREE','FOUR','FIVE','SIX']}, // گروه
     capacity: {type: String, required: true, enum: ['G_004','G_006','G_010','G_016','G_025','G_040','G_065','G_100']}, // ظرفیت
     coefficient: {type: String}, // ضریب اشتراک
-    buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number,default: 0}, // تعداد ساختمان ها
-
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
+    
 }, {
     timestamps: true
 });
@@ -57,4 +49,4 @@ GasSharingSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('gasSharing', GasSharingSchema);
+module.exports =SharingBase.discriminator('gas',GasSharingSchema);

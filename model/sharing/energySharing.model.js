@@ -4,12 +4,10 @@
  */
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
+const SharingBase = require('./sharingBase.model');
 
-const BuildingAllocation = require('./buildingAllocation.model');
 
 const EnergySharingSchema = new Schema({
-    name: {type: String, required: true}, // نام مشترک
-    address: {type: String, required: true}, // نشانی محل مصرف
     energyCarrier: {type: String, required: true,
         enum: [
            'GAS',//'گاز'
@@ -19,13 +17,10 @@ const EnergySharingSchema = new Schema({
     }, //نام حامل انرژی     
     energyUnit: {type: String}, // واحد انرژی
     shareNumber: {type: String}, // شماره کنتور
-    buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
+
     capacity: {type: String}, //  ظرفیت
     kiloWatConvert: {type: String}, //  ظرفیت
     
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
 
 }, {
     timestamps: true
@@ -39,4 +34,5 @@ EnergySharingSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('energySharing', EnergySharingSchema);
+module.exports =SharingBase.discriminator('energy',EnergySharingSchema);
+
