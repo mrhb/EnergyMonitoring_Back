@@ -5,7 +5,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const powerSharingAllocation = require('./powerSharingAllocation.model');
+const sharingAllocation = require('./powerSharingAllocation.model');
 
 const ConsumptionSchema = new Schema({
     preCounter          :  {type: String, required: true},//شمارنده قبلی
@@ -20,7 +20,7 @@ const ConsumptionSchema = new Schema({
 const PowerReceiptSchema = new Schema({
 
     powerSharingId: {type: String}, // شناسه اشتراک برق
-    powerSharing:powerSharingAllocation,
+    powerSharing:sharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
     paymentCode: {type: String, required: true}, // شناسه پرداخت

@@ -7,20 +7,10 @@ const mongoose = require('../../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
 const GenerationSharingAllocatoioSchema = new Schema({
-
     name: {type: String}, // نام مشترک
     billingId: {type: String, required: true}, // شناسه قبض
-    // numberShare: {type: String}, // شماره اشتراک
-    fileNumber: {type: String}, // شماره پرونده
-    // serialShare: {type: String}, // شماره بدنه کنتور
-    
-
-
-    // generationBranchDiameter: {type: Number}, // قطر انشعاب اب
-    sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
-    capacity: {type: String}, // ظرفیت قراردادی
-    
-}, {
+    numberShare: {type: String}, // شماره اشتراک 
+    }, {
     timestamps: true
 });
 

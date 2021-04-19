@@ -6,12 +6,12 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const waterSharingAllocation = require('./waterSharingAllocation.model');
+const sharingAllocation = require('./waterSharingAllocation.model');
 
 const WaterReceiptSchema = new Schema({
 
     waterSharingId: {type: String}, // شناسه اشتراک برق
-    waterSharing:waterSharingAllocation,
+    waterSharing:sharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
     paymentCode: {type: String, required: true}, // شناسه پرداخت

@@ -6,12 +6,12 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const energySharingAllocation = require('./energySharingAllocation.model');
+const sharingAllocation = require('./sharingAllocation.model');
 
 const EnergyReceiptSchema = new Schema({
 
     energySharingId: {type: String}, // شناسه اشتراک انرژی
-    energySharing:energySharingAllocation,
+    energySharing:sharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
     fromDate: {type: Date, required: true}, // از تاریخ

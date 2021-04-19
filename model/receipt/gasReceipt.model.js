@@ -6,12 +6,12 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const gasSharingAllocation = require('./gasSharingAllocation.model');
+const sharingAllocation = require('./gasSharingAllocation.model');
 
 const GasReceiptSchema = new Schema({
 
     gasSharingId: {type: String}, // شناسه اشتراک برق
-    gasSharing:gasSharingAllocation,
+    gasSharing:sharingAllocation,
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
     paymentCode: {type: String, required: true}, // شناسه پرداخت

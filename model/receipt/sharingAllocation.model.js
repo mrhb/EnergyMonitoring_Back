@@ -6,26 +6,20 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const EnergySharingAllocationSchema = new Schema({
+const SharingAllocatoioSchema = new Schema({
 
     name: {type: String}, // نام مشترک
     billingId: {type: String, required: true}, // شناسه قبض
-    energyCarrier: {type: String, required: true,
-        enum: [
-           'GAS',//'گاز'
-           'GASOLIN',//'گازوئیل'
-           'BENZIN',//'بنزین'
-        ]
-    }, //نام حامل انرژی  
+    numberShare: {type: String}, // شماره اشتراک 
 }, {
     timestamps: true
 });
 
-EnergySharingAllocationSchema.set('toJSON', {
+SharingAllocatoioSchema.set('toJSON', {
     virtuals: true,
     versionKey: false,
     transform: function (doc, ret) {
         delete ret._id;
     }
 });
-module.exports = EnergySharingAllocationSchema;
+module.exports = SharingAllocatoioSchema;
