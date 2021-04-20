@@ -6,5 +6,6 @@
 
     require('./suscriptions/suscriptions.route')(app);
     require('./bills/bills.analysis.route')(app);
+    require('./label/label.analysis.route')(app);
 
 };
