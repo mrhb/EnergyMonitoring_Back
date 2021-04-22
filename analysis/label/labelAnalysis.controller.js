@@ -16,40 +16,55 @@ exports.getlabel = async (req, res, next) => {
     .getBuildingDataAnalysis(reqLabelAnalysis)
     .then(result => {
         return result;
-    }).catch(err => console.log(err));
-
-    //"powerReceipt"  3.7
-    //"gasReceipt  0.278*37.68,
-    //"GASOLIN    0.278*37.3,
-    //"BENZIN    0.278*41,
-    //"GAS    0.278*37.68
-    useFullArea=BuildingData[0].useFullArea;
-    climate=BuildingData[0].climateType;
-    Eactual=0;
-    var temp=BuildingData.reduce((acc,value)=>{
-        if(!acc[value.Type])
+    }).catch(err => 
         {
-            acc[value.Type]=0;
-        }
-        Eactual=Eactual+TablesData.HeatingValue[value.Type]*value.consumptionDurat;
-        acc[value.Type]=acc[value.Type]+(TablesData.HeatingValue[value.Type]*value.consumptionDurat);
-         return acc
-    },{});
-    Eactual=Eactual/useFullArea;
-    Eideal=getIdealE(climate,useFullArea) ;
-    
-    R=Eactual/Eideal;
-
-    Rc=R_C(climate,R,useFullArea);
-    
-    rank=  4;//Ranking(Rc)
+            console.log(err)
+        });
 
 
 
-    var ratio=Rc;
-    var ConsumptionIndex=1377;
-    label
-    res.send(Response({"ratio":ratio,"ConsumptionIndex":ConsumptionIndex,"label":TablesData.labels[rank]}));
+    try { 
+        //"powerReceipt"  3.7
+        //"gasReceipt  0.278*37.68,
+        //"GASOLIN    0.278*37.3,
+        //"BENZIN    0.278*41,
+        //"GAS    0.278*37.68
+        useFullArea=BuildingData[0].useFullArea;
+        climate=BuildingData[0].climateType;
+        Eactual=0;
+        var temp=BuildingData.reduce((acc,value)=>{
+            if(!acc[value.Type])
+            {
+                acc[value.Type]=0;
+            }
+            Eactual=Eactual+TablesData.HeatingValue[value.Type]*value.consumptionDurat;
+            acc[value.Type]=acc[value.Type]+(TablesData.HeatingValue[value.Type]*value.consumptionDurat);
+            return acc
+        },{});
+        Eactual=Eactual/useFullArea;
+     
+    }
+     catch (e) {
+    throw next("در محاسبه برچسب خطایی رخ داده است.")
+    console.log(e);
+}
+
+Eideal=getIdealE(climate,useFullArea) ;
+
+R=Eactual/Eideal;
+
+Rc=R_C(climate,R,useFullArea);
+
+rank= Ranking(Rc,TablesData.ratioIndex.residential_smal)
+
+
+
+var ratio=Rc;
+var ConsumptionIndex=Eideal;
+
+// throw next("محاسبه شد")
+res.send(Response({"ratio":ratio,"ConsumptionIndex":ConsumptionIndex,"label":TablesData.labels[rank]}));
+
 };
 
 
@@ -72,7 +87,7 @@ function R_C(climate,ratio,_useFullArea) {
 
 }
 
-function Ranking(x) {
+function Ranking(x,xs) {
 
 
     ys=[0,1,2,3,4,5,6,7]
@@ -84,5 +99,8 @@ function Ranking(x) {
       else lo = mid;
     }
     // project
-    return ys[lo] + (ys[hi] - ys[lo]) / (xs[hi] - xs[lo]) * (x - xs[lo]);
+    temp=ys[lo] + (ys[hi] - ys[lo]) / (xs[hi] - xs[lo]) * (x - xs[lo]);
+
+    if(temp>=8)temp=7;
+    return Math.round(temp);
   };
