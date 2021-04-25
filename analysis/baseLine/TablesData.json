@@ -1,0 +1,28 @@
+{
+  "HeatingValue": {
+    "powerReceipt":3.7,
+    "gasReceipt" :  10.475,
+    "GASOLIN" :     10.369,
+    "BENZIN" :      11.398,
+    "GAS" :         10.475 
+  },
+
+"baseLines":["A","B","C","D","E","F","G","برچسب تعلق نمیگیرد"],
+  
+  "Index": {
+    "VERYCOLD"            :{"small":111,"larg":102},
+    "COLD"                :{"small":111,"larg":102},
+    "TEMPER_RAINY"        :{"small":156,"larg":106},
+    "SEMI_TEMPER_RAINY"   :{"small":156,"larg":106},
+    "SEMI_DRY"            :{"small":83,"larg":87},
+    "HOT_DRY"             :{"small":86,"larg":75},
+    "VERY_HOT_HUMID"      :{"small":150,"larg":138},
+    "VERY_HOT_DRY"        :{"small":130,"larg":118}
+  },
+
+  "ratioIndex":
+    {
+      "residential_smal":[1,1.9,2.7,3.4,4,4.5,5],
+      "residential_larg":[1,2,2.9,3.7,4.4,5,5.4]
+    }
+}
