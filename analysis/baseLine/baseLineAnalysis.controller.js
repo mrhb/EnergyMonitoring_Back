@@ -12,8 +12,18 @@ exports.getbaseLine = async (req, res, next) => {
     let reqBaseLineAnalysis = new ReqBaseLineAnalysis(req.body, next);
 
     
-    let BuildingData = await baseLineAnalysisDao
-    .getBuildingDataAnalysis(reqBaseLineAnalysis)
+    let BillData = await baseLineAnalysisDao
+    .getBillData(reqBaseLineAnalysis)
+    .then(result => {
+        return result;
+    }).catch(err => 
+        {
+            console.log(err)
+        });
+
+
+  let ClimateData = await baseLineAnalysisDao
+    .getClimateData(reqBaseLineAnalysis)
     .then(result => {
         return result;
     }).catch(err => 
@@ -24,24 +34,19 @@ exports.getbaseLine = async (req, res, next) => {
 
 
     try { 
-        //"powerReceipt"  3.7
-        //"gasReceipt  0.278*37.68,
-        //"GASOLIN    0.278*37.3,
-        //"BENZIN    0.278*41,
-        //"GAS    0.278*37.68
-        useFullArea=BuildingData[0].useFullArea;
-        climate=BuildingData[0].climateType;
-        Eactual=0;
-        var temp=BuildingData.reduce((acc,value)=>{
-            if(!acc[value.Type])
-            {
-                acc[value.Type]=0;
-            }
-            Eactual=Eactual+TablesData.HeatingValue[value.Type]*value.consumptionDurat;
-            acc[value.Type]=acc[value.Type]+(TablesData.HeatingValue[value.Type]*value.consumptionDurat);
-            return acc
-        },{});
-        Eactual=Eactual/useFullArea;
+        // useFullArea=BillData[0].useFullArea;
+        // climate=BillData[0].climateType;
+        // Eactual=0;
+        // var temp=BillData.reduce((acc,value)=>{
+        //     if(!acc[value.Type])
+        //     {
+        //         acc[value.Type]=0;
+        //     }
+        //     Eactual=Eactual+TablesData.HeatingValue[value.Type]*value.consumptionDurat;
+        //     acc[value.Type]=acc[value.Type]+(TablesData.HeatingValue[value.Type]*value.consumptionDurat);
+        //     return acc
+        // },{});
+        // Eactual=Eactual/useFullArea;
      
     }
      catch (e) {
@@ -49,24 +54,11 @@ exports.getbaseLine = async (req, res, next) => {
     console.log(e);
 }
 
-Eideal=getIdealE(climate,useFullArea) ;
-
-R=Eactual/Eideal;
-
-Rc=R_C(climate,R,useFullArea);
-
-rank= Ranking(Rc,TablesData.ratioIndex.residential_smal)
-
-
-
-var ratio=Rc;
-var ConsumptionIndex=Eideal;
-
 
 
 let series=[
-    {data:[3,4,1,5,6,3,7,8],name:"power"},
-    {data:[5,3,6,7,8,9,1,4],name:"powerBaseLine"}
+    {data:[3,4,1,null,6,3,7,8],name:"power"},
+    {data:[5,3,6,7,8,9,null,4],name:"powerBaseLine"}
 ];
 let labels=['1/1','2/1','3/1','4/1','5/1','6/1','7/1','8/1'];
 

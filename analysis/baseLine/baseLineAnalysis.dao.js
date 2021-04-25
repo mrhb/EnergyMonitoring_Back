@@ -4,19 +4,81 @@
  */
 
 const SharingBase = require('../../model/sharing/sharingBase.model');
+const Building = require('../../model/building/building.model');
 
 
 module.exports = {
-    getBuildingDataAnalysis
+    getClimateData,
+    getBillData
 };
 
 
-async function getBuildingDataAnalysis(req) {
+async function getClimateData(req) {
     try {
-        return await SharingBase
+        return await Building
             .aggregate(
                 [ 
-    // فییلتر اشتراک
+                    {$addFields:
+                        { "buildingIdString": { "$toString": "$_id" }}
+                     },
+                     {$match :
+                         { buildingIdString:  req.buildingId } 
+                     },
+                 
+                      //اطلاعات منطقه
+                      {$addFields:
+                        { "regionObjectId": { "$toObjectId": "$regionId" }}
+                     },
+                      {$lookup:
+                         {
+                         from:  "regions",
+                         localField: "regionObjectId",
+                         foreignField: "_id",
+                         as: "region"
+                         }
+                      },
+                      {$set: 
+                          {region: {$arrayElemAt: ["$region", 0]}}
+                      },
+                      
+                        {$project:
+                     {
+                         _id:0,
+                         weathers:"$region.dailyweathers"
+                     }
+                  },
+                  
+                          {$unwind  : { path: "$weathers" }  },
+                        {$project:
+                     {
+                         forDate:"$weathers.forDate",
+                         tempAvg:"$weathers.tempAvg"
+                     }
+                 },                     
+                
+                {"$match": {
+                "forDate": {
+                    "$gte":  req.fromDate,
+                },
+                "forDate": {
+                    "$lte": req.toDate,
+                }
+                }
+            },        
+   ]);
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+async function getBillData(req) {
+    try {
+        return await SharingBase
+            .aggregate([
+              
+// فییلتر اشتراک
     {$unwind  : { path: "$buildingList" ,includeArrayIndex:"index",}  },
     {$project:
        {
@@ -31,33 +93,7 @@ async function getBuildingDataAnalysis(req) {
     {$match :
         { buildingIdString:  req.buildingId } 
     },
-    //اطلاعات ساختمان
-    {$lookup:
-        {
-        from:  "buildings",
-        localField: "buildingId",
-        foreignField: "_id",
-        as: "building"
-        }
-     },
-     {$set: 
-         {building: {$arrayElemAt: ["$building", 0]}}
-     },
-     //اطلاعات منطقه
-     {$addFields:
-       { "regionObjectId": { "$toObjectId": "$building.regionId" }}
-    },
-     {$lookup:
-        {
-        from:  "regions",
-        localField: "regionObjectId",
-        foreignField: "_id",
-        as: "region"
-        }
-     },
-     {$set: 
-         {region: {$arrayElemAt: ["$region", 0]}}
-     },
+  
      //اطلاعات قبض
      {$addFields:
        { "sharingStringId": { "$toString": "$_id" }}
@@ -83,12 +119,11 @@ async function getBuildingDataAnalysis(req) {
   },                   
   {$project:
     {
-        climateType: "$region.climateType",
-        useFullArea: "$building.useFullArea",
+        _id:0,
         Type:{$ifNull: ["$carierType" ,"$reciept.recieptType"]},
         consumptionDurat: "$reciept.consumptionDurat"
     }
- },
+ }
    ]);
 
     } catch (e) {
