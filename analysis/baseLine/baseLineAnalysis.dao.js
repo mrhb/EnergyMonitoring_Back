@@ -121,7 +121,9 @@ async function getBillData(req) {
     {
         _id:0,
         Type:{$ifNull: ["$carierType" ,"$reciept.recieptType"]},
-        consumptionDurat: "$reciept.consumptionDurat"
+        consumptionDurat: "$reciept.consumptionDurat",
+        fromDate: "$reciept.fromDate",
+        toDate: "$reciept.toDate"
     }
  }
    ]);

@@ -6,12 +6,19 @@ const ReqBaseLineAnalysis = require('./reqBaseLineAnalysis.dto');
 const Response = require('../../middleware/response/response-handler');
 const TablesData = require('./TablesData.json');
 
+var moment = require('../../node_modules/jalali-moment/jalali-moment');
+
+
 
 exports.getbaseLine = async (req, res, next) => {
     //    console.log('user.id ' + req.user.id);
     let reqBaseLineAnalysis = new ReqBaseLineAnalysis(req.body, next);
 
-    
+    var diff = Math.abs(reqBaseLineAnalysis.toDate.getTime() - reqBaseLineAnalysis.fromDate.getTime());
+    var diffDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+    var interval=diffDays;
+
+
     let BillData = await baseLineAnalysisDao
     .getBillData(reqBaseLineAnalysis)
     .then(result => {
@@ -31,23 +38,53 @@ exports.getbaseLine = async (req, res, next) => {
             console.log(err)
         });
 
-
+    var labels=[];
+        m = moment.from(reqBaseLineAnalysis.fromDate, 'en', 'MM/YYYY/DD').locale('fa');
+        for(var d=0;d<interval;d++) labels.push(m.add(1, 'day').format('YYYY/MM/DD'));
+        var initData=[];
+        var size=interval;
+        while(size--){
+            initData[size] = null; 
+        }
+        var hdd=clone(initData);
+        var cdd=clone(initData);
+        let series=[]
 
     try { 
-        // useFullArea=BillData[0].useFullArea;
-        // climate=BillData[0].climateType;
-        // Eactual=0;
-        // var temp=BillData.reduce((acc,value)=>{
-        //     if(!acc[value.Type])
-        //     {
-        //         acc[value.Type]=0;
-        //     }
-        //     Eactual=Eactual+TablesData.HeatingValue[value.Type]*value.consumptionDurat;
-        //     acc[value.Type]=acc[value.Type]+(TablesData.HeatingValue[value.Type]*value.consumptionDurat);
-        //     return acc
-        // },{});
-        // Eactual=Eactual/useFullArea;
-     
+
+        var temp=ClimateData.reduce((acc,value)=>{
+            var diff = Math.abs(value.forDate.getTime() - reqBaseLineAnalysis.fromDate.getTime());
+            var diffDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+            hdd[diffDays]=value.tempAvg 
+            cdd[diffDays]=value.tempAvg 
+            return acc
+        },{});
+
+        var types=[]
+        var temp2=BillData.reduce((acc,value)=>{
+            if(!acc[value.Type])
+            {
+                acc[value.Type]= {data:clone(initData),name:value.Type};
+                types.push(value.Type);
+            }
+            var diff = Math.abs(value.fromDate.getTime() - reqBaseLineAnalysis.fromDate.getTime());
+            var diffDaysFromInterval = Math.ceil(diff / (1000 * 3600 * 24)); 
+
+            var diff = Math.abs(value.toDate.getTime() - reqBaseLineAnalysis.fromDate.getTime());
+            var diffDaysToInterval = Math.ceil(diff / (1000 * 3600 * 24)); 
+
+            for (var i =diffDaysFromInterval; i < diffDaysToInterval+1; i++) {
+                if(acc[value.Type].data[i])
+                acc[value.Type].data[i]=acc[value.Type].data[i]+value.consumptionDurat/(diffDaysToInterval-diffDaysFromInterval);
+                else
+                acc[value.Type].data[i]=value.consumptionDurat/(diffDaysToInterval-diffDaysFromInterval);
+            }
+            return acc
+        },{});
+      
+        types.forEach(element => {
+            series.push(temp2[element]);
+        });
     }
      catch (e) {
     throw next("در محاسبه خط مبنا خطایی رخ داده است.")
@@ -56,11 +93,9 @@ exports.getbaseLine = async (req, res, next) => {
 
 
 
-let series=[
-    {data:[3,4,1,null,6,3,7,8],name:"power"},
-    {data:[5,3,6,7,8,9,null,4],name:"powerBaseLine"}
-];
-let labels=['1/1','2/1','3/1','4/1','5/1','6/1','7/1','8/1'];
+series.push({data:hdd,name:"hdd"});
+series.push({data:cdd,name:"cdd"});
+// let labels=['1/1','2/1','3/1','4/1','5/1','6/1','7/1','8/1'];
 
 
 res.send(Response({"series":series,"labels":labels}));
@@ -68,39 +103,11 @@ res.send(Response({"series":series,"labels":labels}));
 };
 
 
-function getIdealE(climate,useFullArea) {
-    if(useFullArea>1000)
-    return TablesData.Index[climate].larg;
-    else  
-    return TablesData.Index[climate].small;
-
-}
-
-
-function R_C(climate,ratio,_useFullArea) {
-    var C=1;
-    if((climate=="TEMPER_RAINY"|| 
-        climate=="SEMI_TEMPER_RAINY") && _useFullArea>1000)
-    C=1.7*ratio-0.7;
-    
-    return C*ratio;//C*R
-
-}
-
-function Ranking(x,xs) {
-
-
-    ys=[0,1,2,3,4,5,6,7]
-    // bisect
-    var lo = 0, hi = xs.length - 1;
-    while (hi - lo > 1) {
-      var mid = (lo + hi) >> 1;
-      if (x < xs[mid]) hi = mid;
-      else lo = mid;
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
-    // project
-    temp=ys[lo] + (ys[hi] - ys[lo]) / (xs[hi] - xs[lo]) * (x - xs[lo]);
-
-    if(temp>=8)temp=7;
-    return Math.round(temp);
-  };
+    return copy;
+}
