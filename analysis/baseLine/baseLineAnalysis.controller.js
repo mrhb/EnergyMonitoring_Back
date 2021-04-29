@@ -99,14 +99,14 @@ exports.getbaseLine = async (req, res, next) => {
             paramSeries.push(params[element]);
         });
 
-// const X = math.matrix([[5, 6,1], [1, 1,1], [7, 8,1], [2, 3,1]]);
-// console.log(X);
-// const Y = math.matrix([[5],[6],[1], [1]]);
-// console.log(Y);
+const X = math.matrix([[5, 6,1], [1, 1,1], [7, 8,1], [2, 3,1]]);
+console.log(X);
+const Y = math.matrix([[5],[6],[1], [1]]);
+console.log(Y);
 
 
-const X =generateXmatrix(paramSeries)
-const Y =generateYsmatrix(ysSeries)
+// const X =generateXmatrix(paramSeries)
+// const Y =generateYsmatrix(ysSeries)
 
 coeff= math.multiply(
     math.multiply(
