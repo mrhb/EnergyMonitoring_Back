@@ -8,13 +8,13 @@ const Schema = mongoose.Schema;
 const RecieptBase = require('./receiptBase.model');
 
 const ConsumptionSchema = new Schema({
-    preCounter          :  {type: String, required: true},//شمارنده قبلی
-    currentCounter      :  {type: String, required: true},//شمارنده کنونی
-    coefficient         :  {type: String, required: true},//ضریب
-    totalConsumption      :  {type: String, required: true},//مصرف کل
-    consumptionAfterLastChange      :  {type: String, required: true},//مصرف بعد از آخرین تغیرات
-    nerkh               :  {type: String, required: true},//نرخ
-    mablagh             :  {type: String, required: true}//مبلغ
+    preCounter          :  {type: Number, required: true},//شمارنده قبلی
+    currentCounter      :  {type: Number, required: true},//شمارنده کنونی
+    coefficient         :  {type: Number, required: true},//ضریب
+    totalConsumption      :  {type: Number, required: true},//مصرف کل
+    consumptionAfterLastChange      :  {type: Number, required: true},//مصرف بعد از آخرین تغیرات
+    nerkh               :  {type: Number, required: true},//نرخ
+    mablagh             :  {type: Number, required: true}//مبلغ
 });
 
 const PowerReceiptSchema = new Schema({
