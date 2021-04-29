@@ -6,6 +6,9 @@ const ReqBaseLineAnalysis = require('./reqBaseLineAnalysis.dto');
 const Response = require('../../middleware/response/response-handler');
 const TablesData = require('./TablesData.json');
 
+const math = require('../../node_modules/mathjs/lib/browser/math')
+
+
 var moment = require('../../node_modules/jalali-moment/jalali-moment');
 
 
@@ -48,7 +51,9 @@ exports.getbaseLine = async (req, res, next) => {
         }
         var hdd=clone(initData);
         var cdd=clone(initData);
-        let series=[]
+
+        let ysSeries=[]
+        let paramSeries=[]
 
     try { 
 
@@ -60,12 +65,17 @@ exports.getbaseLine = async (req, res, next) => {
             return acc
         },{});
 
-        var types=[]
-        var temp2=BillData.reduce((acc,value)=>{
+        var params=[]
+        var paramNames=['HDD','CDD']
+        params['HDD']= {data:hdd,name:'HDD'};
+        params['CDD']= {data:cdd,name:'CDD'};
+
+        var YsNames=[]
+        var Ys=BillData.reduce((acc,value)=>{
             if(!acc[value.Type])
             {
                 acc[value.Type]= {data:clone(initData),name:value.Type};
-                types.push(value.Type);
+                YsNames.push(value.Type);
             }
             var diff = Math.abs(value.fromDate.getTime() - reqBaseLineAnalysis.fromDate.getTime());
             var diffDaysFromInterval = Math.ceil(diff / (1000 * 3600 * 24)); 
@@ -82,9 +92,31 @@ exports.getbaseLine = async (req, res, next) => {
             return acc
         },{});
       
-        types.forEach(element => {
-            series.push(temp2[element]);
+        YsNames.forEach(element => {
+            ysSeries.push(Ys[element]);
         });
+        paramNames.forEach(element => {
+            paramSeries.push(params[element]);
+        });
+
+// const X = math.matrix([[5, 6,1], [1, 1,1], [7, 8,1], [2, 3,1]]);
+// console.log(X);
+// const Y = math.matrix([[5],[6],[1], [1]]);
+// console.log(Y);
+
+
+const X =generateXmatrix(paramSeries)
+const Y =generateYsmatrix(ysSeries)
+
+coeff= math.multiply(
+    math.multiply(
+         math.inv( math.multiply(math.transpose(X),X)
+         ),
+         math.transpose(X))
+    , Y);
+    YY=math.multiply(X,coeff);
+console.log(YY);
+
     }
      catch (e) {
     throw next("در محاسبه خط مبنا خطایی رخ داده است.")
@@ -93,15 +125,51 @@ exports.getbaseLine = async (req, res, next) => {
 
 
 
-series.push({data:hdd,name:"hdd"});
-series.push({data:cdd,name:"cdd"});
-// let labels=['1/1','2/1','3/1','4/1','5/1','6/1','7/1','8/1'];
 
 
-res.send(Response({"series":series,"labels":labels}));
+
+res.send(Response({"series":paramSeries,"labels":labels}));
 
 };
 
+function generateXmatrix(paramSeries){
+    var rowNum=paramSeries[0].data.length;
+    var columnNum=paramSeries.length;
+    var X=[];
+    for (var i=0;i<rowNum;i++)
+    {
+        var row=[]
+        for (var j=0;j<columnNum;j++)
+        {      
+            if(paramSeries[j].data[i])     
+            row.push(paramSeries[j].data[i]);
+            else
+            row.push(0);
+        }
+        X.push(row)
+    };
+    return X;
+}
+
+
+function generateYsmatrix(paramSeries){
+    var rowNum=paramSeries[0].data.length;
+    var columnNum=paramSeries.length;
+    var X=[];
+    for (var i=0;i<rowNum;i++)
+    {
+        var row=[]
+        for (var j=0;j<columnNum;j++)
+        {      
+            if(paramSeries[j].data[i])     
+            row.push(paramSeries[j].data[i]);
+            else
+            row.push(0);
+        }
+        X.push(row)
+    };
+    return X;
+}
 
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
