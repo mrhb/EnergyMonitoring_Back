@@ -50,13 +50,13 @@ const PowerReceiptSchema = new Schema({
     peakTimesFriday: {type: ConsumptionSchema, required: true}, // اوج بار جمعه
     reactive: {type: ConsumptionSchema, required: true}, // راکتیو
     //*************** */
-    contractualPower: {type: String, required: true}, // قدرت قراردادی
-    calculatedPower: {type: String, required: true}, // قدرت محاسبه شده
-    maximeterNumber: {type: String, required: true}, // عدد ماکسیمتر
-    powerConsumption: {type: String, required: true}, // قدرت مصرفی
-    badConsumptionLossRatio: {type: String, required: true}, // ضریب زیان بدی مصرف
+    contractualPower: {type: Number, required: true}, // قدرت قراردادی
+    calculatedPower: {type: Number, required: true}, // قدرت محاسبه شده
+    maximeterNumber: {type: Number, required: true}, // عدد ماکسیمتر
+    powerConsumption: {type: Number, required: true}, // قدرت مصرفی
+    badConsumptionLossRatio: {type: Number, required: true}, // ضریب زیان بدی مصرف
     paymentDeadLine: {type: Date, required: true}, // مهلت پرداخت
-    subscription: {type: String, required: true}, // آبونمان
+    subscription: {type: Number, required: true}, // آبونمان
     powerPrice: {type: Number, required: true}, // بهای قدرت
     seasonPrice: {type: Number, required: true}, // بهای فصل
     badPenaltiesForConsuming: {type: Number, required: true}, // جریمه بدی مصرف 
