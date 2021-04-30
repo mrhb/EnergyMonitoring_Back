@@ -47,6 +47,43 @@ exports.create = async (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+
+exports.createMulti = async (req, res, next) => {
+    console.log('re id ' + req.user.id);
+
+    if (!req.body.sharingId) {
+        throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
+    }
+
+    let sharing = await gasSharingDao
+        .getOne(req.body.sharingId)
+        .then(result => {
+            return result;
+        });
+    console.log(sharing);
+    if (sharing === null) {
+        throw next("اشتراک گاز انتخابی صحیح نمیباشد.");
+    }
+
+    let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, sharing, next);
+
+
+    let gazReceipt = new GasReceipt(reqCreateGasReceipt);
+    console.log(gazReceipt);
+
+    gazReceiptDao
+        .createMulti(gazReceipt)
+        .then(result => {
+            if (result) {
+                if (result._id) {
+                    res.send(Response(result._id));
+                    return;
+                }
+            }
+            throw next("در ایجاد قبض گاز خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
 exports.update = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
