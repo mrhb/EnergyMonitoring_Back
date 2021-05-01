@@ -8,7 +8,6 @@ const GasReceipt = require('../../model/receipt/gasReceipt.model');
 
 module.exports = {
     create,
-    createMulti,
     update,
     getOne,
     deleteById,
@@ -24,13 +23,6 @@ async function create(gazReceipt) {
     }
 }
 
-async function createMulti(gazReceipt) {
-    try {
-        return await GasReceipt.createMulti(gazReceipt);
-    } catch (e) {
-        console.log(e);
-    }
-}
 
 async function update(id, gazReceipt) {
     try {

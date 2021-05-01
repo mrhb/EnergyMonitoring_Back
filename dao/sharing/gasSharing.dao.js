@@ -10,6 +10,7 @@ module.exports = {
     update,
     deleteById,
     getOne,
+    getListBybillingIdList,
     addBuildingAllocation,
     updateBuildingAllocation,
     deleteBuildingAllocation,
@@ -52,6 +53,16 @@ async function getOne(id) {
     try {
         return await GasSharing.findOne({
             _id: id
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getListBybillingIdList(idList) {
+    try {
+        return await GasSharing.find({
+            billingId: {$in: idList}
         });
     } catch (e) {
         console.log(e);

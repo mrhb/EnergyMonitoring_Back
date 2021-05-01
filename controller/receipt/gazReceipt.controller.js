@@ -47,36 +47,44 @@ exports.create = async (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
-
 exports.createMulti = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
-    if (!req.body.sharingId) {
-        throw next("شناسه اشتراک گاز نمیتواند خالی باشد.");
+    let gasReceiptList = req.body;
+
+    if (gasReceiptList == null){
+        throw next("لیست خالی میباشد.");
     }
 
-    let sharing = await gasSharingDao
-        .getOne(req.body.sharingId)
+    let billingIdList = [];
+    gasReceiptList.forEach(item => {
+        billingIdList.push(item.billingId);
+    });
+
+    let gasSharingList = await gasSharingDao
+        .getListBybillingIdList(billingIdList)
         .then(result => {
             return result;
+        }).catch(err => console.log(err));
+
+    gasReceiptList.forEach(gasReceipt => {
+        gasSharingList.forEach(sharing => {
+            if (gasReceipt.billingId === sharing.billingId){
+                gasReceipt.sharingId = sharing._id;
+                gasReceipt.creatorId = req.user.id;
+                gasReceipt.ownerId = req.user.id;
+            }
         });
-    console.log(sharing);
-    if (sharing === null) {
-        throw next("اشتراک گاز انتخابی صحیح نمیباشد.");
-    }
-
-    let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, sharing, next);
-
-
-    let gazReceipt = new GasReceipt(reqCreateGasReceipt);
-    console.log(gazReceipt);
+    });
 
     gazReceiptDao
-        .createMulti(gazReceipt)
+        .create(gasReceiptList)
         .then(result => {
+            console.log("my res");
+            console.log(result);
             if (result) {
-                if (result._id) {
-                    res.send(Response(result._id));
+                if (result[0]._id) {
+                    res.send(Response(true));
                     return;
                 }
             }
