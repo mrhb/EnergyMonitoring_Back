@@ -83,7 +83,7 @@ exports.getbaseLine = async (req, res, next) => {
             var diff = Math.abs(value.toDate.getTime() - reqBaseLineAnalysis.fromDate.getTime());
             var diffDaysToInterval = Math.ceil(diff / (1000 * 3600 * 24)); 
 
-            for (var i =diffDaysFromInterval; i < diffDaysToInterval+1; i++) {
+            for (var i =diffDaysFromInterval; i < diffDaysToInterval; i++) {
                 if(acc[value.Type].data[i])
                 acc[value.Type].data[i]=acc[value.Type].data[i]+value.consumptionDurat/(diffDaysToInterval-diffDaysFromInterval);
                 else
@@ -99,23 +99,39 @@ exports.getbaseLine = async (req, res, next) => {
             paramSeries.push(params[element]);
         });
 
-const X = math.matrix([[5, 6,1], [1, 1,1], [7, 8,1], [2, 3,1]]);
-console.log(X);
-const Y = math.matrix([[5],[6],[1], [1]]);
-console.log(Y);
+// const X = math.matrix([[5, 6,1], [1, 1,1], [7, 8,1], [2, 3,1]]);
+// console.log(X);
+// const Y = math.matrix([[5],[6],[1], [1]]);
+// console.log(Y);
 
+paramSeries.shift()
 
-// const X =generateXmatrix(paramSeries)
-// const Y =generateYsmatrix(ysSeries)
+const X =generateXmatrix(paramSeries);
+const Y =generateYsmatrix(ysSeries)
+
+var YY=[];
+Xt=math.transpose(X);
+XtX= math.multiply(Xt,X);
+inv_Xtx= math.inv(XtX);
 
 coeff= math.multiply(
     math.multiply(
-         math.inv( math.multiply(math.transpose(X),X)
-         ),
-         math.transpose(X))
+        inv_Xtx,Xt)
     , Y);
     YY=math.multiply(X,coeff);
 console.log(YY);
+
+baseLineSeries=[];
+YsNames.forEach((element,index) => {
+column=math.column(YY, index);
+
+culomnArray=column.reduce((acc,elm)=>{
+    acc.push(elm.shift());
+    return acc;
+}
+    )
+    baseLineSeries.push({data:culomnArray,name:element+'_baseLine'});
+});
 
     }
      catch (e) {
@@ -125,10 +141,19 @@ console.log(YY);
 
 
 
+series=[];
+baseLineSeries.forEach(element => {
+    series.push(element);
+});
+ysSeries.forEach(element => {
+    series.push(element);
+});
+paramSeries.forEach(element => {
+    series.push(element);
+});
 
 
-
-res.send(Response({"series":paramSeries,"labels":labels}));
+res.send(Response({"series":series,"labels":labels}));
 
 };
 
