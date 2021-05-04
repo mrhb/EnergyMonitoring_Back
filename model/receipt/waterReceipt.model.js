@@ -33,4 +33,4 @@ WaterReceiptSchema.set('toJSON', {
     }
 });
 
-module.exports =RecieptBase.discriminator('waterReciept',WaterReceiptSchema);
+module.exports =RecieptBase.discriminator('waterReceipt',WaterReceiptSchema);
