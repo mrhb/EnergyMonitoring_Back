@@ -27,20 +27,20 @@ exports.cost = async (req, res, next) => {
     let series=[];
     let labels=[];
     CapacityListByRegion.reduce((acc,value)=>{
-        if(!acc[value.title])
+        if(!acc[value.buildingName])
         {
-            acc[value.title]={data:[],name:value.title};
-            series.push({data:[],name:value.title});
+            acc[value.buildingName]={data:[],name:value.buildingName};
+            series.push({data:[],name:value.buildingName});
         }
     
-        if(!labels.find(lbl=>lbl==value.period))
+        if(!labels.find(lbl=>lbl==value._id))
         {
-            labels.push(value.period);
+            labels.push(value._id);
         }
     
-       var seri= series.find(element=>element.name==value.title)
-       seri.data[labels.indexOf(value.period)]=value.totalAmount;
-        acc[value.title].data.push(value.totalAmount);
+       var seri= series.find(element=>element.name==value.buildingName)
+       seri.data[labels.indexOf(value._id)]=value.consumptionAmount;
+        acc[value.buildingName].data.push(value.consumptionAmount);
          return acc
     },{});
     res.send(Response({"series":series,"labels":labels}));
