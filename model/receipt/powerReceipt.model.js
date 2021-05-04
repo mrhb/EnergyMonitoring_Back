@@ -8,13 +8,13 @@ const Schema = mongoose.Schema;
 const RecieptBase = require('./receiptBase.model');
 
 const ConsumptionSchema = new Schema({
-    preCounter          :  {type: Number, required: true},//شمارنده قبلی
-    currentCounter      :  {type: Number, required: true},//شمارنده کنونی
-    coefficient         :  {type: Number, required: true},//ضریب
-    totalConsumption      :  {type: Number, required: true},//مصرف کل
-    consumptionAfterLastChange      :  {type: Number, required: true},//مصرف بعد از آخرین تغیرات
-    nerkh               :  {type: Number, required: true},//نرخ
-    mablagh             :  {type: Number, required: true}//مبلغ
+    preCounter          :  {type: Number},//شمارنده قبلی
+    currentCounter      :  {type: Number},//شمارنده کنونی
+    coefficient         :  {type: Number},//ضریب
+    totalConsumption    :  {type: Number, required: true},//مصرف کل
+    consumptionAfterLastChange      :  {type: Number},//مصرف بعد از آخرین تغیرات
+    nerkh               :  {type: Number},//نرخ
+    mablagh             :  {type: Number}//مبلغ
 });
 
 const PowerReceiptSchema = new Schema({
@@ -42,7 +42,8 @@ const PowerReceiptSchema = new Schema({
         ],
         default: 'FIRST'
     }, // دوره
-    numberDays: {type: Number, required: true}, // تعداد روز دوره
+    // numberDays: {type: Number, required: true}, // تعداد روز دوره
+    numberDays: {type: Number}, // تعداد روز دوره
     //*******Consumptions******* */
     intermediate: {type: ConsumptionSchema, required: true}, // میان باری
     peakLoad: {type: ConsumptionSchema, required: true}, // اوج بار
@@ -55,8 +56,8 @@ const PowerReceiptSchema = new Schema({
     maximeterNumber: {type: Number, required: true}, // عدد ماکسیمتر
     powerConsumption: {type: Number, required: true}, // قدرت مصرفی
     badConsumptionLossRatio: {type: Number, required: true}, // ضریب زیان بدی مصرف
-    paymentDeadLine: {type: Date, required: true}, // مهلت پرداخت
-    subscription: {type: Number, required: true}, // آبونمان
+    paymentDeadLine: {type: Date}, // مهلت پرداخت
+    subscription: {type: Number}, // آبونمان
     powerPrice: {type: Number, required: true}, // بهای قدرت
     seasonPrice: {type: Number, required: true}, // بهای فصل
     badPenaltiesForConsuming: {type: Number, required: true}, // جریمه بدی مصرف 

@@ -45,10 +45,10 @@ function ReqCreatePowerReceipt(data, userId, sharing, next) {
 
 function validate(data, next) {
     if (!data.paymentCode) {
-        throw next("شناسه پرداخت نمیتواند خالی باشد.");
+        throw next("شناسه پرداخت نمی تواند خالی باشد.");
     }
     if (!data.period) {
-        throw next("دوره نمیتواند خالی باشد.");
+        throw next("دوره نمی تواند خالی باشد.");
     }
     if (data.period !== 'FIRST' && data.period !== 'SECOND' && data.period !== 'THIRD' && data.period !== 'FOURTH' && data.period !== 'FIFTH' &&
         data.period !== 'SIXTH' && data.period !== 'SEVENTH' && data.period !== 'EIGHTH' && data.period !== 'NINTH' && data.period !== 'TENTH' &&
@@ -56,94 +56,95 @@ function validate(data, next) {
         throw next("دوره درست انتخاب نشده است.");
     }
     if (!data.fromDate) {
-        throw next("از تاریخ نمیتواند خالی باشد.");
+        throw next("از تاریخ نمی تواند خالی باشد.");
     }
     if (!data.toDate) {
-        throw next("تا تاریخ نمیتواند خالی باشد.");
+        throw next("تا تاریخ نمی تواند خالی باشد.");
     }
     if (new Date(data.fromDate).getTime() > new Date(data.toDate).getTime()) {
-        throw next("تاریخ شروع نمیتواند بعد از تاریخ پایان باشد.");
+        throw next("تاریخ شروع نمی تواند بعد از تاریخ پایان باشد.");
     }
 
     // if (!data.previousCounter) {
-    //     throw next("شمارنده قبلی نمیتواند خالی باشد.");
+    //     throw next("شمارنده قبلی نمی تواند خالی باشد.");
     // }
     // if (!data.currentCounter) {
-    //     throw next("شمارنده کنونی نمیتواند خالی باشد.");
+    //     throw next("شمارنده کنونی نمی تواند خالی باشد.");
     // }
     // if (!data.coefficient) {
-    //     throw next("ضریب نمیتواند خالی باشد.");
+    //     throw next("ضریب نمی تواند خالی باشد.");
     // }
     // if (!data.totalConsumption) {
-    //     throw next("مصرف کل نمیتواند خالی باشد.");
+    //     throw next("مصرف کل نمی تواند خالی باشد.");
     // }
     // if (!data.totalConsumptionLastChanges) {
-    //     throw next("مصرف بعد از آخرین تغییرات نمیتواند خالی باشد.");
+    //     throw next("مصرف بعد از آخرین تغییرات نمی تواند خالی باشد.");
     // }
     // if (!data.rate) {
-    //     throw next("نرخ نمیتواند خالی باشد.");
+    //     throw next("نرخ نمی تواند خالی باشد.");
     // }
     // if (!data.amount) {
-    //     throw next("مبلغ نمیتواند خالی باشد.");
+    //     throw next("مبلغ نمی تواند خالی باشد.");
     // }
     if (!data.intermediate) {
-        throw next("میان باری نمیتواند خالی باشد.");
+        throw next("میان باری نمی تواند خالی باشد.");
     }
     if (!data.peakLoad) {
-        throw next("اوج بار نمیتواند خالی باشد.");
+        throw next("اوج بار نمی تواند خالی باشد.");
     }
     if (!data.lowLoad) {
-        throw next("کم بار نمیتواند خالی باشد.");
+        throw next("کم بار نمی تواند خالی باشد.");
     }
     if (!data.peakTimesFriday) {
-        throw next("اوج بار جمعه نمیتواند خالی باشد.");
+        throw next("اوج بار جمعه نمی تواند خالی باشد.");
     }
     if (!data.reactive) {
-        throw next("راکتیو نمیتواند خالی باشد.");
+        throw next("راکتیو نمی تواند خالی باشد.");
     }
     if (!data.contractualPower) {
-        throw next("قدرت قراردادی نمیتواند خالی باشد.");
+        throw next("قدرت قراردادی نمی تواند خالی باشد.");
     }
     if (!data.calculatedPower) {
-        throw next("قدرت محاسبه شده نمیتواند خالی باشد.");
+        throw next("قدرت محاسبه شده نمی تواند خالی باشد.");
     }
-    if (!data.maximeterNumber) {
-        throw next("عدد ماکسیمتر نمیتواند خالی باشد.");
-    }
+    
     if (!data.powerConsumption) {
-        throw next("قدرت مصرفی نمیتواند خالی باشد.");
+        throw next("قدرت مصرفی نمی تواند خالی باشد.");
     }
     if (!data.badConsumptionLossRatio) {
-        throw next("ضریب زیان بدی مصرف نمیتواند خالی باشد.");
+        throw next("ضریب زیان بدی مصرف نمی تواند خالی باشد.");
     }
-    if (!data.paymentDeadLine) {
-        throw next("مهلت پرداخت نمیتواند خالی باشد.");
+    if (!data.maximeterNumber) {
+        throw next("عدد ماکسیمتر نمی تواند خالی باشد.");
     }
+    // if (!data.paymentDeadLine) {
+    //     throw next("مهلت پرداخت نمی تواند خالی باشد.");
+    // }
     if (!data.consumptionAmount) {
-        throw next("مبلغ مصرف نمیتواند خالی باشد.");
+        throw next("مبلغ مصرف نمی تواند خالی باشد.");
     }
-    if (!data.subscription) {
-        throw next("آبونمان نمیتواند خالی باشد.");
-    }
+    // if (!data.subscription) {
+    //     throw next("آبونمان نمی تواند خالی باشد.");
+    // }
     if (!data.powerPrice) {
-        throw next("بهای قدرت نمیتواند خالی باشد.");
+        throw next("بهای قدرت نمی تواند خالی باشد.");
     }
     if (!data.seasonPrice) {
-        throw next("بهای فصل نمیتواند خالی باشد.");
+        throw next("بهای فصل نمی تواند خالی باشد.");
     }
-    // if (!data.badPenaltiesForConsumingElectricityDuringThePeriod) {
-    //     throw next("جریمه بدی مصرف بهای برق دوره نمیتواند خالی باشد.");
-    // }
+    if (!data.badPenaltiesForConsuming) {
+        throw next("جریمه بدی مصرف بهای برق دوره نمی تواند خالی باشد.");
+    }
     // if (!data.vat) {
-    //     throw next("مالیات بر ارزش افزوده نمیتواند خالی باشد.");
+    //     throw next("مالیات بر ارزش افزوده نمی تواند خالی باشد.");
     // }
     // if (!data.electricalTolls) {
-    //     throw next("عوارض برق نمیتواند خالی باشد.");
+    //     throw next("عوارض برق نمی تواند خالی باشد.");
     // }
     // if (!data.debt) {
-    //     throw next("بدهکاری کسر هزار ریال نمیتواند خالی باشد.");
+    //     throw next("بدهکاری کسر هزار ریال نمی تواند خالی باشد.");
     // }
     if (!data.payableAmount) {
-        throw next("مبلغ قابل پرداخت نمیتواند خالی باشد.");
+        throw next("مبلغ قابل پرداخت نمی تواند خالی باشد.");
     }
 }
