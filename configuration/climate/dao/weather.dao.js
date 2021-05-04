@@ -51,10 +51,10 @@ async function getWeatherListByDate(req) {
         return await Climate
             .aggregate(
                 [ 
-                    // { $addFields: { "regionId_object": { "$toObjectId": req.regionId }}},
-
-                    // {"$match": {"_id": {"$eq":  "$regionId_object"}}},
-
+                    { $addFields:
+                        { "regionId_string": { "$toString": "$_id" }}},
+                    { $match : { regionId_string:req.regionId  } },
+                   
                     {$project: {
                         _id:0,
                         dailyweathers: {
