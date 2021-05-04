@@ -56,23 +56,21 @@ exports.createMulti = async (req, res, next) => {
         throw next("لیست خالی میباشد.");
     }
 
-    let sharingIdList = [];
+    let billingIdList = [];
     powerReceiptList.forEach(item => {
-        sharingIdList.push(item.sharingId);
+        billingIdList.push(item.billingId);
     });
 
     let powerSharingList = await powerSharingDao
-        .getListByIdList(sharingIdList)
+        .getListBybillingIdList(billingIdList)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
     powerReceiptList.forEach(powerReceipt => {
         powerSharingList.forEach(sharing => {
-            if (powerReceipt.sharingId === sharing.id){
-                powerReceipt.numberShare = sharing.numberShare;
-                powerReceipt.nameShare = sharing.name;
-                powerReceipt.numberDays = (new Date(powerReceipt.toDate).getTime() - new Date(powerReceipt.fromDate).getTime()) / (1000 * 3600 * 24);
+            if (powerReceipt.billingId === sharing.billingId){
+                powerReceipt.sharingId = sharing._id;
                 powerReceipt.creatorId = req.user.id;
                 powerReceipt.ownerId = req.user.id;
             }

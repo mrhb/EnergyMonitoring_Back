@@ -11,6 +11,7 @@ module.exports = {
     deleteById,
     getOne,
     getListByIdList,
+    getListBybillingIdList,
     addBuildingAllocation,
     updateBuildingAllocation,
     deleteBuildingAllocation,
@@ -68,7 +69,15 @@ async function getListByIdList(idList) {
         console.log(e);
     }
 }
-
+async function getListBybillingIdList(idList) {
+    try {
+        return await PowerSharing.find({
+            billingId: {$in: idList}
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
 async function addBuildingAllocation(id, reqBuildingAllocation) {
     try {
         return await PowerSharing.updateOne({
