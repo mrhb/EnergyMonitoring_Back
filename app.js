@@ -40,7 +40,7 @@ require('./route/receipt/energyReceipt.route')(app);
 require('./route/climate/climate.route')(app);
 require('./route/receipt/powerReceipt.route')(app);
 require('./route/receipt/waterReceipt.route')(app);
-require('./route/receipt/gazReceipt.route')(app);
+require('./route/receipt/gasReceipt.route')(app);
 
 app.get('/ui/*', (req,res) => {
     res.sendFile(Root+"/index.html")

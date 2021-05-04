@@ -38,12 +38,12 @@ const BaselineAnalysisSchema = new Schema({
       [
         {
             "date" : "2020-01-01",
-            "eGaz" : 20,
+            "eGas" : 20,
             "eAct" : 30
         },
         {
             "date" : "2020-01-02",
-            "eGaz" : 25,
+            "eGas" : 25,
             "eAct" : 40
         }
       ]
@@ -68,13 +68,13 @@ const BaselineAnalysisSchema = new Schema({
       [
         {
             "date" : "2020-01-01",
-            "gaz" : 20,
+            "gas" : 20,
             "power" : 30
             "energy" : null
         },
         {
             "date" : "2020-01-02",
-            "gaz" : 20,
+            "gas" : 20,
             "power" : 30
             "energy" : 30
         }

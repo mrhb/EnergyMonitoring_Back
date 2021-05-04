@@ -3,7 +3,7 @@
  * phone : +989035074205
  */
 
-const gazReceiptDao = require('../../dao/receipt/gazReceipt.dao');
+const gasReceiptDao = require('../../dao/receipt/gasReceipt.dao');
 const gasSharingDao = require('../../dao/sharing/gasSharing.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
@@ -31,11 +31,11 @@ exports.create = async (req, res, next) => {
     let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, sharing, next);
 
 
-    let gazReceipt = new GasReceipt(reqCreateGasReceipt);
-    console.log(gazReceipt);
+    let gasReceipt = new GasReceipt(reqCreateGasReceipt);
+    console.log(gasReceipt);
 
-    gazReceiptDao
-        .create(gazReceipt)
+    gasReceiptDao
+        .create(gasReceipt)
         .then(result => {
             if (result) {
                 if (result._id) {
@@ -77,7 +77,7 @@ exports.createMulti = async (req, res, next) => {
         });
     });
 
-    gazReceiptDao
+    gasReceiptDao
         .create(gasReceiptList)
         .then(result => {
             console.log("my res");
@@ -113,7 +113,7 @@ exports.update = async (req, res, next) => {
 
     let reqCreateGasReceipt = new ReqCreateGasReceipt(req.body, req.user.id, sharing, next);
 
-    gazReceiptDao
+    gasReceiptDao
         .update(req.query.id, reqCreateGasReceipt)
         .then(result => {
             if (result) {
@@ -133,7 +133,7 @@ exports.delete = (req, res, next) => {
     }
     console.log('re id ' + req.query.id);
 
-    gazReceiptDao
+    gasReceiptDao
         .deleteById(req.query.id)
         .then(result => {
             if (result !== null) {
@@ -152,27 +152,27 @@ exports.getOne = async (req, res, next) => {
         throw next("شناسه قبض گاز نمیتواند خالی باشد.");
     }
 
-    let gazReceipt = await gazReceiptDao
+    let gasReceipt = await gasReceiptDao
     .getOne(req.query.id)
     .then(result => {
         return result;
     }).catch(err => console.log(err));
-    console.log(gazReceipt);
+    console.log(gasReceipt);
 
-    if (gazReceipt === null) {
+    if (gasReceipt === null) {
         throw next('این قبض موجود نیست.');
     }
 
-    if (gazReceipt.sharingId) {
+    if (gasReceipt.sharingId) {
 
         let sharing = await gasSharingDao
-        .getOne(gazReceipt.sharingId)
+        .getOne(gasReceipt.sharingId)
         .then(result => {
             return result;
         });
     console.log(sharing);
 
-    gazReceipt.sharing=sharing;
+    gasReceipt.sharing=sharing;
 
     if (sharing === null) {
         throw next("اشتراک گاز ثبت شده صحیح نمیباشد.");
@@ -180,7 +180,7 @@ exports.getOne = async (req, res, next) => {
 
     }
 
-    res.send(Response(gazReceipt));
+    res.send(Response(gasReceipt));
 
 
 };
@@ -196,27 +196,27 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let gazReceiptList = await gazReceiptDao
+    let gasReceiptList = await gasReceiptDao
         .getListPageableByFilter(page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (gazReceiptList === null || gazReceiptList.length <= 0) {
+    if (gasReceiptList === null || gasReceiptList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let gazReceiptListCount = await gazReceiptDao
+    let gasReceiptListCount = await gasReceiptDao
         .getListPageableByFilterCount()
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (gazReceiptListCount === null) {
+    if (gasReceiptListCount === null) {
         res.send(Response(null));
         return;
     }
 
-    res.send(ResponsePageable(gazReceiptList, gazReceiptListCount, page, size));
+    res.send(ResponsePageable(gasReceiptList, gasReceiptListCount, page, size));
 };

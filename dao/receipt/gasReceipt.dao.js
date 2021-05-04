@@ -15,21 +15,21 @@ module.exports = {
     getListPageableByFilterCount
 };
 
-async function create(gazReceipt) {
+async function create(gasReceipt) {
     try {
-        return await GasReceipt.create(gazReceipt);
+        return await GasReceipt.create(gasReceipt);
     } catch (e) {
         console.log(e);
     }
 }
 
 
-async function update(id, gazReceipt) {
+async function update(id, gasReceipt) {
     try {
         return await GasReceipt.updateOne({
                 _id: id
             },
-            gazReceipt
+            gasReceipt
         );
     } catch (e) {
         console.log(e);
