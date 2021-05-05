@@ -103,16 +103,16 @@ async function getBillData(req) {
         from:  "receipts",
         localField: "sharingStringId",
         foreignField: "sharingId",
-        as: "reciept"
+        as: "receipt"
         }
     },
-    {$unwind  : { path: "$reciept" }  },
+    {$unwind  : { path: "$receipt" }  },
     
     {"$match": {
-      "reciept.fromDate": {
+      "receipt.fromDate": {
           "$gte":  req.fromDate,
       },
-      "reciept.toDate": {
+      "receipt.toDate": {
           "$lte": req.toDate,
       }
       }
@@ -120,10 +120,10 @@ async function getBillData(req) {
   {$project:
     {
         _id:0,
-        Type:{$ifNull: ["$carierType" ,"$reciept.recieptType"]},
-        consumptionDurat: "$reciept.consumptionDurat",
-        fromDate: "$reciept.fromDate",
-        toDate: "$reciept.toDate"
+        Type:{$ifNull: ["$carierType" ,"$receipt.receiptType"]},
+        consumptionDurat: "$receipt.consumptionDurat",
+        fromDate: "$receipt.fromDate",
+        toDate: "$receipt.toDate"
     }
  }
    ]);

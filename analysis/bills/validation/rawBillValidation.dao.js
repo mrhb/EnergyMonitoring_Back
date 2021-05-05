@@ -36,18 +36,18 @@ async function getPowerBillTariffs(req) {
                         from:  "powerreceipts",
                         localField: "powerSharingStringId",
                         foreignField: "sharingId",
-                        as: "reciept"
+                        as: "receipt"
                         }
                     },
-                    {$unwind  : { path: "$reciept" ,includeArrayIndex:"index",}  },
+                    {$unwind  : { path: "$receipt" ,includeArrayIndex:"index",}  },
                     
                     //انتخاب تعرفه ها
                    {$lookup:
                          {
                            from: "tariffs",
                            let: { useType: "$useType", useCode: "$useCode" ,
-                               recieptFromDate:"$reciept.fromDate" ,
-                               recieptToDate:"$reciept.toDate" 
+                               receiptFromDate:"$receipt.fromDate" ,
+                               receiptToDate:"$receipt.toDate" 
                                },
                            pipeline: [
                               { $match:
@@ -56,8 +56,8 @@ async function getPowerBillTariffs(req) {
                                        [
                                          { $eq: [ "$useType",  "$$useType" ] },
                                          { $eq: [ "$useCode", "$$useCode" ] },
-                                         { $gte: [ "$$recieptFromDate" , "$fromDate"] },
-                                         { $lte: [  "$$recieptToDate" , "$toDate" ] }
+                                         { $gte: [ "$$receiptFromDate" , "$fromDate"] },
+                                         { $lte: [  "$$receiptToDate" , "$toDate" ] }
                                        ]
                                     }
                                  }
@@ -70,7 +70,7 @@ async function getPowerBillTariffs(req) {
                     {
                         powerPrice:1,
                         period:1,
-                        reciept:1,
+                        receipt:1,
                         tariffs: 1,           
                     }
                     },

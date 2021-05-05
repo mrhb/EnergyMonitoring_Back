@@ -3,7 +3,7 @@ var cal_Gom = require('./Tarrif/Gom')
 
  
 var item=  {
-    "reciept" : {
+    "receipt" : {
         "period" : "FOURTH",
         "paymentCode" : "1239843564323",
         // "fromDate" : ISODate("2021-02-19T20:30:00.000Z"),
@@ -158,11 +158,11 @@ param=item.tariffs[0].params;
 //     }]
 
 //jomiee,low,middle,higth,var
-var kwh=[item.reciept.intermediate.totalConsumption,
-    item.reciept.peakLoad.totalConsumption,
-    item.reciept.lowLoad.totalConsumption,
-    item.reciept.peakTimesFriday.totalConsumption,
-    item.reciept.reactive.totalConsumption
+var kwh=[item.receipt.intermediate.totalConsumption,
+    item.receipt.peakLoad.totalConsumption,
+    item.receipt.lowLoad.totalConsumption,
+    item.receipt.peakTimesFriday.totalConsumption,
+    item.receipt.reactive.totalConsumption
 ];
 console.log("qqqqqqqqqqq"+kwh)
 //  kwh=[1,12,16,40,50];

@@ -40,11 +40,11 @@ exports.cost = async (req, res, next) => {
 
         param=item.tariffs[0].params;
 
-        var kwh=[item.reciept.intermediate.totalConsumption,
-            item.reciept.peakLoad.totalConsumption,
-            item.reciept.lowLoad.totalConsumption,
-            item.reciept.peakTimesFriday.totalConsumption,
-            item.reciept.reactive.totalConsumption
+        var kwh=[item.receipt.intermediate.totalConsumption,
+            item.receipt.peakLoad.totalConsumption,
+            item.receipt.lowLoad.totalConsumption,
+            item.receipt.peakTimesFriday.totalConsumption,
+            item.receipt.reactive.totalConsumption
         ];
             startDate = moment.from("1397/06/01", 'fa', 'YYYY/MM/DD');
             endDate = moment.from("1397/08/01", 'fa', 'YYYY/MM/DD');
@@ -53,33 +53,33 @@ exports.cost = async (req, res, next) => {
             var demandG=1400; //دیماند قراردادی
             var cal=CalEnergyCost(kwh,demandM,demandG,startDate,endDate,param);
 
-            item.energyCost=item.reciept.consumptionAmount;//cal[2];
-            item.energyCal=item.reciept.consumptionAmount;
+            item.energyCost=item.receipt.consumptionAmount;//cal[2];
+            item.energyCal=item.receipt.consumptionAmount;
 
                 
             
     });
 
     BillTariffs.reduce((acc,value)=>{
-        if(!acc[value.reciept.period])
+        if(!acc[value.receipt.period])
         {
-            acc[value.reciept.period]={data:[],name:value.reciept.period};
-            // series.push({data:[],name:value.reciept.period});
+            acc[value.receipt.period]={data:[],name:value.receipt.period};
+            // series.push({data:[],name:value.receipt.period});
         }
     
-        if(!labels.find(lbl=>lbl==value.reciept.period))
+        if(!labels.find(lbl=>lbl==value.receipt.period))
         {
-            labels.push(value.reciept.period);
+            labels.push(value.receipt.period);
         }
     
        var seri= series[0]
-       seri.data[labels.indexOf(value.reciept.period)]=value.energyCost;
+       seri.data[labels.indexOf(value.receipt.period)]=value.energyCost;
 
        var seri= series[1]
-       seri.data[labels.indexOf(value.reciept.period)]=value.energyCal;
+       seri.data[labels.indexOf(value.receipt.period)]=value.energyCal;
        
 
-        acc[value.reciept.period].data.push(value.totalAmount);
+        acc[value.receipt.period].data.push(value.totalAmount);
          return acc
     },{});
     res.send(Response({"series":series,"labels":labels}));
@@ -106,9 +106,9 @@ exports.consumption = async (req, res, next) => {
                 acc[value.capacity]={data:[],name:value.capacity};
             }
     
-            if(!labels[value.reciept.period])
+            if(!labels[value.receipt.period])
             {
-                labels.push(value.reciept.period);
+                labels.push(value.receipt.period);
             }
             acc[value.capacity].data.push(value.Count);
              return acc

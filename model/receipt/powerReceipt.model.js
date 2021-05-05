@@ -5,7 +5,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const RecieptBase = require('./receiptBase.model');
+const ReceiptBase = require('./receiptBase.model');
 
 const ConsumptionSchema = new Schema({
     preCounter          :  {type: Number},//شمارنده قبلی
@@ -88,4 +88,4 @@ PowerReceiptSchema.set('toJSON', {
     }
 });
 
-module.exports =RecieptBase.discriminator('powerReceipt',PowerReceiptSchema);
+module.exports =ReceiptBase.discriminator('powerReceipt',PowerReceiptSchema);

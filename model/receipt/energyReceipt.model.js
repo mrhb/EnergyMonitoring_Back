@@ -6,7 +6,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const RecieptBase = require('./receiptBase.model');
+const ReceiptBase = require('./receiptBase.model');
 
 const EnergyReceiptSchema = new Schema({
 
@@ -30,4 +30,4 @@ EnergyReceiptSchema.set('toJSON', {
     }
 });
 
-module.exports =RecieptBase.discriminator('energyReceipt',EnergyReceiptSchema);
+module.exports =ReceiptBase.discriminator('energyReceipt',EnergyReceiptSchema);

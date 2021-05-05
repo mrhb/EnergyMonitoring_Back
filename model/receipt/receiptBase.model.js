@@ -10,7 +10,7 @@ const sharingAllocation = require('./sharingAllocation.model');
 
 
 const options = {
-    discriminatorKey: 'recieptType' ,
+    discriminatorKey: 'receiptType' ,
     timestamps: true
 };
 

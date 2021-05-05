@@ -67,16 +67,16 @@ async function getBuildingDataAnalysis(req) {
         from:  "receipts",
         localField: "sharingStringId",
         foreignField: "sharingId",
-        as: "reciept"
+        as: "receipt"
         }
     },
-    {$unwind  : { path: "$reciept" }  },
+    {$unwind  : { path: "$receipt" }  },
     
     {"$match": {
-      "reciept.fromDate": {
+      "receipt.fromDate": {
           "$gte":  req.fromDate,
       },
-      "reciept.toDate": {
+      "receipt.toDate": {
           "$lte": req.toDate,
       }
       }
@@ -85,8 +85,8 @@ async function getBuildingDataAnalysis(req) {
     {
         climateType: "$region.climateType",
         useFullArea: "$building.useFullArea",
-        Type:{$ifNull: ["$carierType" ,"$reciept.recieptType"]},
-        consumptionDurat: "$reciept.consumptionDurat"
+        Type:{$ifNull: ["$carierType" ,"$receipt.receiptType"]},
+        consumptionDurat: "$receipt.consumptionDurat"
     }
  },
    ]);

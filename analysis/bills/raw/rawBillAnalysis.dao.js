@@ -24,7 +24,7 @@ async function getRawBillAnalysis(req) {
                     "toDate": {
                         "$lte": req.toDate,
                     },
-                    "recieptType" : req.billType
+                    "receiptType" : req.billType
                     
                 }
                 },

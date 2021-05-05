@@ -6,7 +6,7 @@
 const mongoose = require('../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
-const RecieptBase = require('./receiptBase.model');
+const ReceiptBase = require('./receiptBase.model');
 
 const WaterReceiptSchema = new Schema({
     numberShare: {type: String}, // شماره اشتراک
@@ -33,4 +33,4 @@ WaterReceiptSchema.set('toJSON', {
     }
 });
 
-module.exports =RecieptBase.discriminator('waterReceipt',WaterReceiptSchema);
+module.exports =ReceiptBase.discriminator('waterReceipt',WaterReceiptSchema);
