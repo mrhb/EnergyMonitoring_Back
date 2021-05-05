@@ -49,10 +49,10 @@ function validate(data, next) {
         throw next("شمارنده کنونی نمیتواند خالی باشد.");
     }
     if (!data.consumptionDurat) {
-        throw next("دوره مصرف نمیتواند خالی باشد.");
+        throw next(" مصرف استاندارد نمیتواند خالی باشد.");
     }
     if (!data.consumptionAmount) {
-        throw next("مقدار مصرف نمیتواند خالی باشد.");
+        throw next("بهای گاز مصرفی نمیتواند خالی باشد.");
     }
     if (!data.payableAmount) {
         throw next("مبلغ قابل پرداخت نمیتواند خالی باشد.");

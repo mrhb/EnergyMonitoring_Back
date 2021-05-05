@@ -14,14 +14,20 @@ module.exports = (app) => {
 
     /**
      * Create
-     * Body : reqCreatePowerReceipt.dto
+     * Body : reqCreateWaterReceipt.dto
      */
     app.post(WATER_RECEIPT + 'create', jwt(), receiptController.create);
 
     /**
+     * Create Multi
+     * Body : list reqCreateWaterReceipt.dto
+     */
+     app.post(WATER_RECEIPT + 'create-multi', jwt(), receiptController.createMulti);
+
+    /**
      * Update
      * Param : id
-     * Body : reqCreatePowerReceipt.dto
+     * Body : reqCreateWaterReceipt.dto
      */
     app.put(WATER_RECEIPT + 'update', jwt(), receiptController.update);
 

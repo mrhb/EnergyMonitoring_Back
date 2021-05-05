@@ -29,32 +29,31 @@ function ReqCreateWaterReceipt(data, userId, sharing, next) {
 
 function validate(data, next) {
     if (!data.paymentCode) {
-        throw next("شناسه پرداخت نمیتواند خالی باشد.");
+        throw next("شناسه پرداخت نمی تواند خالی باشد.");
     }
 
     if (!data.fromDate) {
-        throw next("از تاریخ نمیتواند خالی باشد.");
+        throw next(" تاریخ شروع نمی تواند خالی باشد.");
     }
     if (!data.toDate) {
-        throw next("تا تاریخ نمیتواند خالی باشد.");
+        throw next(" تاریخ پایان نمی تواند خالی باشد.");
     }
     if (new Date(data.fromDate).getTime() > new Date(data.toDate).getTime()) {
-        throw next("تاریخ شروع نمیتواند بعد از تاریخ پایان باشد.");
+        throw next("تاریخ شروع نمی تواند بعد از تاریخ پایان باشد.");
     }
-
     if (!data.previousCounter) {
-        throw next("شمارنده قبلی نمیتواند خالی باشد.");
+        throw next("رقم قبلی نمی تواند خالی باشد.");
     }
     if (!data.currentCounter) {
-        throw next("شمارنده کنونی نمیتواند خالی باشد.");
+        throw next("رقم فعلی نمی تواند خالی باشد.");
     }
     if (!data.consumptionDurat) {
-        throw next("دوره مصرف نمیتواند خالی باشد.");
+        throw next(" مصرف دوره نمی تواند خالی باشد.");
     }
     if (!data.consumptionAmount) {
-        throw next("مقدار مصرف نمیتواند خالی باشد.");
+        throw next(" بهای آب مصرفی نمی تواند خالی باشد.");
     }
     if (!data.payableAmount) {
-        throw next("مبلغ قابل پرداخت نمیتواند خالی باشد.");
+        throw next("مبلغ قابل پرداخت نمی تواند خالی باشد.");
     }
 }

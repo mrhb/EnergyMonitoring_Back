@@ -47,6 +47,53 @@ exports.create = async (req, res, next) => {
         }).catch(err => console.log(err));
 };
 
+
+exports.createMulti = async (req, res, next) => {
+    console.log('re id ' + req.user.id);
+
+    let waterReceiptList = req.body;
+
+    if (waterReceiptList == null){
+        throw next("لیست خالی میباشد.");
+    }
+
+    let billingIdList = [];
+    waterReceiptList.forEach(item => {
+        billingIdList.push(item.billingId);
+    });
+
+    let waterSharingList = await waterSharingDao
+        .getListBybillingIdList(billingIdList)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+    waterReceiptList.forEach(waterReceipt => {
+        waterSharingList.forEach(sharing => {
+            if (waterReceipt.billingId === sharing.billingId){
+                waterReceipt.sharingId = sharing._id;
+                waterReceipt.creatorId = req.user.id;
+                waterReceipt.ownerId = req.user.id;
+            }
+        });
+    });
+
+    waterReceiptDao
+        .create(waterReceiptList)
+        .then(result => {
+            console.log("my res");
+            console.log(result);
+            if (result) {
+                if (result[0]._id) {
+                    res.send(Response(true));
+                    return;
+                }
+            }
+            throw next("در ایجاد قبض آب خطایی رخ داده است.");
+        }).catch(err => console.log(err));
+};
+
+
 exports.update = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 

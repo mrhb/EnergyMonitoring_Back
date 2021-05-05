@@ -12,11 +12,11 @@ const WaterReceiptSchema = new Schema({
     numberShare: {type: String}, // شماره اشتراک
     nameShare: {type: String}, // نام اشتراک
 
-
     paymentCode: {type: String, required: true}, // شناسه پرداخت
-    numberDays: {type: Number, required: true}, // تعداد روز دوره
-    previousCounter: {type: String, required: true}, // شمارنده قبلی
-    currentCounter: {type: String, required: true}, // شمارنده کنونی
+    numberDays: {type: Number}, // تعداد روز دوره
+    previousCounter: {type: String}, // شمارنده قبلی
+    currentCounter: {type: String}, // شمارنده کنونی
+    consumptionDurat: {type: Number, required: true}, // مصرف دوره
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
 }, {
