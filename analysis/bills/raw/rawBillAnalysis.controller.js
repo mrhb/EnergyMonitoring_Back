@@ -5,6 +5,7 @@ const rawBillAnalysisDao = require('./rawBillAnalysis.dao');
 const ReqRawBillAnalysis = require('./reqRawBillAnalysis.dto');
 
 const Response = require('../../../middleware/response/response-handler');
+var moment = require('../../../node_modules/jalali-moment/jalali-moment');
 
 
 exports.cost = async (req, res, next) => {
@@ -16,6 +17,10 @@ exports.cost = async (req, res, next) => {
     }
 
     let reqRawBillAnalysis = new ReqRawBillAnalysis(req.body, next);
+    
+    var diff = Math.abs(reqRawBillAnalysis.toDate.getTime() - reqRawBillAnalysis.fromDate.getTime());
+    var diffDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+    var interval=diffDays;
 
     
     let CapacityListByRegion = await rawBillAnalysisDao
@@ -24,26 +29,45 @@ exports.cost = async (req, res, next) => {
         return result;
     }).catch(err => console.log(err));
 
-    let series=[];
-    let labels=[];
-    CapacityListByRegion.reduce((acc,value)=>{
+
+    var labels=[];
+    m = moment.from(reqRawBillAnalysis.fromDate, 'en', 'MM/YYYY/DD').locale('fa');
+    for(var d=0;d<interval;d++) labels.push(m.add(1, 'day').format('YYYY/MM/DD'));
+    var initData=[];
+    var size=interval;
+    while(size--){
+        initData[size] = null; 
+    }
+    
+
+    let ysSeries=[]
+    var YsNames=[]
+    var Ys=CapacityListByRegion.reduce((acc,value)=>{
         if(!acc[value.buildingName])
         {
-            acc[value.buildingName]={data:[],name:value.buildingName};
-            series.push({data:[],name:value.buildingName});
+            acc[value.buildingName]= {data:clone(initData),name:value.buildingName};
+            YsNames.push(value.buildingName);
         }
-    
-        if(!labels.find(lbl=>lbl==value._id))
-        {
-            labels.push(value._id);
+        var diff = Math.abs(value.fromDate.getTime() - reqRawBillAnalysis.fromDate.getTime());
+        var diffDaysFromInterval = Math.ceil(diff / (1000 * 3600 * 24)); 
+
+        var diff = Math.abs(value.toDate.getTime() - reqRawBillAnalysis.fromDate.getTime());
+        var diffDaysToInterval = Math.ceil(diff / (1000 * 3600 * 24)); 
+
+        for (var i =diffDaysFromInterval; i < diffDaysToInterval; i++) {
+            if(acc[value.buildingName].data[i])
+            acc[value.buildingName].data[i]=acc[value.buildingName].data[i]+value.consumptionDurat/(diffDaysToInterval-diffDaysFromInterval);
+            else
+            acc[value.buildingName].data[i]=value.consumptionDurat/(diffDaysToInterval-diffDaysFromInterval);
         }
-    
-       var seri= series.find(element=>element.name==value.buildingName)
-       seri.data[labels.indexOf(value._id)]=value.consumptionAmount;
-        acc[value.buildingName].data.push(value.consumptionAmount);
-         return acc
+        return acc
     },{});
-    res.send(Response({"series":series,"labels":labels}));
+  
+    YsNames.forEach(element => {
+        ysSeries.push(Ys[element]);
+    });
+    
+    res.send(Response({"series":ysSeries,"labels":labels}));
 };
 exports.consumption = async (req, res, next) => {
     //    console.log('user.id ' + req.user.id);
@@ -91,3 +115,13 @@ exports.consumption = async (req, res, next) => {
           labels = labels.filter(onlyUnique);
         res.send(Response({"series":CapacityList,"labels":labels}));
     };
+
+    function clone(obj) {
+        if (null == obj || "object" != typeof obj) return obj;
+        var copy = obj.constructor();
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        }
+        return copy;
+    }
+    
