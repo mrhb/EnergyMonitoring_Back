@@ -4,6 +4,7 @@
  */
 
 const buildingDao = require('../../dao/building/building.dao');
+const regionDao=require('../../configuration/region/region.dao')
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreateBuildingDto = require('./dto/reqCreateBuilding.dto');
@@ -302,6 +303,21 @@ exports.getBildingListPageableByFilter = async (req, res, next) => {
     let size = Number(req.query.size);
 
     let filter = new ReqBuildingPageFilterDto(req.body);
+
+
+     
+
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
 
     let buildingList = await buildingDao
         .getBuildingListPageableByFilter(filter, page, size)

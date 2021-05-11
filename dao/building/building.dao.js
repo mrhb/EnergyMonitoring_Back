@@ -290,8 +290,14 @@ async function getBuildingListPageableByFilter(filter, page, size) {
         myFilter = JSON.parse(myFilter);
         myFilter.utilityType="BUILDING";
 
+      
         return await Building
-            .find(myFilter,
+            .find(
+                  {
+            "regionId": {$in: filter.regionIds},
+            "utilityType":"BUILDING"
+        }
+        ,
                 {
                     _id: 1,
                     name: 1,
