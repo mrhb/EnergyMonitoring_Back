@@ -130,7 +130,7 @@ async function deleteBuildingAllocation(id, allocationId) {
     }
 }
 
-async function getListPageableByFilter(page, size) {
+async function getListPageableByFilter(filter,page, size) {
     try {
         let skip = (page * size);
         if (skip < 0) {
@@ -139,40 +139,101 @@ async function getListPageableByFilter(page, size) {
         return await PowerSharing
             .aggregate(
                 [
-                    {$project :
-                        {
-                                    _id: 1,
-                                    name: 1,
-                                    billingId: 1,
-                                    addressCode: 1,
-                                    useType: 1,
-                                    useCode: 1,
-                                    group:1,
-                                    contract:1,
-                                    createdAt: 1,
-                                    buildingNum: {$size: "$buildingList" }
-                
+
+                    {
+                        $lookup: {
+                           from: "buildings",
+                           localField: "buildingList.buildingId",    // field in the orders collection
+                           foreignField: "_id",  // field in the items collection
+                           as: "buildingList"
                         }
-                    }
+                     },
+                     
+                     {$project :
+                          {
+                                      _id: 1,
+                                      name: 1,
+                                      billingId: 1,
+                                      addressCode: 1,
+                                      useType: 1,
+                                      useCode: 1,
+                                      group:1,
+                                      contract:1,
+                                      createdAt: 1,
+                                      buildingNum: {$size: "$buildingList" },
+                                      regionId:{ $first:"$buildingList.regionId"}
+                  
+                          }
+                      },
+                      { $match : { regionId : {$in: filter.regionIds} } } ,
+
+                      {$facet: {
+                          paginatedResults: [{ $skip: skip }, { $limit: size }],
+                          totalCount: [
+                            {
+                              $count: 'count'
+                            }
+                          ]
+                        }}
                 ]
             )
             .sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
+           ;
     } catch (e) {
         console.log(e);
     }
 }
 
-async function getListPageableByFilterCount() {
+async function getListPageableByFilterCount(filter) {
     try {
-        return await PowerSharing
-            .find()
-            .countDocuments();
+       return await PowerSharing
+            .aggregate(
+                [
+
+                    {
+                        $lookup: {
+                           from: "buildings",
+                           localField: "buildingList.buildingId",    // field in the orders collection
+                           foreignField: "_id",  // field in the items collection
+                           as: "buildingList"
+                        }
+                     },
+                     
+                     {$project :
+                          {
+                                      _id: 1,
+                                      name: 1,
+                                      billingId: 1,
+                                      addressCode: 1,
+                                      useType: 1,
+                                      useCode: 1,
+                                      group:1,
+                                      contract:1,
+                                      createdAt: 1,
+                                      buildingNum: {$size: "$buildingList" },
+                                      regionId:{ $first:"$buildingList.regionId"}
+                  
+                          }
+                      },
+                      { $match : { regionId : {$in: filter.regionIds} } } ,
+
+                      {$facet: {
+                          paginatedResults: [{ $skip: 0 }, { $limit: 10 }],
+                          totalCount: [
+                            {
+                              $count: 'count'
+                            }
+                          ]
+                        }}
+                ]
+            ).sort({createdAt: -1})
+            .skip(Number(skip))
+            .limit(Number(size)).count();
     } catch (e) {
         console.log(e);
     }
 }
+
 
 async function getListPageableByTerm(filter, page, size) {
     try {
