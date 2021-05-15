@@ -4,12 +4,14 @@
  */
 
 const powerSharingDao = require('../../dao/sharing/powerSharing.dao');
+const regionDao=require('../..//configuration/region/region.dao')
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreatePowerSharing = require('./dto/reqCreatePowerSharing.dto');
 const PowerSharing = require('../../model/sharing/powerSharing.model');
 const ReqBuildingAllocation = require('./dto/reqBuildingAllocation.dto');
+const ReqSharingPageFilter=require('./dto/reqSharingPageFilter.dto');
 
 
 exports.create = (req, res, next) => {
@@ -288,27 +290,37 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let powerSharingList = await powerSharingDao
-        .getListPageableByFilter(page, size)
+    
+    let filter = new ReqSharingPageFilter(req.body);
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
+
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+        filter.regionIds.push(null);
+
+    let result = await powerSharingDao
+        .getListPageableByFilter(filter,page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+        let powerSharingList =result[0].paginatedResults;
 
     if (powerSharingList === null || powerSharingList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let powerSharingListCount = await powerSharingDao
-        .getListPageableByFilterCount()
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
-
-    if (powerSharingListCount === null) {
-        res.send(Response(null));
-        return;
-    }
+    let powerSharingListCount = result[0].totalCount[0].count;
+   
 
     res.send(ResponsePageable(powerSharingList, powerSharingListCount, page, size));
 };

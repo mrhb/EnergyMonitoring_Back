@@ -4,6 +4,9 @@
  */
 
 const gasSharingDao = require('../../dao/sharing/gasSharing.dao');
+const regionDao=require('../..//configuration/region/region.dao');
+const ReqSharingPageFilter=require('./dto/reqSharingPageFilter.dto');
+
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
@@ -286,27 +289,37 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let gasSharingList = await gasSharingDao
-        .getListPageableByFilter(page, size)
+    
+    let filter = new ReqSharingPageFilter(req.body);
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
+
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+        filter.regionIds.push(null);
+
+    let result = await gasSharingDao
+        .getListPageableByFilter(filter,page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+        let gasSharingList =result[0].paginatedResults;
 
     if (gasSharingList === null || gasSharingList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let gasSharingListCount = await gasSharingDao
-        .getListPageableByFilterCount()
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
-
-    if (gasSharingListCount === null) {
-        res.send(Response(null));
-        return;
-    }
+    let gasSharingListCount = result[0].totalCount[0].count;
+   
 
     res.send(ResponsePageable(gasSharingList, gasSharingListCount, page, size));
 };
