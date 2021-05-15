@@ -16,7 +16,6 @@ module.exports = {
     updateBuildingAllocation,
     deleteBuildingAllocation,
     getListPageableByFilter,
-    getListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount,
     isThereBuilding
@@ -124,7 +123,7 @@ async function deleteBuildingAllocation(id, allocationId) {
     }
 }
 
-async function getListPageableByFilter(page, size) {
+async function getListPageableByFilter(filter,page, size) {
     try {
         let skip = (page * size);
         if (skip < 0) {
@@ -133,41 +132,53 @@ async function getListPageableByFilter(page, size) {
         return await WaterSharing
         .aggregate(
             [
-                {$project :
-                    {
-                    _id: 1,
-                    name: 1,
-                    billingId: 1,
-                    addressCode: 1,
-                    useType: 1,
-                    buildingNum: 1,
-                    numberShare: 1, // شماره اشتراک
-                    useCode: 1, //    کد و نوع تعرفه 
-                    capacity: 1,  // ظرفیت قراردادی 
-                    createdAt: 1,
-                    buildingNum: {$size: "$buildingList" }
+             //   { $match : {     "sharingType" : "water"}},
+                {
+                    $lookup: {
+                       from: "buildings",
+                       localField: "buildingList.buildingId",    // field in the orders collection
+                       foreignField: "_id",  // field in the items collection
+                       as: "buildingList"
+                    }
+                 },
+                 
+                 {$project :
+                      {
+                        _id: 1,
+                        name: 1,
+                        billingId: 1,
+                        addressCode: 1,
+                        useType: 1,
+                        numberShare: 1, // شماره اشتراک
+                        useCode: 1, //    کد و نوع تعرفه 
+                        capacity: 1,  // ظرفیت قراردادی 
+                        createdAt: 1,
+                        regionId:{ $first:"$buildingList.regionId"},
+                        buildingNum: {$size: "$buildingList" }
 
-        }
-    }
-]
-).sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
-    } catch (e) {
-        console.log(e);
-    }
+                      }
+                  },
+                  { $match : { regionId : {$in: filter.regionIds} } } ,
+
+                  {$facet: {
+                      paginatedResults: [{ $skip: skip }, { $limit: size }],
+                      totalCount: [
+                        {
+                          $count: 'count'
+                        }
+                      ]
+                    }}
+            ]
+        )
+        .sort({createdAt: -1});
+
+        
+} catch (e) {
+    console.log(e);
+}
 }
 
 
-async function getListPageableByFilterCount() {
-    try {
-        return await WaterSharing
-            .find()
-            .countDocuments();
-    } catch (e) {
-        console.log(e);
-    }
-}
 
 async function getListPageableByTerm(filter, page, size) {
     try {

@@ -4,6 +4,9 @@
  */
 
 const waterSharingDao = require('../../dao/sharing/waterSharing.dao');
+const regionDao=require('../..//configuration/region/region.dao');
+const ReqSharingPageFilter=require('./dto/reqSharingPageFilter.dto');
+
 const buildingDao = require('../../dao/building/building.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
@@ -285,29 +288,39 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let waterSharingList = await waterSharingDao
-        .getListPageableByFilter(page, size)
+    
+    let filter = new ReqSharingPageFilter(req.body);
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterSharingList === null || waterSharingList.length <= 0) {
-        res.send(Response(null));
-        return;
-    }
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
 
-    let waterSharingListCount = await waterSharingDao
-        .getListPageableByFilterCount()
+        filter.regionIds.push(null);
+
+    let result = await waterSharingDao
+        .getListPageableByFilter(filter,page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterSharingListCount === null) {
-        res.send(Response(null));
-        return;
-    }
+        let SharingList =result[0].paginatedResults;
+        
+        if (SharingList === null || SharingList.length <= 0) {
+            res.send(Response(null));
+            return;
+        }
 
-    res.send(ResponsePageable(waterSharingList, waterSharingListCount, page, size));
+    let SharingListCount = result[0].totalCount[0].count;
+   
+
+    res.send(ResponsePageable(SharingList, SharingListCount, page, size));
 };
 
 

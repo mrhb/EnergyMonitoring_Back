@@ -15,7 +15,6 @@ module.exports = {
     updateBuildingAllocation,
     deleteBuildingAllocation,
     getListPageableByFilter,
-    getListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount,
     isThereBuilding
@@ -121,46 +120,55 @@ async function deleteBuildingAllocation(id, allocationId) {
     }
 }
 
-async function getListPageableByFilter(page, size) {
+async function getListPageableByFilter(filter,page, size) {
     try {
         let skip = (page * size);
         if (skip < 0) {
             skip = 0;
         }
         return await GasSharing
-        .aggregate(
-            [
-                {$project :
+            .aggregate(
+                [
+
                     {
-                    _id: 1,
-                    name: 1,
-                    billingId: 1,
-                    addressCode: 1,
-                    useType: 1,
-                    createdAt: 1,
-                    group: 1,
-                    capacity: 1,
-                    numberShare: 1,
-                    buildingNum: {$size: "$buildingList" }
-                
-                }
-            }
-        ]
-    )
-            .sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
-    } catch (e) {
-        console.log(e);
-    }
-}
+                        $lookup: {
+                           from: "buildings",
+                           localField: "buildingList.buildingId",    // field in the orders collection
+                           foreignField: "_id",  // field in the items collection
+                           as: "buildingList"
+                        }
+                     },
+                     
+                     {$project :
+                          {
+                            _id: 1,
+                            name: 1,
+                            billingId: 1,
+                            addressCode: 1,
+                            useType: 1,
+                            createdAt: 1,
+                            group: 1,
+                            capacity: 1,
+                            numberShare: 1,
+                            buildingNum: {$size: "$buildingList" },
+                            regionId:{ $first:"$buildingList.regionId"}
+                          }
+                      },
+                      { $match : { regionId : {$in: filter.regionIds} } } ,
 
+                      {$facet: {
+                          paginatedResults: [{ $skip: skip }, { $limit: size }],
+                          totalCount: [
+                            {
+                              $count: 'count'
+                            }
+                          ]
+                        }}
+                ]
+            )
+            .sort({createdAt: -1});
 
-async function getListPageableByFilterCount() {
-    try {
-        return await GasSharing
-            .find()
-            .countDocuments();
+            
     } catch (e) {
         console.log(e);
     }
