@@ -319,7 +319,7 @@ exports.getListPageableByFilter = async (req, res, next) => {
         return;
     }
 
-    let powerSharingListCount = result[0].totalCount[0];
+    let powerSharingListCount = result[0].totalCount[0].count;
    
 
     res.send(ResponsePageable(powerSharingList, powerSharingListCount, page, size));
