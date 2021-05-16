@@ -172,7 +172,7 @@ exports.addBuildingAllocation = async (req, res, next) => {
         }).catch(err => console.log(err));
 
     if (buildingAllocation === null || buildingAllocation === false) {
-        throw next("در اضافه کردن ساختمان به اشتراک خطایی رخ داده است.");
+        throw next("در اضافه کردن ساختمان به نیروگاه خطایی رخ داده است.");
     }
 
     let building = await buildingDao
