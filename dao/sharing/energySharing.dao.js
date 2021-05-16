@@ -14,7 +14,6 @@ module.exports = {
     updateBuildingAllocation,
     deleteBuildingAllocation,
     getListPageableByFilter,
-    getListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount,
     isThereBuilding
@@ -144,16 +143,62 @@ async function getListPageableByFilter(page, size) {
         console.log(e);
     }
 }
-
-async function getListPageableByFilterCount() {
+async function getListPageableByFilter(filter,page, size) {
     try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
         return await EnergySharing
-            .find()
-            .countDocuments();
+            .aggregate(
+                [
+
+                    {
+                        $lookup: {
+                           from: "buildings",
+                           localField: "buildingList.buildingId",    // field in the orders collection
+                           foreignField: "_id",  // field in the items collection
+                           as: "buildingList"
+                        }
+                     },
+                     
+                     {$project :
+                          {
+                            _id: 1,
+                            name: 1,
+                            billingId: 1,
+                            addressCode: 1,
+                            useType: 1,
+                            energyCarrier: 1,
+                            energyUnit: 1,
+                            shareNumber: 1,
+                            capacity: 1,
+                            kiloWatConvert: 1,
+                            createdAt: 1,
+                            buildingNum: {$size: "$buildingList" },
+                            regionId:{ $first:"$buildingList.regionId"}
+                          }
+                      },
+                      { $match : { regionId : {$in: filter.regionIds} } } ,
+
+                      {$facet: {
+                          paginatedResults: [{ $skip: skip }, { $limit: size }],
+                          totalCount: [
+                            {
+                              $count: 'count'
+                            }
+                          ]
+                        }}
+                ]
+            )
+            .sort({createdAt: -1});
+
+            
     } catch (e) {
         console.log(e);
     }
 }
+
 
 async function getListPageableByTerm(filter, page, size) {
     try {
