@@ -175,6 +175,7 @@ async function getListPageableByFilter(filter,page, size) {
 }
 
 
+
 async function getListPageableByTerm(filter, page, size) {
     try {
         let skip = (page * size);
