@@ -15,12 +15,12 @@ const GenerationReceipt = require('../model/generationReceipt.model');
 exports.create = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
-    if (!req.body.generationSharingId) {
+    if (!req.body.sharingId) {
         throw next("شناسه نیروگاه نمی تواند خالی باشد.");
     }
 
     let generationSharing = await generationSharingDao
-        .getOne(req.body.generationSharingId)
+        .getOne(req.body.sharingId)
         .then(result => {
             return result;
         });

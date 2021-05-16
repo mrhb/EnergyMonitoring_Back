@@ -132,6 +132,7 @@ async function getListPageableByFilter(filter,page, size) {
                      {$project :
                           {
                             _id: 1,
+                            billingId:1,
                             name: 1,// نام نیروگاه
                             consumptionType: 1,//  نوع نیروگاه 
                             capacity: 1,  // ظرفیت  
