@@ -109,40 +109,6 @@ async function deleteBuildingAllocation(id, allocationId) {
     }
 }
 
-async function getListPageableByFilter(page, size) {
-    try {
-        let skip = (page * size);
-        if (skip < 0) {
-            skip = 0;
-        }
-        return await EnergySharing
-        .aggregate(
-            [
-                {$project :
-                    {
-                    _id: 1,
-                    name: 1,
-                    billingId: 1,
-                    addressCode: 1,
-                    useType: 1,
-                    energyCarrier: 1,
-                    energyUnit: 1,
-                    shareNumber: 1,
-                    capacity: 1,
-                    kiloWatConvert: 1,
-                    createdAt: 1,
-                    buildingNum: {$size: "$buildingList" }
-
-        }
-    }
-]
-).sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
-    } catch (e) {
-        console.log(e);
-    }
-}
 async function getListPageableByFilter(filter,page, size) {
     try {
         let skip = (page * size);

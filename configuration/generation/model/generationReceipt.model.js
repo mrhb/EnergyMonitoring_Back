@@ -6,17 +6,12 @@
 const mongoose = require('../../../config/mongoose').mongoose;
 const Schema = mongoose.Schema;
 
+const ReceiptBase = require('../../../model/receipt/receiptBase.model');
+
+
 const generationSharingAllocation = require('./generationSharingAllocation.model');
 
 const GenerationReceiptSchema = new Schema({
-
-    generationSharingId: {type: String}, // شناسه نیروگاه
-    generationSharing:generationSharingAllocation,
-    fromDate: {type: Date, required: true}, // از تاریخ
-    toDate: {type: Date, required: true}, // تا تاریخ
-    consumptionDurat: {type: String, required: true}, // مصرف دوره
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
 }, {
     timestamps: true
 });
@@ -31,4 +26,4 @@ GenerationReceiptSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('generationReceipt', GenerationReceiptSchema);
+module.exports =ReceiptBase.discriminator('generationReceipt',GenerationReceiptSchema);

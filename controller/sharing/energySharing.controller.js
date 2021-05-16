@@ -4,7 +4,7 @@
  */
 
 const sharingDao = require('../../dao/sharing/energySharing.dao');
-const regionDao=require('../..//configuration/region/region.dao');
+const regionDao=require('../../configuration/region/region.dao');
 const ReqSharingPageFilter=require('./dto/reqSharingPageFilter.dto');
 
 const buildingDao = require('../../dao/building/building.dao');

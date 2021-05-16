@@ -4,14 +4,13 @@
  */
 // const mongoose = require('../../config/mongoose').mongoose;
 const mongoose = require('../../../config/mongoose').mongoose;
+const SharingBase = require('../../../model/sharing/sharingBase.model');
+
 const Schema = mongoose.Schema;
 
-const BuildingAllocation = require('./buildingAllocation.model');
 
 const GenerationSharingSchema = new Schema({
 
-    name: {type: String}, // نام مشترک
-    address: {type: String}, // آدرس
     billingId: {type: String, required: true}, // شناسه قبض
     // numberShare: {type: String}, // شماره اشتراک
     fileNumber: {type: String}, // شماره پرونده
@@ -30,8 +29,6 @@ const GenerationSharingSchema = new Schema({
     sewageBranchDiameter: {type: Number}, // قطر انشعاب فاضلاب
     capacity: {type: String}, // ظرفیت قراردادی
     
-    buildingList: [BuildingAllocation], // لیست ساختمان ها
-    buildingNum: {type: Number, default: 0}, // تعداد ساختمان ها
 
     generationType: {
         type: String,
@@ -42,8 +39,6 @@ const GenerationSharingSchema = new Schema({
             'GHP', // تولید همزمان برق و برودت
         ]
     }, // نوع نیروگاه
-    creatorId: {type: String, required: true},
-    ownerId: {type: String, required: true},
 }, {
     timestamps: true
 });
@@ -56,4 +51,4 @@ GenerationSharingSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('generationSharing', GenerationSharingSchema);
+module.exports =SharingBase.discriminator('generation',GenerationSharingSchema);

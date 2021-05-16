@@ -15,7 +15,6 @@ module.exports = {
     updateBuildingAllocation,
     deleteBuildingAllocation,
     getListPageableByFilter,
-    getListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount,
     isThereBuilding
@@ -111,36 +110,52 @@ async function deleteBuildingAllocation(id, allocationId) {
         console.log(e);
     }
 }
-
-async function getListPageableByFilter(page, size) {
+async function getListPageableByFilter(filter,page, size) {
     try {
         let skip = (page * size);
         if (skip < 0) {
             skip = 0;
         }
         return await GenerationSharing
-            .find({},
-                {
-                    _id: 1,
-                    name: 1,// نام نیروگاه
-                    consumptionType: 1,//  نوع نیروگاه 
-                    capacity: 1,  // ظرفیت  
-                    generationType: 1 //    نوع مصرف  
-                })
-            .sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
-    } catch (e) {
-        console.log(e);
-    }
-}
+            .aggregate(
+                [
 
+                    {
+                        $lookup: {
+                           from: "buildings",
+                           localField: "buildingList.buildingId",    // field in the orders collection
+                           foreignField: "_id",  // field in the items collection
+                           as: "buildingList"
+                        }
+                     },
+                     
+                     {$project :
+                          {
+                            _id: 1,
+                            name: 1,// نام نیروگاه
+                            consumptionType: 1,//  نوع نیروگاه 
+                            capacity: 1,  // ظرفیت  
+                            generationType: 1, //    نوع مصرف  ,
+                            createdAt: 1,
+                            buildingNum: {$size: "$buildingList" },
+                            regionId:{ $first:"$buildingList.regionId"}
+                          }
+                      },
+                      { $match : { regionId : {$in: filter.regionIds} } } ,
 
-async function getListPageableByFilterCount() {
-    try {
-        return await GenerationSharing
-            .find()
-            .countDocuments();
+                      {$facet: {
+                          paginatedResults: [{ $skip: skip }, { $limit: size }],
+                          totalCount: [
+                            {
+                              $count: 'count'
+                            }
+                          ]
+                        }}
+                ]
+            )
+            .sort({createdAt: -1});
+
+            
     } catch (e) {
         console.log(e);
     }
