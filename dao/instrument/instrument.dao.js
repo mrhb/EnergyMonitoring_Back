@@ -120,7 +120,7 @@ async function getListPageableByFilter(page, size) {
             .find({},
                 {
                     _id: 1,
-                    instrumentUsage:1 , //کاربری تجهیر
+                    instrumentUsage:1 , //کاربری تجهیز
                     name:1, //نام تجهیز 
                     instrumentCarrier:1, //نام حامل انرژی 
                     instrumentUnit:1, //واحد انرژی
@@ -168,7 +168,7 @@ async function getListPageableByTerm(filter, page, size) {
                 {
                     _id: 1,
                     billingId: 1,
-                    instrumentUsage:1 , //کاربری تجهیر
+                    instrumentUsage:1 , //کاربری تجهیز
                     name:1, //نام تجهیز 
                     instrumentCarrier:1, //نام حامل انرژی 
                     instrumentUnit:1, //واحد انرژی

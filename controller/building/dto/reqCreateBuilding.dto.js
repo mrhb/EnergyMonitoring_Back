@@ -24,11 +24,11 @@ function ReqCreateBuilding(data, userId, next) {
         this.constructionYear = data.constructionYear;
         this.floorNum = data.floorNum;
         this.exploitationPersonnelNum = data.exploitationPersonnelNum;
+        this.postalCode = data.postalCode;
 
         if (this.address !== null && this.address !== 'undefined') {
             this.postalCode = data.postalCode;
         }
-
         
         this.waterSharingNum = data.waterSharingNum;
         this.gasSharingNum = data.gasSharingNum;
@@ -149,6 +149,9 @@ function validate(data, next) {
         }
         if (data.ownership !== 'STATE' && data.ownership !== 'RENT') {
             throw next("مالکیت درست انتخاب نشده است.");
+        }
+        if (!data.postalCode) {
+            throw next("کد پستی نمی تواند خالی باشد.");
         }
         if (!data.coolingSystemType) {
             throw next("نوع سیستم سرمایشی نمیتواند خالی باشد.");

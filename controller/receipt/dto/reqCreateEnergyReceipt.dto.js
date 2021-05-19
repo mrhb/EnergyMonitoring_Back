@@ -52,9 +52,9 @@ function validate(data, next) {
     //     throw next("دوره مصرف نمیتواند خالی باشد.");
     // }
     if (!data.consumptionAmount) {
-        throw next("مقدار مصرف نمیتواند خالی باشد.");
+        throw next("هزینه انرژی نمی تواند خالی باشد.");
     }
     if (!data.payableAmount) {
-        throw next("مبلغ قابل پرداخت نمیتواند خالی باشد.");
+        throw next("مبلغ قابل پرداخت نمی تواند خالی باشد.");
     }
 }

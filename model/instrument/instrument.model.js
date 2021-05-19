@@ -19,7 +19,7 @@ const InstrumentSchema = new Schema({
            'KITCHEN', //تجهیزات آبدارخانه و آشپزخانه
            'OTHERS', //تجهیزات متفرقه  
         ]
-        }, //کاربری تجهیر
+        }, //کاربری تجهیز
         name:  {type: String, required: true, enum: [
            'HOT_WATER_BOILER', //دیگ آب گرم',
            'BOILER', //دیگ بخار',
