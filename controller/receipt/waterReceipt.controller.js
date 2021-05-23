@@ -4,11 +4,14 @@
  */
 
 const waterReceiptDao = require('../../dao/receipt/waterReceipt.dao');
+// const regionDao=require('../../../../configuration/region/region.dao');
+const regionDao=require('../../configuration/region/region.dao');
 const waterSharingDao = require('../../dao/sharing/waterSharing.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreateWaterReceipt = require('./dto/reqCreateWaterReceipt.dto');
 const WaterReceipt = require('../../model/receipt/waterReceipt.model');
+const ReqFilterDto = require('./dto/reqFilter.dto');
 
 
 exports.create = async (req, res, next) => {
@@ -195,27 +198,62 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let waterReceiptList = await waterReceiptDao
-        .getListPageableByFilter(page, size)
+    let filter = new ReqFilterDto(req.body, next);
+     
+
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (waterReceiptList === null || waterReceiptList.length <= 0) {
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+        
+    let result = await waterReceiptDao
+    .getListPageableByFilter(filter,page, size)
+    .then(result => {
+        return result;
+    }).catch(err => console.log(err));
+
+    let ReceiptList =result[0].paginatedResults;
+    
+    if (ReceiptList === null || ReceiptList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let waterReceiptListCount = await waterReceiptDao
-        .getListPageableByFilterCount()
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
+let ReceiptListCount = result[0].totalCount[0].count;
 
-    if (waterReceiptListCount === null) {
-        res.send(Response(null));
-        return;
-    }
 
-    res.send(ResponsePageable(waterReceiptList, waterReceiptListCount, page, size));
+res.send(ResponsePageable(ReceiptList, ReceiptListCount, page, size));
+
+    
+    // let waterReceiptList = await waterReceiptDao
+    //     .getListPageableByFilter(filter,page, size)
+    //     .then(result => {
+    //         return result;
+    //     }).catch(err => console.log(err));
+
+    // if (waterReceiptList === null || waterReceiptList.length <= 0) {
+    //     res.send(Response(null));
+    //     return;
+    // }
+
+    // let waterReceiptListCount = await waterReceiptDao
+    //     .getListPageableByFilterCount()
+    //     .then(result => {
+    //         return result;
+    //     }).catch(err => console.log(err));
+
+    // if (waterReceiptListCount === null) {
+    //     res.send(Response(null));
+    //     return;
+    // }
+
+    // res.send(ResponsePageable(waterReceiptList, waterReceiptListCount, page, size));
 };
