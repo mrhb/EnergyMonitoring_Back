@@ -98,6 +98,8 @@ async function getListPageableByFilter(filter,page, size) {
     
 // }
 // },
+{ $sort: {fromDate: 1 } },
+
  {$facet: {
       paginatedResults: [{ $skip: skip }, { $limit: size }],
       totalCount: [
