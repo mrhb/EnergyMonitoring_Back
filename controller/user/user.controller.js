@@ -48,6 +48,7 @@ exports.signup = async (req, res, next) => {
         lastName: reqSignupDto.lastName,
         phone: reqSignupDto.phone,
         mobile: reqSignupDto.mobile,
+        userName: reqSignupDto.mobile,
         email: reqSignupDto.email,
         password: crypto.createHash('sha512').update(reqSignupDto.password).digest("hex"),
         role: 'USER',
