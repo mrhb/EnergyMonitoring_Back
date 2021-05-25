@@ -137,9 +137,9 @@ exports.addBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereGeneration === true){
-        throw next('برای ساختمان انتخابی نیروگاه انتخاب شده است.')
-    }
+    // if (isThereGeneration === true){
+    //     throw next('برای ساختمان انتخابی نیروگاه انتخاب شده است.')
+    // }
 
     let generationSharing = await generationSharingDao
         .getOne(req.query.id)
@@ -207,9 +207,9 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereGeneration === true){
-        throw next('برای ساختمان انتخابی نیروگاه انتخاب شده است.')
-    }
+    // if (isThereGeneration === true){
+    //     throw next('برای ساختمان انتخابی نیروگاه انتخاب شده است.')
+    // }
 
     let generationSharing = await generationSharingDao
         .getOne(req.query.id)

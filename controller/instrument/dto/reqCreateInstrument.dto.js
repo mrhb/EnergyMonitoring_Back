@@ -26,7 +26,7 @@ function ReqCreateInstrument(data, userId, next) {
     this.AnnualWorkDayNum=data.AnnualWorkDayNum;
     this.fromDate=data.fromDate;
     this.toDate=data.toDate;
-    this.coincidenceCoefficient=data.coincidenceCoefficient;//ظریب همزمانی
+    this.coincidenceCoefficient=data.coincidenceCoefficient;//ضریب همزمانی
 
     this.creatorId = userId;
     this.ownerId = userId;

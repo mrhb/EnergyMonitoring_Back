@@ -84,7 +84,7 @@ exports.isMobileExists = async (req, res, next) => {
     if (isMobileExists !== null) {
         res.send(Response(isMobileExists));
     } else {
-        throw next('خطایی رخ داده است.');
+        throw next('شماره وارد شده تکراری میباشد.');
     }
 };
 
