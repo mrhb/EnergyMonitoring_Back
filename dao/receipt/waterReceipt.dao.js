@@ -64,8 +64,7 @@ async function getListPageableByFilter(filter,page, size) {
                     "toDate": {
                         "$lte": filter.toDate,
                     },
-                    // "receiptType" : filter.billType
-                    
+           
                 }
             },
 
@@ -90,14 +89,22 @@ async function getListPageableByFilter(filter,page, size) {
 }
 },
 // فیلتر  شناسه پرداخت 
-// {"$match": {
-//     "billingId": {
-//         "$eq": "4183724179",
-//     },
-//     //"receiptType" :"powerReceipt"
-    
-// }
-// },
+{
+    "$match": {
+        // "billingId": {
+        //     "$eq": " 93134508017",
+        // },
+    "billingId": new RegExp(filter.billingId) 
+
+    }
+},
+
+
+    //"receiptType" :"powerReceipt"
+    // "billingId": new RegExp('4183724179', 'i') 
+    // "receiptType" : '/'+filter.billType+'/'
+{ $sort: {fromDate: 1 } },
+
  {$facet: {
       paginatedResults: [{ $skip: skip }, { $limit: size }],
       totalCount: [
