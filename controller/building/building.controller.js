@@ -51,7 +51,7 @@ exports.createFacility = (req, res, next) => {
 exports.update = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه مکان نمیتواند خالی باشد.");
+        throw next("شناسه مکان نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let reqCreateBuildingDto = new ReqCreateBuildingDto(req.body, req.user.id, next);
@@ -64,14 +64,14 @@ exports.update = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت مکان خطایی رخ داده است.");
+            throw next("در ویرایش مکان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.deleteBuilding = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه مکان نمیتواند خالی باشد.");
+        throw next("شناسه مکان نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     buildingDao
@@ -90,7 +90,7 @@ exports.deleteBuilding = (req, res, next) => {
 exports.updateArea = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let reqUpdateAreaDto = new ReqUpdateAreaDto(req.body, next);
@@ -103,14 +103,14 @@ exports.updateArea = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت مساحت های ساختمان خطایی رخ داده است.");
+            throw next("در ویرایش مساحت های ساختمان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.createSpace = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -131,7 +131,7 @@ exports.createSpace = (req, res, next) => {
 exports.updateSpace = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -156,12 +156,12 @@ exports.updateSpace = async (req, res, next) => {
 exports.deleteSpace = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
     if (!req.query.spaceId) {
-        throw next("شناسه فضا نمیتواند خالی باشد.");
+        throw next("شناسه فضا نمی تواند خالی باشد.");
     }
     console.log('query spaceId ' + req.query.spaceId);
 
@@ -184,7 +184,7 @@ exports.deleteSpace = (req, res, next) => {
 exports.createMapInformation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -205,7 +205,7 @@ exports.createMapInformation = (req, res, next) => {
 exports.updateMapInformation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
@@ -229,12 +229,12 @@ exports.updateMapInformation = (req, res, next) => {
 exports.deleteMapInformation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('query id ' + req.query.id);
 
     if (!req.query.mapId) {
-        throw next("شناسه نقشه نمیتواند خالی باشد.");
+        throw next("شناسه نقشه نمی تواند خالی باشد.");
     }
     console.log('query mapId ' + req.query.mapId);
 
@@ -257,7 +257,7 @@ exports.deleteMapInformation = (req, res, next) => {
 exports.updateWallInformation = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه ساختمان نمیتواند خالی باشد.");
+        throw next("شناسه ساختمان نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     let reqWallInformation = new ReqWallInformation(req.body, next);
@@ -270,14 +270,14 @@ exports.updateWallInformation = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در آپدیت اطلاعات جداره های ساختمان خطایی رخ داده است.");
+            throw next("در ویرایش اطلاعات جداره های ساختمان خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
 exports.getOne = (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.id) {
-        throw next("شناسه مکان نمیتواند خالی باشد.");
+        throw next("شناسه مکان نمی تواند خالی باشد.");
     }
     console.log('re id ' + req.query.id);
     buildingDao
@@ -294,11 +294,11 @@ exports.getOne = (req, res, next) => {
 exports.getBildingListPageableByFilter = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {
-        throw next("شماره صفحه نمیتواند خالی باشد.");
+        throw next("شماره صفحه نمی تواند خالی باشد.");
     }
     let page = Number(req.query.page);
     if (!req.query.size) {
-        throw next("اندازه صفحه نمیتواند خالی باشد.");
+        throw next("اندازه صفحه نمی تواند خالی باشد.");
     }
     let size = Number(req.query.size);
 
@@ -348,11 +348,11 @@ exports.getBildingListPageableByFilter = async (req, res, next) => {
 exports.getFacilityListPageableByFilter = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {
-        throw next("شماره صفحه نمیتواند خالی باشد.");
+        throw next("شماره صفحه نمی تواند خالی باشد.");
     }
     let page = Number(req.query.page);
     if (!req.query.size) {
-        throw next("اندازه صفحه نمیتواند خالی باشد.");
+        throw next("اندازه صفحه نمی تواند خالی باشد.");
     }
     let size = Number(req.query.size);
 
@@ -386,11 +386,11 @@ exports.getFacilityListPageableByFilter = async (req, res, next) => {
 exports.getListPageableByTerm = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {
-        throw next("شماره صفحه نمیتواند خالی باشد.");
+        throw next("شماره صفحه نمی تواند خالی باشد.");
     }
     let page = Number(req.query.page);
     if (!req.query.size) {
-        throw next("اندازه صفحه نمیتواند خالی باشد.");
+        throw next("اندازه صفحه نمی تواند خالی باشد.");
     }
     let size = Number(req.query.size);
 
@@ -426,11 +426,11 @@ exports.getListPageableByTerm = async (req, res, next) => {
 exports.getListPageableByTermForSelection = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {
-        throw next("شماره صفحه نمیتواند خالی باشد.");
+        throw next("شماره صفحه نمی تواند خالی باشد.");
     }
     let page = Number(req.query.page);
     if (!req.query.size) {
-        throw next("اندازه صفحه نمیتواند خالی باشد.");
+        throw next("اندازه صفحه نمی تواند خالی باشد.");
     }
     let size = Number(req.query.size);
 
@@ -460,4 +460,21 @@ exports.getListPageableByTermForSelection = async (req, res, next) => {
     }
 
     res.send(ResponsePageable(buildingList, buildingListCount, page, size));
+};
+
+
+exports.getPostalCodeIsExit = async (req, res, next) => {
+    let getPostalCodeIsExit = await buildingDao.getPostalCodeIsExit(req.postalCode)
+        .then(result => {
+            if (result) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    if (getPostalCodeIsExit !== null) {
+        res.send(Response(getPostalCodeIsExit));
+    } else {
+        throw next('کد پستی وارد شده تکراری میباشد.');
+    }
 };
