@@ -68,53 +68,62 @@ async function getListPageableByFilter(filter,page, size) {
                 }
             },
 
-{ $addFields: { "SharingobjectId": { "$toObjectId": "$sharingId" }}},
+            { $addFields: { "SharingobjectId": { "$toObjectId": "$sharingId" }}},
 
-{$lookup:
-    {
-    from:  "sharings",
-    localField: "SharingobjectId",
-    foreignField: "_id",
-    as: "sharing"
-    }
-},
-{$project :
-{
-    fromDate:1,
-    toDate:1,
-    consumptionDurat :1,
-    consumptionAmount:1,
-    receiptType:1,
-    billingId:{ $first:"$sharing.billingId"},       
-}
-},
-// فیلتر  شناسه پرداخت 
-{
-    "$match": {
-        // "billingId": {
-        //     "$eq": " 93134508017",
-        // },
-    "billingId": new RegExp(filter.billingId) 
+            {$lookup:
+                {
+                from:  "sharings",
+                localField: "SharingobjectId",
+                foreignField: "_id",
+                as: "sharing"
+                }
+            },
+            {$project :
+                {
+                    fromDate:1,
+                    toDate:1,
+                    consumptionDurat :1,
+                    consumptionAmount:1,
+                    receiptType:1,
+                    name:"$sharing.name",
+                    billingId:"$sharing.billingId",       
+                    buildingId:{ $first:"$sharing.buildingList.buildingId"},       
+                }
+            },
+            {
+                $lookup: {
+                from: "buildings",
+                localField: "buildingId",    // field in the orders collection
+                foreignField: "_id",  // field in the items collection
+                as: "building"
+                }
+            },
+            {$project :
+                {
+                    fromDate:1,
+                    toDate:1,
+                    consumptionDurat :1,
+                    consumptionAmount:1,
+                    receiptType:1,
+                    billingId:1,  
+                    name:1,
+                    regionId:"$building.regionId"
+                }
+            },
+            { $match : { regionId : {$in: filter.regionIds} } } ,
+            // فیلتر  شناسه پرداخت 
+            {"$match": {"billingId": new RegExp(filter.billingId) }},
+            { $sort: {fromDate: 1 } },
 
-    }
-},
-
-
-    //"receiptType" :"powerReceipt"
-    // "billingId": new RegExp('4183724179', 'i') 
-    // "receiptType" : '/'+filter.billType+'/'
-{ $sort: {fromDate: 1 } },
-
- {$facet: {
-      paginatedResults: [{ $skip: skip }, { $limit: size }],
-      totalCount: [
-        {
-          $count: 'count'
-        }
-      ]
-    }}
-            ]
-        )
+            {$facet: {
+                paginatedResults: [{ $skip: skip }, { $limit: size }],
+                totalCount: [
+                    {
+                    $count: 'count'
+                    }
+                ]
+                }}
+        ])
         .sort({createdAt: -1});
 
         
