@@ -12,7 +12,6 @@ module.exports = {
     getOne,
     deleteById,
     getListPageableByFilter,
-    getListPageableByFilterCount
 };
 
 async function create(waterReceipt) {
@@ -80,6 +79,7 @@ async function getListPageableByFilter(filter,page, size) {
             },
             {$project :
                 {
+                    _id:1,
                     fromDate:1,
                     toDate:1,
                     consumptionDurat :1,
@@ -100,6 +100,7 @@ async function getListPageableByFilter(filter,page, size) {
             },
             {$project :
                 {
+                    _id:1,
                     fromDate:1,
                     toDate:1,
                     consumptionDurat :1,
@@ -132,31 +133,6 @@ async function getListPageableByFilter(filter,page, size) {
 }
 }
 
-// async function getListPageableByFilter(page, size) {
-//     try {
-//         let skip = (page * size);
-//         if (skip < 0) {
-//             skip = 0;
-//         }
-//         return await WaterReceipt
-//             .find()
-//             .sort({createdAt: -1})
-//             .skip(Number(skip))
-//             .limit(Number(size));
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
-
-async function getListPageableByFilterCount() {
-    try {
-        return await WaterReceipt
-            .find()
-            .countDocuments();
-    } catch (e) {
-        console.log(e);
-    }
-}
 
 async function deleteById(id) {
     try {

@@ -231,29 +231,4 @@ let ReceiptListCount = result[0].totalCount[0].count;
 
 
 res.send(ResponsePageable(ReceiptList, ReceiptListCount, page, size));
-
-    
-    // let waterReceiptList = await waterReceiptDao
-    //     .getListPageableByFilter(filter,page, size)
-    //     .then(result => {
-    //         return result;
-    //     }).catch(err => console.log(err));
-
-    // if (waterReceiptList === null || waterReceiptList.length <= 0) {
-    //     res.send(Response(null));
-    //     return;
-    // }
-
-    // let waterReceiptListCount = await waterReceiptDao
-    //     .getListPageableByFilterCount()
-    //     .then(result => {
-    //         return result;
-    //     }).catch(err => console.log(err));
-
-    // if (waterReceiptListCount === null) {
-    //     res.send(Response(null));
-    //     return;
-    // }
-
-    // res.send(ResponsePageable(waterReceiptList, waterReceiptListCount, page, size));
 };

@@ -4,11 +4,13 @@
  */
 
 const powerReceiptDao = require('../../dao/receipt/powerReceipt.dao');
+const regionDao=require('../../configuration/region/region.dao');
 const powerSharingDao = require('../../dao/sharing/powerSharing.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
 const ReqCreatePowerReceipt = require('./dto/reqCreatePowerReceipt.dto');
 const PowerReceipt = require('../../model/receipt/powerReceipt.model');
+const ReqFilterDto = require('./dto/reqFilter.dto');
 
 
 exports.create = async (req, res, next) => {
@@ -196,31 +198,38 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let powerReceiptList = await powerReceiptDao
-        .getListPageableByFilter(page, size)
+    
+    let filter = new ReqFilterDto(req.body, next);
+     
+
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (powerReceiptList === null || powerReceiptList.length <= 0) {
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+        
+    let result = await powerReceiptDao
+    .getListPageableByFilter(filter,page, size)
+    .then(result => {
+        return result;
+    }).catch(err => console.log(err));
+
+    let ReceiptList =result[0].paginatedResults;
+    
+    if (ReceiptList === null || ReceiptList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let powerReceiptListCount = await powerReceiptDao
-        .getListPageableByFilterCount()
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
-
-    if (powerReceiptListCount === null) {
-        res.send(Response(null));
-        return;
-    }
-    powerReceiptList.forEach(item=>{
-        item.ConsumptionSum=23;
-    })
+let ReceiptListCount = result[0].totalCount[0].count;
 
 
-    res.send(ResponsePageable(powerReceiptList, powerReceiptListCount, page, size));
+res.send(ResponsePageable(ReceiptList, ReceiptListCount, page, size));
 };
