@@ -458,10 +458,8 @@ exports.getListPageableByTermForSelection = async (req, res, next) => {
         res.send(Response(null));
         return;
     }
-
     res.send(ResponsePageable(buildingList, buildingListCount, page, size));
 };
-
 
 exports.getPostalCodeIsExit = async (req, res, next) => {
     let getPostalCodeIsExit = await buildingDao.getPostalCodeIsExit(req.postalCode)

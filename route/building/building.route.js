@@ -120,5 +120,10 @@ module.exports = (app) => {
      * Param : page,size,term
      */
      app.get(BUILDING + 'get-list-pageable-by-term-for-selection', jwt(),buildingController.getListPageableByTermForSelection)
+    /**
+     * Get get postal code is exit
+     * Param : page,size,term
+     */
+  app.get(BUILDING + 'get-postal-code-is-exit', jwt(),buildingController.getPostalCodeIsExit)
 
 };

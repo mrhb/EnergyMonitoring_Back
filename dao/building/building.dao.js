@@ -24,6 +24,7 @@ module.exports = {
     getBuildingListPageableByFilter,
     getFacilityListPageableByFilter,
     getListPageableByTermForSelection,
+    getPostalCodeIsExit,
     getListByRegionFilter,
     getBuildingListPageableByFilterCount,
     getFacilityListPageableByFilterCount,
@@ -370,17 +371,6 @@ async function getListByRegionFilter(regionId) {
                 {
                     _id: 1,
                     name: 1,
-                    // useType: 1,
-                    // postalCode: 1,
-                    // floorNum: 1,
-                    // arenaArea: 1,
-                    // ayanArea: 1,
-                    // useFullArea: 1,
-                    // coolingHeatingSystemType: 1,
-                    // powerSharNum: 1,//تعداد انشعاب برق
-                    // gasSharNum: 1,//تعداد انشعاب گاز
-                    // waterSharNum: 1,//تعداد انشعاب آب
-                    // energyCarierOthersNum: 1,// تعداد حامل های انرژی غیر 
                     regionId: 1,
                     constructionYear: 1,
                     createdAt: 1
@@ -495,6 +485,18 @@ async function getListPageableByTermCount(term) {
             .countDocuments();
     } catch (e) {
         console.log(e);
+    }
+}
+
+
+async function getPostalCodeIsExit(postalCode) {
+    try {
+        return await Building.findOne({
+            "postalCode": postalCode
+        });
+    } catch (e) {
+        console.log(e);
+        return null;
     }
 }
 
