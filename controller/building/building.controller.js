@@ -462,8 +462,25 @@ exports.getListPageableByTermForSelection = async (req, res, next) => {
 };
 
 exports.getPostalCodeIsExit = async (req, res, next) => {
-    let getPostalCodeIsExit = await buildingDao.getPostalCodeIsExit(req.postalCode)
+
+    
+    // let isMobileExists = await userDao.isMobileExists(reqSignupDto.mobile)
+    //     .then(result => {
+    //         if (result) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     });
+    // if (isMobileExists) {
+    //     throw next('شماره وارد شده تکراری میباشد.');
+    // }
+
+
+
+    let getPostalCodeIsExit = await buildingDao.getPostalCodeIsExit(req.query.postalCode)
         .then(result => {
+            console.log(result)
             if (result) {
                 return true;
             } else {
