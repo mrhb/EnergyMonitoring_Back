@@ -95,6 +95,7 @@ async function getListPageableByFilter(filter,page, size) {
             },
             {$project :
                 {
+                    _id:1,
                     fromDate:1,
                     toDate:1,
                     consumptionDurat :1,
@@ -115,6 +116,7 @@ async function getListPageableByFilter(filter,page, size) {
             },
             {$project :
                 {
+                    _id:1,
                     fromDate:1,
                     toDate:1,
                     consumptionDurat :1,
