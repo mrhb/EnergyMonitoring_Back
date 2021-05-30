@@ -4,6 +4,9 @@
  */
 
 const energyReceiptDao = require('../../dao/receipt/energyReceipt.dao');
+const regionDao=require('../../configuration/region/region.dao');
+const ReqFilterDto = require('./dto/reqFilter.dto');
+
 const sharingDao = require('../../dao/sharing/energySharing.dao');
 const Response = require('../../middleware/response/response-handler');
 const ResponsePageable = require('../../middleware/response/responsePageable-handler');
@@ -151,27 +154,37 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let energyReceiptList = await energyReceiptDao
-        .getListPageableByFilter(page, size)
+    let filter = new ReqFilterDto(req.body, next);
+
+
+      let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (energyReceiptList === null || energyReceiptList.length <= 0) {
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+        
+    let result = await energyReceiptDao
+    .getListPageableByFilter(filter,page, size)
+    .then(result => {
+        return result;
+    }).catch(err => console.log(err));
+
+    let ReceiptList =result[0].paginatedResults;
+    
+    if (ReceiptList === null || ReceiptList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let energyReceiptListCount = await energyReceiptDao
-        .getListPageableByFilterCount()
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
+let ReceiptListCount = result[0].totalCount[0].count;
 
-    if (energyReceiptListCount === null) {
-        res.send(Response(null));
-        return;
-    }
 
-    res.send(ResponsePageable(energyReceiptList, energyReceiptListCount, page, size));
+res.send(ResponsePageable(ReceiptList, ReceiptListCount, page, size));
 };
