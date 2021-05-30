@@ -26,7 +26,6 @@ module.exports = {
     getListPageableByTermForSelection,
     getPostalCodeIsExit,
     getListByRegionFilter,
-    getBuildingListPageableByFilterCount,
     getFacilityListPageableByFilterCount,
     getListPageableByTerm,
     getListPageableByTermCount
@@ -293,37 +292,55 @@ async function getBuildingListPageableByFilter(filter, page, size) {
 
       
         return await Building
-            .find(
-                  {
-            "regionId": {$in: filter.regionIds},
-            "utilityType":"BUILDING"
-        }
-        ,
-                {
-                    _id: 1,
-                    name: 1,
-                    useType: 1,
-                    postalCode: 1,
-                    constructionYear: 1,
-                    floorNum: 1,
-                    coolingSystemType: 1,// سیستم سرمایشی 
-                    heatingSystemType: 1,// سیستم گرمایشی 
-                    powerSharingNum: 1,//تعداد انشعاب برق
-                    gasSharingNum: 1,//تعداد انشعاب گاز
-                    waterSharingNum: 1,//تعداد انشعاب آب
-                    nonEnergyCarrierSharingNum: 1,// تعداد حامل های انرژی غیر 
-                    arenaArea: 1,  //مساحت عرصه
-                    ayanArea: 1,//مساحت اعیان
-                    useFullArea: 1,//مساحت مفید
-                    externalWallsTotalArea: 1,// مساحت کل جداره های خارجی 
-                    externalGlassTotalArea: 1,// مساحت کل شیشه های خارجی 
-                    regionId: 1,
-                    createdAt: 1                  
-                })
-
-            .sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
+        .aggregate(
+            [
+                { $match : {  "utilityType" : "BUILDING"} },
+                { $addFields: { "regionObjectId": { "$toObjectId": "$regionId" }}},
+                {$lookup:
+                    {
+                    from:  "regions",
+                    localField: "regionObjectId",
+                    foreignField: "_id",
+                    as: "region"
+                    }
+                },
+                {$project :
+                    {
+                          _id: 1,
+                        name: 1,
+                        useType: 1,
+                        postalCode: 1,
+                        constructionYear: 1,
+                        floorNum: 1,
+                        coolingSystemType: 1,// سیستم سرمایشی 
+                        heatingSystemType: 1,// سیستم گرمایشی 
+                        powerSharingNum: 1,//تعداد انشعاب برق
+                        gasSharingNum: 1,//تعداد انشعاب گاز
+                        waterSharingNum: 1,//تعداد انشعاب آب
+                        nonEnergyCarrierSharingNum: 1,// تعداد حامل های انرژی غیر 
+                        arenaArea: 1,  //مساحت عرصه
+                        ayanArea: 1,//مساحت اعیان
+                        useFullArea: 1,//مساحت مفید
+                        externalWallsTotalArea: 1,// مساحت کل جداره های خارجی 
+                        externalGlassTotalArea: 1,// مساحت کل شیشه های خارجی 
+                        regionId: 1,
+                        city:{ $first:"$region.city"},
+                       climateType:{ $first:"$region.climateType"}, 
+                       createdAt: 1 
+                    }
+                },
+              { $match : { regionId : {$in: filter.regionIds} } } ,
+                
+                {$facet: {
+                    paginatedResults: [{ $skip: skip }, { $limit: size }],
+                    totalCount: [
+                        {
+                        $count: 'count'
+                        }
+                    ]
+                    }}
+        ])
+        .sort({createdAt: -1});
     } catch (e) {
         console.log(e);
     }
@@ -382,20 +399,6 @@ async function getListByRegionFilter(regionId) {
     }
 }
 
-async function getBuildingListPageableByFilterCount(filter) {
-    try {
-        let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
-        myFilter = JSON.parse(myFilter);
-        myFilter.utilityType="BUILDING";
-
-
-        return await Building
-            .find(myFilter)
-            .countDocuments();
-    } catch (e) {
-        console.log(e);
-    }
-}
 
 async function getFacilityListPageableByFilterCount(filter) {
     try {

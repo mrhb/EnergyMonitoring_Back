@@ -319,31 +319,24 @@ exports.getBildingListPageableByFilter = async (req, res, next) => {
         },[]);
         filter.regionIds.push(filter.regionId);
 
-    let buildingList = await buildingDao
+    let result = await buildingDao
         .getBuildingListPageableByFilter(filter, page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (buildingList === null || buildingList.length <= 0) {
-        res.send(Response(null));
-        return;
-    }
-
-    let buildingListCount = await buildingDao
-        .getBuildingListPageableByFilterCount(filter)
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
-
-    if (buildingListCount === null) {
-        res.send(Response(null));
-        return;
-    }
-
+        let buildingList =result[0].paginatedResults;
+    
+        if (buildingList === null || buildingList.length <= 0) {
+            res.send(Response(null));
+            return;
+        }
+    
+    let buildingListCount = result[0].totalCount[0].count;
+    
+    
     res.send(ResponsePageable(buildingList, buildingListCount, page, size));
-};
-
+    };
 
 exports.getFacilityListPageableByFilter = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
