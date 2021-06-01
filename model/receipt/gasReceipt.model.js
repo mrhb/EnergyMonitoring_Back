@@ -12,8 +12,8 @@ const GasReceiptSchema = new Schema({
 
     
     paymentCode: {type: String, required: true}, // شناسه پرداخت
-    previousCounter: {type: String, required: true}, // شمارنده قبلی
-    currentCounter: {type: String, required: true}, // شمارنده کنونی
+    previousCounter: {type: Number, required: true}, // شمارنده قبلی
+    currentCounter: {type: Number, required: true}, // شمارنده کنونی
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 
 }, {

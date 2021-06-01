@@ -14,8 +14,8 @@ const WaterReceiptSchema = new Schema({
 
     paymentCode: {type: String, required: true}, // شناسه پرداخت
     numberDays: {type: Number}, // تعداد روز دوره
-    previousCounter: {type: String}, // شمارنده قبلی
-    currentCounter: {type: String}, // شمارنده کنونی
+    previousCounter: {type: Number}, // شمارنده قبلی
+    currentCounter: {type: Number}, // شمارنده کنونی
     consumptionDurat: {type: Number, required: true}, // مصرف دوره
     payableAmount: {type: Number, required: true}, // مبلغ قابل پرداخت
 

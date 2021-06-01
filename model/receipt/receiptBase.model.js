@@ -20,7 +20,7 @@ const ReceiptBaseSchema = new Schema({
     sharing:sharingAllocation,
     fromDate: {type: Date, required: true}, // از تاریخ
     toDate: {type: Date, required: true}, // تا تاریخ
-    consumptionDurat: {type: String, required: true}, // مصرف دوره
+    consumptionDurat: {type: Number, required: true}, // مصرف دوره
     consumptionAmount: {type: Number, required: true}, // مبلغ مصرف
     creatorId: {type: String, required: true},
     ownerId: {type: String, required: true},
