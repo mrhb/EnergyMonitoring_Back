@@ -23,9 +23,10 @@ const EnergyLabelSchema = new Schema({
     labelType: {
         type: Number, required: true,
         enum: [
-            'RESIDENTIAL', // مسکونی
-            'NON_RESIDENTIAL', // غیر مسکونی
-            'OFFICIAL' // اداری
+            'RESIDENTIALLARG', // مسکونی بزرگ
+            'RESIDENTIALSMAL', //  مسکونی کوچک
+            'OFFICIAL' ,// غیرمسکونی دولتی
+            'NONOFFICIAL' // غیرمسکونی خصوصی
         ]
     }, // نوع برچسب انرژی
     buildingId: {type: Number, required: true}, // شناسه ساختمان
