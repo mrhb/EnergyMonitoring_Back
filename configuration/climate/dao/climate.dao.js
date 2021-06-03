@@ -25,8 +25,6 @@ async function UpdateClimate(id,climate) {
     }
 }
 
-
-
 async function deleteWeathers(id,WeatherIds) {
     try {
         return await Climate.updateOne(
@@ -39,7 +37,6 @@ async function deleteWeathers(id,WeatherIds) {
         console.log(e);
     }
 }
-
 
 async function insertWeathers(id,WeatherList) {
     try {
