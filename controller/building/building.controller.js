@@ -351,31 +351,41 @@ exports.getFacilityListPageableByFilter = async (req, res, next) => {
 
     let filter = new ReqBuildingPageFilterDto(req.body);
 
-    let buildingList = await buildingDao
+
+        
+
+    let regionIds = await regionDao
+        .getChildsById(filter.regionId)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+    let result = await buildingDao
         .getFacilityListPageableByFilter(filter, page, size)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (buildingList === null || buildingList.length <= 0) {
-        res.send(Response(null));
-        return;
-    }
-
-    let buildingListCount = await buildingDao
-        .getFacilityListPageableByFilterCount(filter)
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
-
-    if (buildingListCount === null) {
-        res.send(Response(null));
-        return;
-    }
-
+        let buildingList =result[0].paginatedResults;
+    
+        if (buildingList === null || buildingList.length <= 0) {
+            res.send(Response(null));
+            return;
+        }
+    
+    let buildingListCount = result[0].totalCount[0].count;
+    
+    
     res.send(ResponsePageable(buildingList, buildingListCount, page, size));
-};
+    };
 
+    
 exports.getListPageableByTerm = async (req, res, next) => {
     console.log('user.id ' + req.user.id);
     if (!req.query.page) {

@@ -13,7 +13,7 @@ exports.getlabel = async (req, res, next) => {
 
     
     let BuildingData = await labelAnalysisDao
-    .getBuildingDataAnalysis(reqLabelAnalysis)
+    .getBuildingData(reqLabelAnalysis)
     .then(result => {
         return result;
     }).catch(err => 
@@ -23,6 +23,16 @@ exports.getlabel = async (req, res, next) => {
 
 
 
+    let BillData = await labelAnalysisDao
+    .getBillData(reqLabelAnalysis)
+    .then(result => {
+        return result;
+    }).catch(err => 
+        {
+            console.log(err)
+        });
+
+        
     try { 
         //"powerReceipt"  3.7
         //"gasReceipt  0.278*37.68,
@@ -49,19 +59,14 @@ exports.getlabel = async (req, res, next) => {
     console.log(e);
 }
 
+
+
 Eideal=getIdealE(climate,useFullArea) ;
-
 R=Eactual/Eideal;
-
 Rc=R_C(climate,R,useFullArea);
-
 rank= Ranking(Rc,TablesData.ratioIndex.residential_smal)
-
-
-
 var ratio=Rc;
 var ConsumptionIndex=Eideal;
-
 // throw next("محاسبه شد")
 res.send(Response({"ratio":ratio,"ConsumptionIndex":ConsumptionIndex,"label":TablesData.labels[rank]}));
 
