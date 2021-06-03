@@ -345,8 +345,6 @@ async function getBuildingListPageableByFilter(filter, page, size) {
         console.log(e);
     }
 }
-
-
 async function getFacilityListPageableByFilter(filter, page, size) {
     try {
         let skip = (page * size);
@@ -354,28 +352,46 @@ async function getFacilityListPageableByFilter(filter, page, size) {
             skip = 0;
         }
         let myFilter = (filter.regionId !== '') ? '{\"regionId\": \"' + filter.regionId + '\"}' : '{}';
-        myFilter = JSON.parse(myFilter);
-        myFilter.utilityType="FACILITY";
-
+     
         return await Building
-            .find(myFilter,
-                {
+        .aggregate(
+            [
+                { $match : {  "utilityType" : "FACILITY"} },
+                { $addFields: { "regionObjectId": { "$toObjectId": "$regionId" }}},
+                {$lookup:
+                    {
+                    from:  "regions",
+                    localField: "regionObjectId",
+                    foreignField: "_id",
+                    as: "region"
+                    }
+                },
+                {$project :
+                    {
                     _id: 1,
                     name: 1,
                     useType: 1,
                     regionId: 1,
                     explanation:1,
-                    createdAt: 1                  
-                })
-
-            .sort({createdAt: -1})
-            .skip(Number(skip))
-            .limit(Number(size));
+                    createdAt: 1     
+                    }
+                },
+              { $match : { regionId : {$in: filter.regionIds} } } ,
+                
+                {$facet: {
+                    paginatedResults: [{ $skip: skip }, { $limit: size }],
+                    totalCount: [
+                        {
+                        $count: 'count'
+                        }
+                    ]
+                    }}
+        ])
+        .sort({createdAt: -1});
     } catch (e) {
         console.log(e);
     }
 }
-
 
 
 async function getListByRegionFilter(regionId) {
