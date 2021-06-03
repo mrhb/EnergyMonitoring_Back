@@ -15,6 +15,18 @@
             "outFiles": [
                 // "${workspaceFolder}/**/*.js"
             ]
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Test Bill",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\analysis\\label\\test\\labelTest.js",
+            "outFiles": [
+                // "${workspaceFolder}/**/*.js"
+            ]
         }
     ]
 }
