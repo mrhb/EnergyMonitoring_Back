@@ -8,6 +8,6 @@ function ReqSharingPageFilterDto(data) {
     if (data.regionId){
         this.regionId = data.regionId;
     }else {
-        this.regionId = "";
+        this.regionId = "111111111111111111111111";
     }
 }
