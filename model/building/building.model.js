@@ -14,8 +14,6 @@ const BuildingSchema = new Schema({
     utilityType: {type: String, required: true, enum: ['BUILDING', 'FACILITY']},  //تآسیس یا ساختمان
     useType: {type: String, required: true, 
         enum: [
-            'RESIDENTIAL', //
-            'COMMERCIAL', 'OFFICIAL',
            'k_01' , // مسکونی
            'k_02' , // آرایشگاه
            'k_03' , // زایشگاه
