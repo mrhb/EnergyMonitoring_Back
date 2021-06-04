@@ -20,7 +20,8 @@ exports.getlabel = async (req, res, next) => {
         {
             console.log(err)
         });
-
+    useFullArea=BuildingData[0].useFullArea;
+    climate=BuildingData[0].climateType;
 
 
     let BillData = await labelAnalysisDao
@@ -33,32 +34,70 @@ exports.getlabel = async (req, res, next) => {
         });
 
         
-    try { 
         //"powerReceipt"  3.7
         //"gasReceipt  0.278*37.68,
         //"GASOLIN    0.278*37.3,
         //"BENZIN    0.278*41,
         //"GAS    0.278*37.68
-        useFullArea=BuildingData[0].useFullArea;
-        climate=BuildingData[0].climateType;
         Eactual=0;
-        var temp=BuildingData.reduce((acc,value)=>{
+     
+
+        BillData.forEach(element => {
+            element.toDate=new Date(element.toDate);
+            element.fromDate=new Date(element.fromDate);
+        
+            var diff = Math.abs(element.toDate.getTime() - element.fromDate.getTime());
+            element.diffDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+        });
+
+        var YsNames=[]
+        var initData=[];
+        reqLabelAnalysis.monthInfo.forEach(m=>{initData.push(null);})
+
+        
+        var Ys=BillData.reduce((acc,value)=>{
             if(!acc[value.Type])
             {
-                acc[value.Type]=0;
+                acc[value.Type]= {data:clone(initData),name:value.Type};
+                YsNames.push(value.Type);
             }
-            Eactual=Eactual+TablesData.HeatingValue[value.Type]*value.consumptionDurat;
-            acc[value.Type]=acc[value.Type]+(TablesData.HeatingValue[value.Type]*value.consumptionDurat);
+        
+            reqLabelAnalysis.monthInfo.forEach((item, i)=>{
+                max_from= new Date(Math.max(value.fromDate,item.fromDate));
+                min_to  = new Date(Math.min(value.toDate  ,item.toDate  ));
+        
+                var diff = max_from.getTime() - min_to.getTime();
+        
+                var commonDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+        
+        
+                if(acc[value.Type].data[i])
+                acc[value.Type].data[i]=acc[value.Type].data[i]+commonDays*value.consumptionDurat/value.diffDays;
+                else
+                acc[value.Type].data[i]=commonDays*value.consumptionDurat/value.diffDays;
+        
+                value.forEachconsumptionDurat*commonDays/value.diffDays
+            })
             return acc
         },{});
-        Eactual=Eactual/useFullArea;
-     
-    }
-     catch (e) {
-    throw next("در محاسبه برچسب خطایی رخ داده است.")
-    console.log(e);
-}
 
+       var labelDetail= {
+            "powerReceipt":0,
+            "gasReceipt" :  0,
+            "GASOLIN" :     0,
+            "BENZIN" :      0,
+            "GAS" :         0 
+          }
+YsNames.forEach(name=>{
+    labelDetail[name]=Ys[name].data.reduce((a, b) => a + b, 0)*TablesData.HeatingValue[name];
+})
+
+    Eactual=[labelDetail['powerReceipt'],
+                labelDetail['gasReceipt'],
+                labelDetail['GASOLIN'],
+                labelDetail['BENZIN'],
+                labelDetail['GAS'],
+            ].reduce((a, b) => a + b, 0);
 
 
 Eideal=getIdealE(climate,useFullArea) ;
@@ -66,11 +105,28 @@ R=Eactual/Eideal;
 Rc=R_C(climate,R,useFullArea);
 rank= Ranking(Rc,TablesData.ratioIndex.residential_smal)
 var ratio=Rc;
-var ConsumptionIndex=Eideal;
-// throw next("محاسبه شد")
-res.send(Response({"ratio":ratio,"ConsumptionIndex":ConsumptionIndex,"label":TablesData.labels[rank]}));
+var consumptionIndex=Eideal;
+
+
+
+labelDetail['ratio']=ratio;
+labelDetail['consumptionIndex']=consumptionIndex;
+labelDetail['label']=TablesData.labels[rank];
+labelDetail['labelType']=TablesData.labels[rank];
+
+
+res.send(Response(labelDetail));
 
 };
+
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
 
 
 function getIdealE(climate,useFullArea) {
