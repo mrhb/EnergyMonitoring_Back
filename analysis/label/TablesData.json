@@ -7,22 +7,24 @@
     "GAS" :         10.475 
   },
 
-"labels":["A","B","C","D","E","F","G","برچسب تعلق نمیگیرد"],
+"labels":["A","B","C","D","E","F","G","H"],
   
   "Index": {
-    "VERYCOLD"            :{"small":111,"larg":102},
-    "COLD"                :{"small":111,"larg":102},
-    "TEMPER_RAINY"        :{"small":156,"larg":106},
-    "SEMI_TEMPER_RAINY"   :{"small":156,"larg":106},
-    "SEMI_DRY"            :{"small":83,"larg":87},
-    "HOT_DRY"             :{"small":86,"larg":75},
-    "VERY_HOT_HUMID"      :{"small":150,"larg":138},
-    "VERY_HOT_DRY"        :{"small":130,"larg":118}
+    "VERYCOLD"            :{"RESIDENTIALSMAL":111,"RESIDENTIALLARG":102,"OFFICIAL":80 ,"NONOFFICIAL":120},
+    "COLD"                :{"RESIDENTIALSMAL":111,"RESIDENTIALLARG":102,"OFFICIAL":80 ,"NONOFFICIAL":120},
+    "TEMPER_RAINY"        :{"RESIDENTIALSMAL":156,"RESIDENTIALLARG":106,"OFFICIAL":64 ,"NONOFFICIAL":152},
+    "SEMI_TEMPER_RAINY"   :{"RESIDENTIALSMAL":156,"RESIDENTIALLARG":106,"OFFICIAL":64 ,"NONOFFICIAL":152},
+    "SEMI_DRY"            :{"RESIDENTIALSMAL":83 ,"RESIDENTIALLARG":87 ,"OFFICIAL":74 ,"NONOFFICIAL":124},
+    "HOT_DRY"             :{"RESIDENTIALSMAL":86 ,"RESIDENTIALLARG":75 ,"OFFICIAL":64 ,"NONOFFICIAL":117},
+    "VERY_HOT_HUMID"      :{"RESIDENTIALSMAL":150,"RESIDENTIALLARG":138,"OFFICIAL":86 ,"NONOFFICIAL":121},
+    "VERY_HOT_DRY"        :{"RESIDENTIALSMAL":130,"RESIDENTIALLARG":118,"OFFICIAL":91 ,"NONOFFICIAL":197}
   },
 
   "ratioIndex":
     {
-      "residential_smal":[1,1.9,2.7,3.4,4,4.5,5],
-      "residential_larg":[1,2,2.9,3.7,4.4,5,5.4]
+      "RESIDENTIALSMAL":[1,1.9,2.7,3.4,4,4.5,5],
+      "RESIDENTIALLARG":[1,2,2.9,3.7,4.4,5,5.4],
+      "OFFICIAL":[1,2,3,4,5,6,7],
+      "NONOFFICIAL":[1,2.2,3.2,4,4.6,5.2,5.5]
     }
 }

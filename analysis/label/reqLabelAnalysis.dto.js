@@ -11,6 +11,8 @@ var moment = require('../../node_modules/jalali-moment/jalali-moment');
 function ReqLabelAnalysis(data,next) {
     validate(data,next);
     
+    this.energyLabelType = data.energyLabelType;
+
     this.buildingId = data.buildingId;
     endDate= moment.from(
         (data.year+1).toString()+'/01/01', 'fa', 'YYYY/MM/DD');
@@ -34,6 +36,12 @@ function validate(data, next) {
     if (!data.year) {
         throw next("سال انتخاب نشده است.");
     }
+
+
+    if (data.energyLabelType !== 'RESIDENTIALLARG' && data.energyLabelType !== 'RESIDENTIALSMAL' && data.energyLabelType !== 'OFFICIAL' && data.energyLabelType !== 'NONOFFICIAL' ) {
+    throw next("نوع کاربری درست انتخاب نشده است.");
+}
+
 }
 
 

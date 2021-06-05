@@ -97,13 +97,19 @@ YsNames.forEach(name=>{
                 labelDetail['GASOLIN'],
                 labelDetail['BENZIN'],
                 labelDetail['GAS'],
-            ].reduce((a, b) => a + b, 0);
+            ].reduce((a, b) => a + b, 0)/useFullArea;
 
 
-Eideal=getIdealE(climate,useFullArea) ;
+if (Eactual<=0) {
+    throw next("اطلاعات انرژی ثبت نشده است.");
+}
+Eideal=getIdealE(climate,useFullArea,reqLabelAnalysis.energyLabelType) ;
 R=Eactual/Eideal;
 Rc=R_C(climate,R,useFullArea);
-rank= Ranking(Rc,TablesData.ratioIndex.residential_smal)
+
+
+
+rank= Ranking(Rc,TablesData.ratioIndex[reqLabelAnalysis.energyLabelType])
 var ratio=Rc;
 var consumptionIndex=Eideal;
 
@@ -112,7 +118,19 @@ var consumptionIndex=Eideal;
 labelDetail['ratio']=ratio;
 labelDetail['consumptionIndex']=consumptionIndex;
 labelDetail['label']=TablesData.labels[rank];
-labelDetail['labelType']=TablesData.labels[rank];
+// labelDetail['labelType']=reqLabelAnalysis.energyLabelType;
+
+
+
+if(labelDetail['label']!="H")
+{
+    if(reqLabelAnalysis.energyLabelType=="RESIDENTIALSMAL"||reqLabelAnalysis.energyLabelType=="RESIDENTIALLARG")
+    labelDetail['title']="برچسب انرژی ساختمانهای مسکونی";
+    else if (reqLabelAnalysis.energyLabelType=="OFFICIAL"||reqLabelAnalysis.energyLabelType=="NONOFFICIAL")
+    labelDetail['title']="برچسب انرژی ساختمانهای غیر مسکونی";
+}
+else{labelDetail['title']="برچسب تعلق نمیگیرد";}
+
 
 
 res.send(Response(labelDetail));
@@ -129,12 +147,16 @@ function clone(obj) {
 }
 
 
-function getIdealE(climate,useFullArea) {
-    if(useFullArea>1000)
-    return TablesData.Index[climate].larg;
-    else  
-    return TablesData.Index[climate].small;
+function getIdealE(climate,useFullArea,LabelType) {
 
+    if(useFullArea>1000 && (LabelType=="RESIDENTIALSMAL"||LabelType=="RESIDENTIALLARG"))
+        return TablesData.Index[climate]["RESIDENTIALLARG"];
+    else if (LabelType=="RESIDENTIALSMAL"||LabelType=="RESIDENTIALLARG")
+        return TablesData.Index[climate]["RESIDENTIALSMAL"];
+    else if (LabelType=="OFFICIAL")
+        return TablesData.Index[climate]["OFFICIAL"];
+    else if (LabelType=="NONOFFICIAL")
+        return TablesData.Index[climate]["NONOFFICIAL"];
 }
 
 
@@ -163,5 +185,6 @@ function Ranking(x,xs) {
     temp=ys[lo] + (ys[hi] - ys[lo]) / (xs[hi] - xs[lo]) * (x - xs[lo]);
 
     if(temp>=8)temp=7;
+    if(temp<=0)temp=0;
     return Math.round(temp);
   };
