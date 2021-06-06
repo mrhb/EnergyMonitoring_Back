@@ -166,6 +166,8 @@ async function getOne(id) {
             latitude:1,
             height:1,
             climateType:1,
+            dominantThermalReq: 1, // نیاز غالب حرارتی
+            energyDegree: 1,
         });
     } catch (e) {
         console.log(e);
