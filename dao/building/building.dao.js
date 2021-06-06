@@ -109,7 +109,12 @@ async function update(id, reqCreateBuildingDto) {
             ayanArea: reqCreateBuildingDto.ayanArea,
             useFullArea: reqCreateBuildingDto.useFullArea,
             externalWallsTotalArea: reqCreateBuildingDto.externalWallsTotalArea,
-            externalGlassTotalArea: reqCreateBuildingDto.externalGlassTotalArea 
+            externalGlassTotalArea: reqCreateBuildingDto.externalGlassTotalArea ,
+
+
+
+            explanation: reqCreateBuildingDto.explanation, //توضیحات
+            capacitorBank: reqCreateBuildingDto.capacitorBank, //بانک خازنی تأسیس
         });
     } catch (e) {
         console.log(e);
