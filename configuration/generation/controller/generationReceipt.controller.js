@@ -4,6 +4,10 @@
  */
 
 const generationReceiptDao = require('../dao/generationReceipt.dao');
+const regionDao=require('../../../configuration/region/region.dao');
+const ReqFilterDto = require('../../../controller/receipt/dto/reqFilter.dto');
+
+
 const generationSharingDao = require('../dao/generationSharing.dao');
 const Response = require('../../../middleware/response/response-handler');
 const ResponsePageable = require('../../../middleware/response/responsePageable-handler');
@@ -152,27 +156,37 @@ exports.getListPageableByFilter = async (req, res, next) => {
     }
     let size = Number(req.query.size);
 
-    let generationReceiptList = await generationReceiptDao
-        .getListPageableByFilter(page, size)
+    let filter = new ReqFilterDto(req.body, next);
+
+
+      let regionIds = await regionDao
+        .getChildsById(filter.regionId)
         .then(result => {
             return result;
         }).catch(err => console.log(err));
 
-    if (generationReceiptList === null || generationReceiptList.length <= 0) {
+        filter.regionIds=regionIds.reduce((acc,val)=>{
+            acc.push(val._id)
+            return acc
+        },[]);
+        filter.regionIds.push(filter.regionId);
+
+        
+    let result = await generationReceiptDao
+    .getListPageableByFilter(filter,page, size)
+    .then(result => {
+        return result;
+    }).catch(err => console.log(err));
+
+    let ReceiptList =result[0].paginatedResults;
+    
+    if (ReceiptList === null || ReceiptList.length <= 0) {
         res.send(Response(null));
         return;
     }
 
-    let generationReceiptListCount = await generationReceiptDao
-        .getListPageableByFilterCount()
-        .then(result => {
-            return result;
-        }).catch(err => console.log(err));
+let ReceiptListCount = result[0].totalCount[0].count;
 
-    if (generationReceiptListCount === null) {
-        res.send(Response(null));
-        return;
-    }
 
-    res.send(ResponsePageable(generationReceiptList, generationReceiptListCount, page, size));
+res.send(ResponsePageable(ReceiptList, ReceiptListCount, page, size));
 };
