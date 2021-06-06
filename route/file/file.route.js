@@ -14,7 +14,7 @@ module.exports = (app) => {
     const fileController = require('../../controller/file/file.controller');
 
     app.get(FILE + 'get', (req, res) => {
-        res.sendFile(APP_DIR + '/' + req.query.link);
+        res.sendFile( req.query.link);
     });
 
     app.post(FILE + 'upload', jwt(), fileController.upload);
