@@ -8,14 +8,15 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../../config/config');
 const Response = require('../../middleware/response/response-handler');
+const APP_DIR = path.dirname(require.main.filename);
 
 exports.upload = async (req, res, next) => {
 
-    const path = getPath(req.user.id);
+    const path = APP_DIR+'\\'+ getPath(req.user.id);
     if (!fs.existsSync(path)) {
         fs.mkdirSync(path, {recursive: true});
     }
-    req.uploadDir = path;
+    req.uploadDir =path;
     upload(req, res, function (err) {
         if (err) {
             next(err);
