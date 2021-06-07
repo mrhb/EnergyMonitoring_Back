@@ -61,14 +61,14 @@ async function getListPageableByFilter(page, size) {
         return await Climate
         .aggregate(
             [
-                { $match:
-                    {
-                        "climateType": { 
-                        "$exists": true, 
-                        "$ne": null 
-                    }
-                }    
-            },
+                // { $match:
+                //     {
+                //         "climateType": { 
+                //         "$exists": true, 
+                //         "$ne": null 
+                //     }
+                // }    
+            // },
                 {$project :
                     {
                     _id: 1,
@@ -89,8 +89,8 @@ async function getListPageableByFilter(page, size) {
                     {$group:
                         {
                         _id: "$_id",
-                        title: { $first: '$title' }, // نوع استان 
-                        province: { $first: '$province' }, // نوع استان 
+                        title: { $first: '$title' }, // عنوان 
+                        province: { $first: '$province' }, // استان 
                         city: { $first: '$city' }, // شهر
                         longitude: { $first: '$longitude' }, // طول جغرافیایی
                         latitude: { $first: '$latitude' },// عرض جغرافیایی 

@@ -47,9 +47,10 @@ function ReqUpdateWeather(data,  next) {
 
 ///
 function validate(data, next) {
-    if (!data.id) {
-        throw next("شناسه اقلیم نمیتواند خالی باشد.");
-    }
+    // if (!data.id) {
+    //     // throw next("شناسه اقلیم نمیتواند خالی باشد.");
+    //     throw next("اطلاعات آب و هوایی نمی تواند خالی باشد.");
+    // }
 
     if (!data.climateType) {
         throw next("نوع اقلیم نمیتواند خالی باشد.");

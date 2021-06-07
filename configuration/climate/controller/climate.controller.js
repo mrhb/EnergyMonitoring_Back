@@ -8,7 +8,7 @@
  const Response = require('../../../middleware/response/response-handler');
  const ResponsePageable = require('../../../middleware/response/responsePageable-handler');
  const ReqUpdateWeather=require('./dto/reqUpdateWeather.dto');
- const ReqUpdateClimate=require('./dto/reqUpdateWeather.dto');
+ const ReqUpdateClimate=require('./dto/reqUpdateClimate.dto');
  const ReqWeatherList=require('./dto/reqWeatherList.dto');
 
  
@@ -85,10 +85,10 @@
  exports.updateClimate = (req, res, next) => {
     //  console.log('user.id ' + req.user.id);
      if (!req.query.id) {
-         throw next("شناسه منطقه نمیتواند خالی باشد.");
-     }
+        throw next("شناسه منطقه نمی تواند خالی باشد.");
+    }
      console.log('re id ' + req.query.id);
-     let reqUpdateClimate = new ReqUpdateClimate(req.body, next);
+     let reqUpdateClimate = new ReqUpdateWeather(req.body, next);
      climateDao
          .UpdateClimate(req.query.id, reqUpdateClimate)
          .then(result => {
