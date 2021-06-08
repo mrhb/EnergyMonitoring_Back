@@ -85,7 +85,7 @@ async function getListPageableByFilter(page, size) {
                     dailyweathers:1,
                 }
             },
-             {$unwind  : { path: "$dailyweathers" ,includeArrayIndex:"index",}  },
+             {$unwind  : { path: "$dailyweathers" ,includeArrayIndex:"index",preserveNullAndEmptyArrays: true}  },
                     {$group:
                         {
                         _id: "$_id",
