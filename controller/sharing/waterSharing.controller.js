@@ -135,9 +135,9 @@ exports.addBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereWater === true){
-        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
-    }
+    // if (isThereWater === true){
+    //     throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+    // }
 
     let waterSharing = await waterSharingDao
         .getOne(req.query.id)
@@ -206,9 +206,9 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereWater === true){
-        throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
-    }
+    // if (isThereWater === true){
+    //     throw next('برای ساختمان انتخابی اشتراک آب انتخاب شده است.')
+    // }
 
     let waterSharing = await waterSharingDao
         .getOne(req.query.id)
