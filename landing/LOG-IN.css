@@ -9,7 +9,7 @@
 
 .u-section-1 .u-text-1 {
   letter-spacing: 6px;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   font-size: 3rem;
   margin: 92px 101px 0 368px;
 }
@@ -19,7 +19,7 @@
   text-transform: uppercase;
   letter-spacing: 6px;
   font-weight: 700;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: 56px 262px 60px auto;
   padding: 10px 111px;
 }
@@ -80,12 +80,12 @@
 
 .u-section-2 .u-text-1 {
   font-weight: 700;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: 32px 164px 0 0;
 }
 
 .u-section-2 .u-text-2 {
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: 22px 0 0 1px;
 }
 
@@ -123,7 +123,7 @@
   text-transform: uppercase;
   font-size: 1.25rem;
   letter-spacing: 3px;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   font-weight: 400;
   margin: 30px 0 0;
 }
@@ -143,7 +143,7 @@
   text-transform: uppercase;
   font-size: 1.25rem;
   letter-spacing: 3px;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   font-weight: 400;
   margin: 30px 0 0;
 }
@@ -163,7 +163,8 @@
   text-transform: uppercase;
   font-size: 1.25rem;
   letter-spacing: 3px;
-  font-family: Bayon;
+  /*   font-family:'FontAwesome'; */
+  font-family:'FontAwesome';
   font-weight: 400;
   margin: 30px 0 0;
 }
@@ -183,7 +184,7 @@
   text-transform: uppercase;
   font-size: 1.25rem;
   letter-spacing: 3px;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   font-weight: 400;
   margin: 30px 0 0;
 }
@@ -200,7 +201,7 @@
 .u-section-2 .u-btn-2 {
   border-style: none none solid;
   font-size: 1.25rem;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   text-transform: none;
   letter-spacing: normal;
   margin: -64px calc(((100% - 1140px) / 2)  + -53px) 32px auto;
@@ -396,26 +397,26 @@
   background-image: none;
   width: 313px;
   font-weight: 300;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: 151px auto 0;
 }
 
 .u-section-3 .u-text-2 {
   font-size: 1.5rem;
   letter-spacing: 4px;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: 20px 86px 0 34px;
 }
 
 .u-section-3 .u-btn-1 {
-  font-family: Bayon;
+    font-family:'FontAwesome';
   padding: 0;
 }
 
 .u-section-3 .u-btn-2 {
   border-style: none none solid;
   font-size: 1.25rem;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: -33px 86px 60px auto;
   padding: 0;
 }
@@ -463,7 +464,7 @@
 }
 
 .u-section-4 .u-text-1 {
-  font-family: Bayon;
+    font-family:'FontAwesome';
   font-weight: 700;
   background-image: none;
   margin: 61px -73px 0 73px;
@@ -478,7 +479,7 @@
 .u-section-4 .u-btn-1 {
   border-style: none none solid;
   font-size: 1.25rem;
-  font-family: Bayon;
+    font-family:'FontAwesome';
   margin: -596px auto 0 554px;
   padding: 0;
 }

@@ -18,48 +18,46 @@ function ReqUpdateWeather(data,  next) {
     if (this.city !== null && this.city !== 'undefined') {
         this.city = data.city;
     }
-    
-    // this.billingId = data.billingId;
-   
-
-    // this.consumptionType = data.consumptionType;
-    // this.climateType = data.climateType;
-
-    // if (this.capacity !== null && this.capacity !== 'undefined') {
-    //     this.capacity = data.capacity;
-    // }
-   
-    // if (this.sewageBranchDiameter !== null && this.sewageBranchDiameter !== 'undefined') {
-    //     this.sewageBranchDiameter = data.sewageBranchDiameter;
-    // }
-    // this.buildingNum = 0;
-    // this.creatorId = userId;
-    // this.ownerId = userId;
+    //روستا
+    if (this.village !== null && this.village !== 'undefined') {
+        this.village = data.village;
+    }
+    // طول جغرافیایی
+    if (this. longitude !== null && this. longitude !== 'undefined') {
+        this. longitude = data. longitude;
+    }
+    // عرض جغرافیایی 
+    if (this. latitude !== null && this. latitude !== 'undefined') {
+        this.latitude = data.latitude;
+    }
+    // ارتفاع از سطح دریا
+    if (this. height !== null && this. height !== 'undefined') {
+        this.height = data.height;
+    }
+    // نیاز غالب حرارتی
+    if (this. dominantThermalReq !== null && this. dominantThermalReq !== 'undefined') {
+        this.dominantThermalReq = data.dominantThermalReq;
+    }
+    // درجه انرژی
+    if (this. energyDegree !== null && this. energyDegree !== 'undefined') {
+        this.energyDegree = data.energyDegree;
+    }
 }
 
-
-///
-// climateType: ['', [Validators.required]], //
-// province: ['', [Validators.required]], // استان  
-// city: ['', [Validators.required]], 
 
 ///
 function validate(data, next) {
-    // if (!data.regionId) {
-    //     throw next("شناسه اقلیم نمیتواند خالی باشد.");
-    // }
-    // if (!data.consumptionType) {
-    //     throw next("نوع مصرف  نمیتواند خالی باشد.");
+    // if (!data.id) {
+    //     // throw next("شناسه اقلیم نمیتواند خالی باشد.");
+    //     throw next("اطلاعات آب و هوایی نمی تواند خالی باشد.");
     // }
 
-    // if (data.consumptionType !== 'SEND2NET' && data.consumptionType !== 'GOVERNMENT' ) {
-    //     throw next("نوع مصرف درست انتخاب نشده است.");
-    // }
     if (!data.climateType) {
         throw next("نوع اقلیم نمیتواند خالی باشد.");
     }
-    // if (data.climateType !== 'DISELGEN' && data.climateType !== 'PHOTOVOLTA' && data.climateType !== 'GHP') {
-    //     throw next("نوع اقلیم درست انتخاب نشده است.");
-    // }
+    if (data.climateType !== 'VERYCOLD' && data.climateType !== 'COLD' && data.climateType !== 'TEMPER_RAINY' &&
+    data.climateType !== 'SEMI_TEMPER_RAINY' && data.climateType !== 'SEMI_DRY' && data.climateType !== 'HOT_DRY' &&
+    data.climateType !== 'VERY_HOT_DRY' && data.climateType !== 'VERY_HOT_HUMID' ) {
+        throw next("نوع اقلیم درست انتخاب نشده است.");
+    }
 }
-

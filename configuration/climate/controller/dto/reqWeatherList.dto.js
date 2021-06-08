@@ -13,13 +13,13 @@ function ReqWeatherList(data,next) {
 
 function validate(data, next) {
     if (!data.regionId) {
-        throw next("شناسه منظقه نمیتواند خالی باشد.");
+        throw next("شناسه منطقه نمی تواند خالی باشد.");
     }
     if (!data.toDate) {
-        throw next("تا تاریخ نمیتواند خالی باشد.");
+        throw next("تا تاریخ نمی تواند خالی باشد.");
     }
     if (new Date(data.fromDate).getTime() > new Date(data.toDate).getTime()) {
-        throw next("تاریخ شروع نمیتواند بعد از تاریخ پایان باشد.");
+        throw next("تاریخ شروع نمی تواند بعد از تاریخ پایان باشد.");
     }
 
 }

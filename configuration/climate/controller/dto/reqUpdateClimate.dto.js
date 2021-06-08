@@ -6,6 +6,10 @@ module.exports = ReqUpdateClimate;
 
 function ReqUpdateClimate(data, userId, next) {
     validate(data, next);
+    
+
+
+
 // استان
     if (data.province !== null && data.province !== 'undefined') {
         this.province = data.province;
