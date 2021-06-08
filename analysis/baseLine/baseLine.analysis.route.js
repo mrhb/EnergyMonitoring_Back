@@ -13,5 +13,6 @@ module.exports = (app) => {
     // let normalizedBillAnalysisController = require('./normalized/nomalizedBillAnalysis.controller');
 
     app.post(BASELINE + 'get-building-baseLine',baseLineAnalysisController.getbaseLine);
+    app.post(BASELINE + 'get-building-baseLine-singleCarier',baseLineAnalysisController.getbaseLineSingleCarier);
     
 };

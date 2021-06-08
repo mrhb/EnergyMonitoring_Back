@@ -13,7 +13,7 @@ module.exports = {
 };
 
 
-async function getClimateData(req) {
+async function getClimateData(fromDate,toDate,buildingId) {
     try {
         return await Building
             .aggregate(
@@ -22,7 +22,7 @@ async function getClimateData(req) {
                         { "buildingIdString": { "$toString": "$_id" }}
                      },
                      {$match :
-                         { buildingIdString:  req.buildingId } 
+                         { buildingIdString:  buildingId } 
                      },
                  
                       //اطلاعات منطقه
@@ -52,16 +52,16 @@ async function getClimateData(req) {
                         {$project:
                      {
                          forDate:"$weathers.forDate",
-                         tempAvg:"$weathers.tempAvg"
+                         tempAvg:"$weathers.tempAvg",
                      }
                  },                     
                 
                 {"$match": {
                 "forDate": {
-                    "$gte":  req.fromDate,
+                    "$gte":  fromDate,
                 },
                 "forDate": {
-                    "$lte": req.toDate,
+                    "$lte": toDate,
                 }
                 }
             },        
@@ -72,8 +72,7 @@ async function getClimateData(req) {
     }
 }
 
-
-async function getBillData(req) {
+async function getBillData(CarierType,fromDate,toDate,buildingId) {
     try {
         return await SharingBase
             .aggregate([
@@ -91,7 +90,7 @@ async function getBillData(req) {
        { "buildingIdString": { "$toString": "$buildingId" }}
     },
     {$match :
-        { buildingIdString:  req.buildingId } 
+        { buildingIdString: buildingId } 
     },
   
      //اطلاعات قبض
@@ -110,22 +109,62 @@ async function getBillData(req) {
     
     {"$match": {
       "receipt.fromDate": {
-          "$gte":  req.fromDate,
+          "$lte":  toDate,
       },
       "receipt.toDate": {
-          "$lte": req.toDate,
+          "$gte": fromDate,
       }
       }
   },                   
-  {$project:
+//   {$project:
+//     {
+//         _id:0,
+//         Type:{$ifNull: ["$carierType" ,"$receipt.receiptType"]},
+//         consumptionDurat: "$receipt.consumptionDurat",
+//         fromDate: "$receipt.fromDate",
+//         toDate: "$receipt.toDate"
+//     }
+//  },
+
+ {$project :
     {
-        _id:0,
-        Type:{$ifNull: ["$carierType" ,"$receipt.receiptType"]},
-        consumptionDurat: "$receipt.consumptionDurat",
-        fromDate: "$receipt.fromDate",
-        toDate: "$receipt.toDate"
+     Type:{$ifNull: ["$carierType" ,"$receipt.receiptType"]},
+     intermediate:       { $ifNull: [ "$receipt.intermediate.totalConsumption", 0 ] },
+     peakLoad:           { $ifNull: [ "$receipt.peakLoad.totalConsumption", 0 ] },
+     lowLoad:            { $ifNull: [ "$receipt.lowLoad.totalConsumption", 0 ] },                     
+     peakTimesFriday:    { $ifNull: [ "$receipt.peakTimesFriday.totalConsumption", 0 ] },    
+     consumptionAmount:"$receipt.consumptionAmount",
+     fromDate:"$receipt.fromDate",
+     toDate:"$receipt.toDate",
+     consumptionDurat :"$receipt.consumptionDurat",
+     receiptType:"$receipt.receiptType",
+     period:"$receipt.period",
     }
- }
+},
+{ $match : { receiptType:CarierType } },
+
+   {$project :
+    {
+        Type:1,
+        fromDate:1,
+        toDate:1,
+        consumptionAmount  :1,
+        consumptionDurat :
+        {
+          $switch:
+            {
+              branches: [
+                {
+                  case: { $eq :[  "$Type" , "powerReceipt"]},
+                  then: { '$add' : [ '$intermediate','$peakLoad' ,'$lowLoad','$peakTimesFriday']}
+                }
+              ],
+              default: "$consumptionDurat"
+            }
+         },
+    }
+},
+
    ]);
 
     } catch (e) {
