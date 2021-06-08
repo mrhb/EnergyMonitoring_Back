@@ -135,9 +135,9 @@ exports.addBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereGas === true){
-        throw next('برای ساختمان انتخابی اشتراک گاز انتخاب شده است.')
-    }
+    // if (isThereGas === true){
+    //     throw next('برای ساختمان انتخابی اشتراک گاز انتخاب شده است.')
+    // }
 
     let sharing = await gasSharingDao
         .getOne(req.query.id)
@@ -206,9 +206,9 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereGas === true){
-        throw next('برای ساختمان انتخابی اشتراک گاز انتخاب شده است.')
-    }
+    // if (isThereGas === true){
+    //     throw next('برای ساختمان انتخابی اشتراک گاز انتخاب شده است.')
+    // }
 
     let sharing = await gasSharingDao
         .getOne(req.query.id)

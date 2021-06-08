@@ -121,9 +121,9 @@ exports.addBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereInstrument === true){
-        throw next('برای ساختمان انتخابی تجهیز انتخاب شده است.')
-    }
+    // if (isThereInstrument === true){
+    //     throw next('برای ساختمان انتخابی تجهیز انتخاب شده است.')
+    // }
 
     let instrument = await instrumentDao
         .getOne(req.query.id)
@@ -192,9 +192,9 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereInstrument === true){
-        throw next('برای ساختمان انتخابی تجهیز انتخاب شده است.')
-    }
+    // if (isThereInstrument === true){
+    //     throw next('برای ساختمان انتخابی تجهیز انتخاب شده است.')
+    // }
 
     let instrument = await instrumentDao
         .getOne(req.query.id)

@@ -135,9 +135,9 @@ exports.addBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereEnergy === true){
-        throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
-    }
+    // if (isThereEnergy === true){
+    //     throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
+    // }
 
     let sharing = await sharingDao
         .getOne(req.query.id)
@@ -207,9 +207,9 @@ exports.updateBuildingAllocation = async (req, res, next) => {
             else
                 return false;
         });
-    if (isThereEnergy === true){
-        throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
-    }
+    // if (isThereEnergy === true){
+    //     throw next('برای ساختمان انتخابی اشتراک انرژی انتخاب شده است.')
+    // }
 
     let sharing = await sharingDao
         .getOne(req.query.id)

@@ -66,9 +66,10 @@ exports.getlabel = async (req, res, next) => {
                 max_from= new Date(Math.max(value.fromDate,item.fromDate));
                 min_to  = new Date(Math.min(value.toDate  ,item.toDate  ));
         
-                var diff = max_from.getTime() - min_to.getTime();
+                var diff =  min_to.getTime()-max_from.getTime();
         
-                var commonDays = Math.ceil(diff / (1000 * 3600 * 24)); 
+                var commonDays =0;
+                if(diff>0) commonDays=Math.ceil(diff / (1000 * 3600 * 24)); 
         
         
                 if(acc[value.Type].data[i])
@@ -89,14 +90,14 @@ exports.getlabel = async (req, res, next) => {
             "GAS" :         0 
           }
 YsNames.forEach(name=>{
-    labelDetail[name]=Ys[name].data.reduce((a, b) => a + b, 0)*TablesData.HeatingValue[name];
+    labelDetail[name]=Ys[name].data.reduce((a, b) => a + b, 0);
 })
 
-    Eactual=[labelDetail['powerReceipt'],
-                labelDetail['gasReceipt'],
-                labelDetail['GASOLIN'],
-                labelDetail['BENZIN'],
-                labelDetail['GAS'],
+    Eactual=[labelDetail['powerReceipt']*TablesData.HeatingValue['powerReceipt'],
+                labelDetail['gasReceipt']*TablesData.HeatingValue['gasReceipt'],
+                labelDetail['GASOLIN']*TablesData.HeatingValue['GASOLIN'],
+                labelDetail['BENZIN']*TablesData.HeatingValue['BENZIN'],
+                labelDetail['GAS']*TablesData.HeatingValue['GAS'],
             ].reduce((a, b) => a + b, 0)/useFullArea;
 
 
