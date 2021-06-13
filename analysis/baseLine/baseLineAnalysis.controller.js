@@ -16,7 +16,7 @@ exports.getbaseLineSingleCarier = async (req, res, next) => {
     let reqBaseLine = new ReqBaseLineAnalysis(req.body, next);
 
     let BillData_Befor = await baseLineAnalysisDao
-    .getBillData('gasReceipt',reqBaseLine.befor.fromDate,reqBaseLine.befor.toDate,reqBaseLine.buildingId)
+    .getBillData(reqBaseLine.energyType,reqBaseLine.befor.fromDate,reqBaseLine.befor.toDate,reqBaseLine.buildingId)
     .then(result => {return result;})
     .catch(err => {console.log(err)});
     await Promise.all(BillData_Befor.map(async (bill) => {
@@ -35,7 +35,7 @@ exports.getbaseLineSingleCarier = async (req, res, next) => {
 
 
     let BillData_After = await baseLineAnalysisDao
-    .getBillData('gasReceipt',reqBaseLine.after.fromDate,reqBaseLine.after.toDate,reqBaseLine.buildingId)
+    .getBillData(reqBaseLine.energyType,reqBaseLine.after.fromDate,reqBaseLine.after.toDate,reqBaseLine.buildingId)
     .then(result => {return result;})
     .catch(err => {console.log(err)});
     await Promise.all(BillData_After.map(async (bill) => {
