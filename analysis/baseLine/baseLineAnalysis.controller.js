@@ -122,6 +122,15 @@ Befor['Ys'].forEach((y,index_Befor)=>{regression['data'][index_Befor]=YY_Befor[i
 After['Ys'].forEach((y,index)=>{regression['data'][Befor['Ys'].length+index]=null});
 
 
+s_tot=math.multiply(
+    math.transpose(math.subtract(Y, math.mean(Y)))
+    ,math.subtract(Y, math.mean(Y))
+ )
+s_res=math.multiply(
+    math.transpose(math.subtract(YY, math.mean(YY)))
+    ,math.subtract(YY, math.mean(YY))
+ )
+r2=1-s_res/s_tot;
 
 baseLine= { data: new Array(Befor['Ys'].length+After['Ys'].length), name: 'خط مبنا' };
 
@@ -142,7 +151,7 @@ series.push(regression);
 series.push(baseLine);
 
 
-res.send(Response({"series":series,"labels":labels}));
+res.send(Response({"R2":r2,"coeff":coeff,"chart":{"series":series,"labels":labels}}));
 
 };
 
