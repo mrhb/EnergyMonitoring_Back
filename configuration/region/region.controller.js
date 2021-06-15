@@ -98,7 +98,7 @@ exports.delete = (req, res, next) => {
                     return;
                 }
             }
-            throw next("در حذف نیروگاه خطایی رخ داده است.");
+            throw next("در حذف منطقه خطایی رخ داده است.");
         }).catch(err => console.log(err));
 };
 
