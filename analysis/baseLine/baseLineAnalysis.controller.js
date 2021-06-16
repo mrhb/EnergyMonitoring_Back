@@ -63,7 +63,7 @@ exports.getbaseLineSingleCarier = async (req, res, next) => {
             m = moment.from(value.fromDate, 'en', 'MM/YYYY/DD').locale('fa');
             labels.push(m.format('YYYY/MM/DD'));
 
-            acc['Ys'].push(value.consumptionAmount);
+            acc['Ys'].push(value.consumptionDurat);
             acc['HDD'].push(value.hdd);
             acc['CDD'].push(value.cdd);
             var diff = Math.abs(value.toDate.getTime() - value.fromDate.getTime());
@@ -76,7 +76,7 @@ exports.getbaseLineSingleCarier = async (req, res, next) => {
             m = moment.from(value.fromDate, 'en', 'MM/YYYY/DD').locale('fa');
             labels.push(m.add(1, 'day').format('YYYY/MM/DD'));
 
-            acc['Ys'].push(value.consumptionAmount);
+            acc['Ys'].push(value.consumptionDurat);
             acc['HDD'].push(value.hdd);
             acc['CDD'].push(value.cdd);
             var diff = Math.abs(value.toDate.getTime() - value.fromDate.getTime());
