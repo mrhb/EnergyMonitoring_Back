@@ -39,4 +39,13 @@ module.exports = (app) => {
 
     app.post(USER + 'reset-password', userController.resetPassword);
 
+        /**
+     * Get list pageable by filter
+     * Param : page,size
+     * Body : reqBuildingPageFilter.dto
+     */
+    app.post(USER + 'get-list-pageable-by-filter', jwt(),userController.getListPageableByFilter);
+
+
+
 };

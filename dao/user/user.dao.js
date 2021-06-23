@@ -21,7 +21,8 @@ module.exports = {
     updatePassword,
     updateMobile,
     updateEmail,
-    getOneByUsernameAndType
+    getOneByUsernameAndType,
+    getListPageableByFilter
 };
 
 async function authenticate(reqLoginDto) {
@@ -243,5 +244,32 @@ async function getOneByUsernameAndType(username, type) {
         }
     } catch (e) {
         console.log(e)
+    }
+}
+
+async function getListPageableByFilter(page, size) {
+    try {
+        let skip = (page * size);
+        if (skip < 0) {
+            skip = 0;
+        }
+        return await User
+            .aggregate(
+                [
+                      {$facet: {
+                          paginatedResults: [{ $skip: skip }, { $limit: size }],
+                          totalCount: [
+                            {
+                              $count: 'count'
+                            }
+                          ]
+                        }}
+                ]
+            )
+            .sort({createdAt: -1});
+
+            
+    } catch (e) {
+        console.log(e);
     }
 }

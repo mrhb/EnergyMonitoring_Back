@@ -9,6 +9,8 @@ const crypto = require('crypto');
 const userDao = require('../../dao/user/user.dao');
 const forgetPasswordDao = require('../../dao/user/forgetPassword.dao');
 const Response = require('../../middleware/response/response-handler');
+const ResponsePageable = require('../../middleware/response/responsePageable-handler');
+
 const ReqSignupDto = require('./dto/reqSignup.dto');
 const ReqForgetPassword = require('./dto/reqForgetPassword.dto');
 const ReqResetPasswordDto = require('./dto/reqResetPassword.dto');
@@ -333,4 +335,36 @@ exports.resetPassword = (req, res, next) => {
         })
         .catch(err => console.log(err));
 };
+
+
+exports.getListPageableByFilter = async (req, res, next) => {
+    console.log('user.id ' + req.user.id);
+    if (!req.query.page) {
+        throw next("شماره صفحه نمیتواند خالی باشد.");
+    }
+    let page = Number(req.query.page);
+    if (!req.query.size) {
+        throw next("اندازه صفحه نمیتواند خالی باشد.");
+    }
+    let size = Number(req.query.size);
+
+    let result = await userDao
+        .getListPageableByFilter(page, size)
+        .then(result => {
+            return result;
+        }).catch(err => console.log(err));
+
+        let UserList =result[0].paginatedResults;
+
+    if (UserList === null || UserList.length <= 0) {
+        res.send(Response(null));
+        return;
+    }
+
+    let UserListCount = result[0].totalCount[0].count;
+   
+
+    res.send(ResponsePageable(UserList, UserListCount, page, size));
+};
+
 
