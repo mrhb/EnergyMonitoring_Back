@@ -16,6 +16,7 @@ const ReqForgetPassword = require('./dto/reqForgetPassword.dto');
 const ReqResetPasswordDto = require('./dto/reqResetPassword.dto');
 const ReqUpdateProfileDto = require('./dto/reqUpdateProfile.dto');
 const ReqUpdatePassword = require('./dto/reqUpdatePassword.dto');
+const ReqUpdatePasswordByAdmin = require('./dto/reqUpdatePasswordByAdmin.dto');
 
 exports.signup = async (req, res, next) => {
 
@@ -185,6 +186,26 @@ exports.updatePassword = (req, res, next) => {
         }).catch(err => next(err));
 };
 
+exports.updatePasswordByAdmin = (req, res, next) => {
+    console.log('re id ' + req.user.id);
+    let reqUpdatePasswordDto = new ReqUpdatePasswordByAdmin(req.body, next);
+    userDao
+        .updatePassword(reqUpdatePasswordDto.id, reqUpdatePasswordDto.password)
+        .then(result => {
+            if (result) {
+                if (result.nModified === 1 && result.ok === 1) {
+                    res.send(Response(true))
+                } else {
+                    res.send({
+                        flag: false,
+                        message: "در بروزرسانی اطلاعات رمز عبور خطایی رخ داده است."
+                    })
+                }
+            } else {
+                next("خطایی رخ داده است.");
+            }
+        }).catch(err => next(err));
+};
 exports.updateMobile = async (req, res, next) => {
     console.log('re id ' + req.user.id);
 
