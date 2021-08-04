@@ -98,6 +98,10 @@ const Y =generateYsmatrix(Befor);
 const X_After =generateXmatrix(After);
 // const Y_After =generateYsmatrix(After);
 
+consumption= { data: [], name: 'مصرف' };
+Befor['Ys'].forEach(y=>{consumption['data'].push(y)});
+After['Ys'].forEach(y=>{consumption['data'].push(y)});
+
 var YY=[];
 Xt=math.transpose(X);
 XtX= math.multiply(Xt,X);
@@ -109,10 +113,6 @@ coeff= math.multiply(
     , Y);
 YY=math.multiply(X,coeff);
 
-  
-consumption= { data: [], name: 'مصرف' };
-Befor['Ys'].forEach(y=>{consumption['data'].push(y)});
-After['Ys'].forEach(y=>{consumption['data'].push(y)});
 
 
 regression= { data: new Array(Befor['Ys'].length+After['Ys'].length), name: 'رگرسیون' };
@@ -141,6 +141,11 @@ After['Ys'].forEach((y,index)=>{baseLine['data'][Befor['Ys'].length+index]=YY_Af
 
 }
 catch (e) {
+
+    series=[];
+series.push(consumption);
+res.send(Response({"chart":{"series":series,"labels":labels}}));
+
 throw next("در محاسبه خط مبنا خطایی رخ داده است.")
 console.log(e);
 }

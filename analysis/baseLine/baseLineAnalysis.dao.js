@@ -142,7 +142,7 @@ async function getBillData(CarierType,fromDate,toDate,buildingId) {
     }
 },
 { $match : { receiptType:CarierType } },
-
+{ $sort : { fromDate : 1 } },
    {$project :
     {
         Type:1,
