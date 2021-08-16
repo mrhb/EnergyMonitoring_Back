@@ -16,7 +16,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/welcome',express.static(__dirname + '/landing'));
-app.use('/ui',express.static(Root));
+app.use('/ui',express.static(__dirname + '/ui'));
+//app.use('/ui',express.static(Root));
 
 // Routes
 
@@ -42,9 +43,9 @@ require('./route/receipt/powerReceipt.route')(app);
 require('./route/receipt/waterReceipt.route')(app);
 require('./route/receipt/gasReceipt.route')(app);
 
-app.get('/ui/*', (req,res) => {
-    res.sendFile(Root+"/index.html")
-  });
+// app.get('/ui/*', (req,res) => {
+//     res.sendFile(Root+"/index.html")
+//   });
 
 
 module.exports = app;
